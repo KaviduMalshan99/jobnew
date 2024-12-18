@@ -1,8 +1,26 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+
+//Breeze routes
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
 
 Route::get('/', function () {
     return redirect()->route('index');
@@ -29,8 +47,54 @@ Route::prefix('widgets')->group(function () {
     Route::view('chart-widget', 'widgets.chart-widget')->name('chart-widget');
 });
 
+//Admin Routes
+Route::prefix('admin')->group(function () {
+    Route::get('login', [AdminAuthController::class, 'showLoginForm'])->name('admin.login');
+    Route::post('login', [AdminAuthController::class, 'login']);
+    Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
+    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
+    Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register');
 
+    Route::middleware('admin')->group(function () {
+        Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
+    });
+});
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/profile', [AdminAuthController::class, 'showProfileForm'])
+        ->name('admin.profile');
+
+    Route::put('/admin/profile', [AdminAuthController::class, 'updateProfile'])
+        ->name('admin.profile.update');
+    Route::get('/admin/list', [AdminAuthController::class, 'adminList'])->name('admin.list');
+    Route::patch('/admin/toggle-status/{id}', [AdminAuthController::class, 'toggleStatus'])->name('admin.toggleStatus');
+    Route::get('/employer/list', [EmployerAuthController::class, 'list'])->name('employer.list');
+    Route::delete('/employer/delete/{id}', function ($id) {
+        $employer = \App\Models\Employer::findOrFail($id);
+        $employer->delete();
+        return redirect()->route('employer.list')->with('success', 'Employer deleted successfully.');
+    })->name('employer.delete');
+
+});
+
+//Employee Routes
+Route::prefix('employer')->name('employer.')->group(function () {
+    Route::get('/login', [EmployerAuthController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [EmployerAuthController::class, 'login']);
+    Route::post('/logout', [EmployerAuthController::class, 'logout'])->name('logout');
+
+    Route::get('/register', [EmployerAuthController::class, 'showRegisterForm'])->name('register');
+    Route::post('/register', [EmployerAuthController::class, 'register']);
+
+    Route::middleware('auth:employer')->group(function () {
+        Route::get('/dashboard', [EmployerAuthController::class, 'dashboard'])->name('dashboard');
+    });
+});
+
+Route::middleware('auth:employer')->group(function () {
+    Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
+    Route::put('/employer/profile', [EmployerAuthController::class, 'updateProfile'])->name('employer.updateProfile');
+});
 
 Route::prefix('ecommerce')->group(function () {
     Route::view('product', 'apps.product')->name('product');
@@ -60,7 +124,6 @@ Route::prefix('users')->group(function () {
     Route::view('edit-profile', 'apps.edit-profile')->name('edit-profile');
     Route::view('user-cards', 'apps.user-cards')->name('user-cards');
 });
-
 
 Route::view('bookmark', 'apps.bookmark')->name('bookmark');
 Route::view('contacts', 'apps.contacts')->name('contacts');
@@ -130,7 +193,6 @@ Route::prefix('animation')->group(function () {
     Route::view('tilt', 'animation.tilt')->name('tilt');
     Route::view('wow', 'animation.wow')->name('wow');
 });
-
 
 Route::prefix('icons')->group(function () {
     Route::view('flag-icon', 'icons.flag-icon')->name('flag-icon');
@@ -260,7 +322,6 @@ Route::view('template-email-2', 'email-templates.template-email-2')->name('templ
 Route::view('ecommerce-templates', 'email-templates.ecommerce-templates')->name('ecommerce-templates');
 Route::view('email-order-success', 'email-templates.email-order-success')->name('email-order-success');
 
-
 Route::prefix('gallery')->group(function () {
     Route::view('index', 'apps.gallery')->name('gallery');
     Route::view('with-gallery-description', 'apps.gallery-with-description')->name('gallery-with-description');
@@ -274,7 +335,6 @@ Route::prefix('blog')->group(function () {
     Route::view('blog-single', 'apps.blog-single')->name('blog-single');
     Route::view('add-post', 'apps.add-post')->name('add-post');
 });
-
 
 Route::view('faq', 'apps.faq')->name('faq');
 
@@ -308,7 +368,7 @@ Route::view('landing-page', 'pages.landing-page')->name('landing-page');
 
 Route::prefix('layouts')->group(function () {
     Route::view('compact-sidebar', 'admin_unique_layouts.compact-sidebar'); //default //Dubai
-    Route::view('box-layout', 'admin_unique_layouts.box-layout');    //default //New York //
+    Route::view('box-layout', 'admin_unique_layouts.box-layout'); //default //New York //
     Route::view('dark-sidebar', 'admin_unique_layouts.dark-sidebar');
 
     Route::view('default-body', 'admin_unique_layouts.default-body');

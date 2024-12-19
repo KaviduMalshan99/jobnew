@@ -1,0 +1,69 @@
+/* Footer Styling */
+.main-footer {
+    background-color: #022d4a;
+    color: #fff;
+    padding: 20px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 50px 0 0 0;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.footer-section {
+    flex: 1;
+    margin: 10px;
+    min-width: 200px;
+}
+
+.footer-section h3 {
+    margin-bottom: 10px;
+    font-size: 16px;
+   
+    
+}
+
+.footer-section p,
+.footer-section ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+
+.footer-section a {
+    position: relative;
+    color: #f4f4f4;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.footer-section a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -2px; /* Adjust the distance of the underline */
+    width: 0;
+    height: 2px; /* Thickness of the underline */
+    background-color: goldenrod;
+    transition: width 0.3s ease;
+}
+
+.footer-section a:hover {
+    color: goldenrod;
+}
+
+.footer-section a:hover::after {
+    width: 100%;
+}
+
+
+.footer-bottom {
+    border-top: 1px solid #555;
+    padding-top: 10px;
+}

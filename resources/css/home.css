@@ -1,0 +1,242 @@
+/* General reset */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+
+
+.feedback-section {
+    text-align: center;
+    position: relative; /* Enable positioning for child elements */
+    margin-top: 5px;
+}
+
+.rectangle {
+    position: absolute; /* Position the rectangle under the button */
+    top: 0; /* Adjust to match the button's position */
+    left: 50%; /* Center the rectangle horizontally */
+    transform: translateX(-50%); /* Align rectangle to the center */
+    width: 100%; /* Set rectangle width */
+    height: 70px; /* Set rectangle height */
+    background: #a7cbf4; /* Light gray background for rectangle */
+    z-index: 0; /* Place the rectangle behind the button */
+    margin-top: -8px;
+    border-radius: 0 0 35px 35px;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow with blur and transparency */
+}
+
+
+.feedback-btn {
+    position: relative; /* Keep the button on top of the rectangle */
+    z-index: 1; /* Ensure the button is above the rectangle */
+    padding: 10px 20px;
+    background: linear-gradient(to bottom, #90c0f4, #0056b3);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    margin-left: -1200px;
+    outline: 2px solid #0056b3; /* Adds the outline around the button */
+    outline-offset: 0px; /* Adds space between the button and the outline */
+}
+
+.feedback-btn:hover {
+    background: linear-gradient(to right, #0056b3, #003a80);
+    color: #ffffff;
+    
+}
+
+
+
+
+.job-listings {
+    display: flex;
+    flex-wrap: wrap; /* Allow items to wrap to the next line */
+    justify-content: space-between; /* Space items evenly on each line */
+    margin: 20px 90px;
+}
+
+.job-listing {
+    text-align: left;
+    margin: -10px;
+    flex: 1 1 calc(33.33% - 20px); /* Ensure 3 columns by dividing the row into 3 parts */
+    box-sizing: border-box; /* Include padding and borders in width calculations */
+}
+
+
+
+.filters {
+    display: flex;
+    gap: 10px; /* Maintain spacing between elements */
+    align-items: center;
+    margin: 20px 0;
+    justify-content: center; /* Center align filters */
+    margin-left: 50px;
+}
+
+.text-input {
+    flex: none; /* Remove flexibility for width */
+    width: 500px; /* Set a smaller fixed width */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+.filters input {
+    padding: 5px 10px; /* Keep height the same */
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 16px;
+    width: 400px; /* Adjust width automatically if needed */
+    
+}
+.filters select{
+    padding: 5px 10px; /* Keep height the same */
+    margin: 0 5px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    font-size: 16px;
+    width: 200px; /* Adjust width automatically if needed */
+}
+
+.view-btn {
+    width: 120px; /* Set a smaller fixed width for the button */
+    padding: 10px 15px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.view-btn:hover {
+    background-color: #0056b3;
+}
+
+
+   
+   
+
+ /* Job listings container */
+ .job-listingsss-container {
+    max-height: 400px; /* Adjust the height to your preference */
+    overflow-y: auto; /* Enable vertical scrolling */
+    border: 1px solid #ccc; /* Optional: Add a border for better visual separation */
+    padding: 10px; /* Optional: Add padding inside the scroll box */
+    margin: 20px 0; /* Add some spacing around the scroll box */
+    background-color: #f9f9f9; /* Optional: Background color */
+    border-radius: 8px; /* Optional: Rounded corners */
+    width: 80%;
+}
+ .job-listingsss {
+    display: flex;
+    flex-wrap: wrap;  /* Allow wrapping of rows */
+    gap: 20px; /* Space between rows */
+    justify-content: space-between; /* Spread out the rows evenly */
+}
+
+/* Job card styling */
+.job-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    width: calc(31% - 10px); /* Slightly reduce width (adjust as needed) */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: transform 0.3s ease, background-color 0.3s ease; /* Add smooth transition */
+    cursor: pointer; /* Show pointer cursor on hover */
+}
+.job-card:nth-child(odd) {
+    background-color: #fff; /* White background */
+}
+
+.job-card:nth-child(even) {
+    background-color: #e9e9e9; /* Light gray background */
+}
+
+/* Hover effect for all job cards */
+.job-card:hover {
+    transform: scale(1.05); /* Slight zoom-in effect */
+    background-color: #0b4f94; /* Navy blue background */
+    color: #fff; /* Change text color to white for better contrast */
+}
+
+/* Adding vertical lines between the job cards */
+.job-listingsss-row {
+    display: flex;
+    gap: 15px;
+    width: 100%;
+}
+
+.job-card:not(:last-child) {
+    border-right: 2px solid #ccc; /* Vertical line between job cards */
+}
+
+.job-card:hover {
+    transform: scale(1.05); /* Hover effect */
+}
+
+.job-card p {
+    margin: 5px 0;
+    font-size: 14px
+}
+
+.job-card .job-title {
+    font-weight: bold;
+    font-size: 12px
+}
+.job-title {
+    text-decoration: none; /* Remove underline by default */
+    color: #fd0c0c; /* Set text color */
+    font-weight: bold;
+    
+}
+
+.hr{
+    width: 100%;
+    height: 0.5px;
+    background-color: black;
+}
+.hr2{
+    width: 100%;
+    height: 4px;
+    background-color: rgb(30, 80, 247);
+}
+       /* Job Titles Section */
+       .job-titles-container {
+        display: flex;
+       
+        padding: 20px;
+       
+    }
+    
+    .job-titles-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+        gap: -100px;
+       
+    }
+    
+    .job-titles {
+        text-decoration: none;
+        color: #007BFF; /* Blue color for links */
+        font-size: 16px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        margin-top: 5px;
+    }
+    
+    .job-titles:hover {
+        color: #f12203; /* Darker blue on hover */
+    }

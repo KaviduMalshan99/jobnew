@@ -128,5 +128,13 @@ class EmployerAuthController extends Controller
         return redirect()->route('employer.profile')
             ->with('success', 'Profile updated successfully.');
     }
+    public function toggleStatus($id)
+    {
+        $employer = Employer::findOrFail($id);
+        $employer->is_active = !$employer->is_active; // Toggle status
+        $employer->save();
+
+        return redirect()->route('employer.list')->with('success', 'Employer status updated successfully!');
+    }
 
 }

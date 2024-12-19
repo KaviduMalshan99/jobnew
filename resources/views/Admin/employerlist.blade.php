@@ -46,12 +46,21 @@
                         <td>{{ $employer->contact_details ?? 'N/A' }}</td>
                         <td>{{ Str::limit($employer->business_info, 50) }}</td>
                         <td>
-                            <form action="{{ route('employer.delete', $employer->id) }}" method="POST"
+                            <form action="{{ route('employer.toggleStatus', $employer->id) }}" method="POST"
+                                style="display:inline;">
+                                @csrf
+                                @method('PATCH')
+                                <button type="submit"
+                                    class="btn btn-sm {{ $employer->is_active ? 'btn-warning' : 'btn-success' }}">
+                                    {{ $employer->is_active ? 'Inactive' : 'Active' }}
+                                </button>
+                            </form>
+                            {{-- <form action="{{ route('employer.delete', $employer->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('DELETE')
                                 <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                            </form>
+                            </form> --}}
                         </td>
                     </tr>
                 @endforeach

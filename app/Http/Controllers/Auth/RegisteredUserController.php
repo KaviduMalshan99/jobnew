@@ -17,9 +17,23 @@ class RegisteredUserController extends Controller
     /**
      * Display the registration view.
      */
+
+    public function userList()
+    {
+        $users = User::all(); // Fetch all admins
+        return view('Admin.userlist', compact('users')); // Pass admins to the view
+    }
     public function create(): View
     {
         return view('auth.register');
+    }
+    public function toggleStatus($id)
+    {
+        $user = User::findOrFail($id);
+        $user->is_active = !$user->is_active; // Toggle active/inactive
+        $user->save();
+
+        return redirect()->back()->with('success', 'User status updated successfully!');
     }
 
     /**

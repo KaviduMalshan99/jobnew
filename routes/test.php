@@ -13,20 +13,15 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployerAuthController;
 use App\Http\Controllers\ProfileController;
-use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 //Breeze routes
 Route::get('/', function () {
-    $categories = Category::with('subcategories')->get();
-    return view('home.home', compact('categories'));
+    return view('welcome');
 });
-Route::get('/categories/{id}/subcategories', function ($id) {
-    $category = Category::with('subcategories')->findOrFail($id);
-    return response()->json(['subcategories' => $category->subcategories]);
-});
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -37,9 +32,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::get('/', function () {
-//     return redirect()->route('index');
-// })->name('/');
+Route::get('/', function () {
+    return redirect()->route('index');
+})->name('/');
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {

@@ -89,19 +89,19 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Users</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('user-profile') }}">Admin </a></li>
-                            <li><a href="{{ route('edit-profile') }}">Employer</a></li>
-                            <li><a href="{{ route('user-cards') }}">Jobseeker</a></li>
+                            <li><a href="{{ route('admin.list') }}">Admin </a></li>
+                            <li><a href="{{ route('employer.list') }}">Employer</a></li>
+                            <li><a href="{{ route('user.list') }}">Jobseeker</a></li>
                         </ul>
                     </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('bookmark') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.categories.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Bookmarks</span></a></li>
+                            </svg><span>Categories</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('contacts') }}">
                             <svg class="stroke-icon">

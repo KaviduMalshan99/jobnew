@@ -17,6 +17,7 @@ class Employer extends Authenticatable
         'contact_details',
         'business_info',
         'job_posting_settings',
+        'is_active',
     ];
 
     protected $hidden = [

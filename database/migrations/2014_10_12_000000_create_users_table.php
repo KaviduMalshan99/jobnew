@@ -28,6 +28,7 @@ return new class extends Migration
                 $table->text('certifications')->nullable();
                 $table->string('portfolio_link', 255)->nullable();
                 $table->text('social_links')->nullable();
+                $table->boolean('is_active')->default(true);
                 $table->timestamps();
             });
         }

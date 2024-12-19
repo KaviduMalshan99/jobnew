@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('contact_details')->nullable();
             $table->text('business_info')->nullable();
             $table->json('job_posting_settings')->nullable();
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

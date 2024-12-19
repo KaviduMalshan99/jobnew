@@ -35,7 +35,7 @@
                     <th>Email</th>
                     <th>Contact</th>
                     <th>Status</th>
-                    <th>Action</th>
+                    {{-- <th>Action</th> --}}
                 </tr>
             </thead>
             <tbody>
@@ -51,7 +51,7 @@
                             </span>
                         </td>
                         <td>
-                            <form action="{{ route('admin.toggleStatus', $admin->id) }}" method="POST"
+                            {{-- <form action="{{ route('admin.toggleStatus', $admin->id) }}" method="POST"
                                 style="display:inline;">
                                 @csrf
                                 @method('PATCH')
@@ -60,7 +60,7 @@
                                     {{ $admin->is_active ? 'Deactivate' : 'Activate' }}
                                 </button>
                             </form>
-                        </td>
+                        </td> --}}
                     </tr>
                 @endforeach
             </tbody>

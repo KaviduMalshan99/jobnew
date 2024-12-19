@@ -56,7 +56,7 @@ class JobPostingController extends Controller
             'subcategory_id' => 'required|exists:subcategories,id',
             'location' => 'required|string|max:255',
             'salary_range' => 'nullable|numeric',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
             'requirements' => 'required|string',
             'closing_date' => 'required|date',
             'status' => 'required|in:pending,reject,approved',

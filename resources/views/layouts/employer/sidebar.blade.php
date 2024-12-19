@@ -89,10 +89,9 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Users</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('user-profile') }}">Admin </a></li>
-                            <li><a href="{{ route('edit-profile') }}">Employer</a></li>
-                            <li><a href="{{ route('user-cards') }}">Jobseeker</a></li>
-                        </ul>
+                            <li><a href="{{ route('employer.job_postings.post.create') }}">Create Job </a></li>
+                            <li><a href="{{ route('employer.job_postings.employer.jobs') }}">View Job</a></li>
+
                     </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('bookmark') }}">

@@ -32,6 +32,7 @@
         <form action="{{ route('employer.job_postings.post.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+
             <div class="mb-3">
                 <label for="title" class="form-label">Job Title</label>
                 <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}"
@@ -119,6 +120,10 @@
                 @error('closing_date')
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
+            </div>
+
+            <div class="mb-3">
+                <input type="hidden" name="status" value="pending">
             </div>
 
             {{-- <div class="mb-3">

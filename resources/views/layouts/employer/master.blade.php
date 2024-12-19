@@ -71,6 +71,61 @@
                 <!-- Container-fluid starts-->
                 @yield('content')
                 <!-- Container-fluid Ends-->
+                <script>
+                    document.addEventListener('DOMContentLoaded', function() {
+                        @if (session('success'))
+                            Swal.fire({
+                                title: 'Success!',
+                                text: "{{ session('success') }}",
+                                icon: 'success',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+                        @endif
+
+                        @if (session('error'))
+                            Swal.fire({
+                                title: 'Error!',
+                                text: "{{ session('error') }}",
+                                icon: 'error',
+                                toast: true,
+                                position: 'top-end',
+                                showConfirmButton: false,
+                                timer: 3000,
+                                timerProgressBar: true,
+                                didOpen: (toast) => {
+                                    toast.addEventListener('mouseenter', Swal.stopTimer);
+                                    toast.addEventListener('mouseleave', Swal.resumeTimer);
+                                }
+                            });
+                        @endif
+                    });
+
+                    function confirmDelete(formId, message) {
+                        Swal.fire({
+                            title: 'Are you sure?',
+                            text: message || "You won't be able to revert this!",
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#d33',
+                            cancelButtonColor: '#3085d6',
+                            confirmButtonText: 'Yes, delete it!',
+                            cancelButtonText: 'Cancel',
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById(formId).submit();
+                            }
+                        });
+                    }
+                </script>
+                <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             </div>
             <!-- footer start-->
             @include('layouts.employer.footer')

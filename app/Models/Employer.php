@@ -28,4 +28,9 @@ class Employer extends Authenticatable
     protected $casts = [
         'job_posting_settings' => 'array',
     ];
+
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
+    }
 }

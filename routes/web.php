@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
@@ -22,7 +23,7 @@ use Illuminate\Support\Facades\Session;
 Route::get('/', function () {
     $categories = Category::with('subcategories')->get();
     return view('home.home', compact('categories'));
-});
+})->name('/');
 Route::get('/categories/{id}/subcategories', function ($id) {
     $category = Category::with('subcategories')->findOrFail($id);
     return response()->json(['subcategories' => $category->subcategories]);
@@ -159,6 +160,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     // Delete a category
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+    // Job Posting admin side route
+    Route::get('job_postings', [JobPostingController::class, 'index'])->name('job_postings.index');
+    Route::patch('job_postings/{id}/status', [JobPostingController::class, 'updateStatus'])->name('job_postings.updateStatus');
 });
 
 //Employee Routes
@@ -172,8 +177,18 @@ Route::prefix('employer')->name('employer.')->group(function () {
 
     Route::middleware('auth:employer')->group(function () {
         Route::get('/dashboard', [EmployerAuthController::class, 'dashboard'])->name('dashboard');
+        // Job Posting routes
+        Route::prefix('job-postings')->name('job_postings.')->group(function () {
+            Route::get('/jobs', [JobPostingController::class, 'employerJobs'])->name('employer.jobs');
+            Route::get('/create', [JobPostingController::class, 'create'])->name('post.create');
+            Route::post('/', [JobPostingController::class, 'store'])->name('post.store');
+            Route::get('/{jobPosting}/edit', [JobPostingController::class, 'edit'])->name('post.edit');
+            Route::patch('/{jobPosting}', [JobPostingController::class, 'update'])->name('post.update');
+            Route::delete('/{jobPosting}', [JobPostingController::class, 'destroy'])->name('post.destroy');
+        });
     });
 });
+Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');
 
 Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');

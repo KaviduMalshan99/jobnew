@@ -103,13 +103,13 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Categories</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('contacts') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('job_postings.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-contact') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-contact') }}"> </use>
-                            </svg><span>Contacts</span></a>
+                            </svg><span>Jobs</span></a>
                     </li>
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a

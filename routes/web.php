@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 //Breeze routes
-Route::get('/', function () {
-    $categories = Category::with('subcategories')->get();
-    return view('home.home', compact('categories'));
-})->name('/');
+Route::get('/', [JobPostingController::class, 'home'])->name('home');
 Route::get('/categories/{id}/subcategories', function ($id) {
     $category = Category::with('subcategories')->findOrFail($id);
     return response()->json(['subcategories' => $category->subcategories]);

@@ -1,0 +1,59 @@
+ .terms-and-conditions {
+            font-family: 'Arial', sans-serif;
+            color: #2c3e50;
+            background-color: #f9f9f9;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .terms-and-conditions-header {
+            background: #2f64eb;
+            color: white;
+            padding: 10px 20px;
+            text-align: center;
+            
+        }
+
+        .terms-and-conditions-header h1 {
+            margin: 0;
+        }
+
+        .terms-and-conditions h2 {
+            color: #2980b9;
+           
+        }
+
+        .terms-and-conditions p {
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .terms-and-conditions a {
+            color: #e74c3c;
+            text-decoration: none;
+        }
+
+        .terms-and-conditions a:hover {
+            text-decoration: underline;
+        }
+
+        .terms-and-conditions nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin-bottom: 30px;
+        }
+
+        .terms-and-conditions nav ul li {
+            margin-bottom: 10px;
+        }
+
+        .terms-and-conditions .section {
+            margin-bottom: 40px;
+        }
+
+        .terms-and-conditions strong {
+            font-weight: bold;
+            color: #c0392b;
+        }

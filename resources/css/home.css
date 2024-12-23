@@ -5,6 +5,8 @@ body {
     color: #333;
 }
 
+
+
 .feedback-section {
     text-align: center;
     position: relative; /* Enable positioning for child elements */
@@ -24,6 +26,7 @@ body {
     border-radius: 0 0 35px 35px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow with blur and transparency */
 }
+
 
 .feedback-btn {
     position: relative; /* Keep the button on top of the rectangle */
@@ -45,7 +48,11 @@ body {
 .feedback-btn:hover {
     background: linear-gradient(to right, #0056b3, #003a80);
     color: #ffffff;
+    
 }
+
+
+
 
 .job-listings {
     display: flex;
@@ -60,6 +67,8 @@ body {
     flex: 1 1 calc(33.33% - 20px); /* Ensure 3 columns by dividing the row into 3 parts */
     box-sizing: border-box; /* Include padding and borders in width calculations */
 }
+
+
 
 .filters {
     display: flex;
@@ -86,8 +95,9 @@ body {
     border-radius: 3px;
     font-size: 16px;
     width: 400px; /* Adjust width automatically if needed */
+    
 }
-.filters select {
+.filters select{
     padding: 5px 10px; /* Keep height the same */
     margin: 0 5px;
     border: 1px solid #ddd;
@@ -112,8 +122,12 @@ body {
     background-color: #0056b3;
 }
 
-/* Job listings container */
-.job-listingsss-container {
+
+   
+   
+
+ /* Job listings container */
+ .job-listingsss-container {
     max-height: 400px; /* Adjust the height to your preference */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Optional: Add a border for better visual separation */
@@ -123,9 +137,9 @@ body {
     border-radius: 8px; /* Optional: Rounded corners */
     width: 80%;
 }
-.job-listingsss {
+ .job-listingsss {
     display: flex;
-    flex-wrap: wrap; /* Allow wrapping of rows */
+    flex-wrap: wrap;  /* Allow wrapping of rows */
     gap: 20px; /* Space between rows */
     justify-content: space-between; /* Spread out the rows evenly */
 }
@@ -173,53 +187,56 @@ body {
 
 .job-card p {
     margin: 5px 0;
-    font-size: 14px;
+    font-size: 14px
 }
 
 .job-card .job-title {
     font-weight: bold;
-    font-size: 12px;
+    font-size: 12px
 }
 .job-title {
     text-decoration: none; /* Remove underline by default */
     color: #fd0c0c; /* Set text color */
     font-weight: bold;
+    
 }
 
-.hr {
+.hr{
     width: 100%;
     height: 0.5px;
     background-color: black;
 }
-.hr2 {
+.hr2{
     width: 100%;
     height: 4px;
     background-color: rgb(30, 80, 247);
 }
-/* Job Titles Section */
-.job-titles-container {
-    display: flex;
-
-    padding: 20px;
-}
-
-.job-titles-column {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    margin-left: 20px;
-    gap: -100px;
-}
-
-.job-titles {
-    text-decoration: none;
-    color: #007bff; /* Blue color for links */
-    font-size: 16px;
-    font-weight: bold;
-    transition: color 0.3s ease;
-    margin-top: 5px;
-}
-
-.job-titles:hover {
-    color: #f12203; /* Darker blue on hover */
-}
+       /* Job Titles Section */
+       .job-titles-container {
+        display: flex;
+       
+        padding: 20px;
+       
+    }
+    
+    .job-titles-column {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        margin-left: 20px;
+        gap: -100px;
+       
+    }
+    
+    .job-titles {
+        text-decoration: none;
+        color: #007BFF; /* Blue color for links */
+        font-size: 16px;
+        font-weight: bold;
+        transition: color 0.3s ease;
+        margin-top: 5px;
+    }
+    
+    .job-titles:hover {
+        color: #f12203; /* Darker blue on hover */
+    }

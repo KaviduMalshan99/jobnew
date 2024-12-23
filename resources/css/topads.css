@@ -1,0 +1,279 @@
+
+      
+     
+
+        .topads-container {
+            border: 1px solid #409cf1;
+            border-radius: 5px;
+            background-color: #ffffff;
+            padding: 15px;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-left: 20px;
+            margin-top: 10px;
+            
+        }
+
+        .topads-header {
+            background-color: #e0f0ff; /* Light blue background */
+            color: #000;
+            font-weight: bold;
+            padding: 10px 15px;
+            font-size: 1.1em;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .topads-content {
+            padding: 15px;
+        }
+
+        ul {
+            list-style-type: disc; /* Bullet points */
+            padding-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 15px;
+            font-size: 1em;
+            color: #333;
+        }
+
+        a {
+            text-decoration: none;
+            color: #007bff; /* Link color */
+        }
+
+        a:hover {
+            text-decoration: underline;
+            color: #0056b3; /* Darker link color on hover */
+        }
+
+        strong {
+            color: #000; /* Strong tags for emphasis */
+        }
+    
+/* contact css */
+
+.contact-info {
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 730px;
+    margin-left: 670px;
+    margin-top: -255px;
+}
+
+.contact-info p {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.contact-info a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.contact-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.contact-info li {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.contact-info li:nth-child(1) { background-color: #e91e63; } /* Nirthika - Pink */
+.contact-info li:nth-child(2) { background-color: #b71c1c; } /* Silmiya - Dark Red */
+.contact-info li:nth-child(3) { background-color: #ff5722; } /* Madushani - Orange */
+.contact-info li:nth-child(4) { background-color: #1e88e5; } /* Danushka - Blue */
+.contact-info li:nth-child(5) { background-color: #43a047; } /* Saranya - Green */
+
+.contact-header {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+
+/*  how to post vacancy */
+
+.post-info{
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 600px;
+    margin-left: 670px;
+    
+}
+.post-header {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+/*payment methods*/
+.payment-info{
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 600px;
+    margin-left: 670px;
+    
+}
+.payment-header {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+.payment-info p{
+  
+    color: #036d07;
+}
+/* ipg page css*/
+
+/* Contact Info Container */
+.paymentmethod-info ul {
+    list-style: none;
+    padding: 0;
+    margin: 10px 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.paymentmethod-info li {
+    display: inline-block;
+    padding: 10px 15px;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+/* Background colors for each paymentmethod */
+.paymentmethod-info li:nth-child(1) { background-color: #e91e63; } /* Nirthika - Pink */
+.paymentmethod-info li:nth-child(2) { background-color: #b71c1c; } /* Silmiya - Dark Red */
+.paymentmethod-info li:nth-child(3) { background-color: #ff5722; } /* Madushani - Orange */
+.paymentmethod-info li:nth-child(4) { background-color: #1e88e5; } /* Danushka - Blue */
+.paymentmethod-info li:nth-child(5) { background-color: #43a047; } /* Saranya - Green */
+
+/* paymentmethod Header Styling */
+.paymentmethod-header {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+/* Bank Information Styling */
+.fundtransfer-container{
+    display: flex;
+    
+}
+
+.bank-info h2 {
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.bank-info table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    max-width: 600px;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.bank-info th, .bank-info td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: left;
+}
+
+.bank-info th {
+    background-color: #1e88e5;
+    color: white;
+    width: 30%;
+}
+
+.bank-info td {
+    background-color: #f9f9f9;
+}
+
+.bank-info tr:nth-child(even) td {
+    background-color: #f1f1f1;
+}
+
+/* table*/
+
+/* Table Container */
+.table-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Table Styling */
+table {
+    width: 90%;
+    max-width: 600px;
+    border-collapse: collapse;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    margin-left: -850px;
+    margin-top: -350px;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 10px 15px;
+    text-align: center;
+}
+
+th {
+    background-color: #1e88e5; /* Blue Header Background */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2; /* Alternating Row Color */
+}
+
+tr:hover {
+    background-color: #e3f2fd; /* Light Blue on Hover */
+}
+
+td {
+    font-size: 14px;
+    color: #555;
+}

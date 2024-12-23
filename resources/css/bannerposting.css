@@ -1,0 +1,49 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa; /* Light background */
+}
+
+.bannercontainer {
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.bannerheader {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+
+.bannercontent {
+    padding: 15px;
+}
+
+.content p {
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff; /* Link color */
+}
+
+a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darker link color on hover */
+}
+
+strong {
+    color: #000; /* Strong tags for emphasis */
+}

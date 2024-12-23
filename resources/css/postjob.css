@@ -1,0 +1,168 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f8f9fa; /* Light background */
+}
+
+.postcontainer {
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 15px;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-left: 20px;
+    margin-top: 10px;
+}
+
+.postheader {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+
+.postcontent {
+    padding: 15px;
+}
+
+ul {
+    list-style-type: disc; /* Bullet points */
+    padding-left: 20px;
+    margin-top: 0;
+}
+
+ul li {
+    margin-bottom: 10px;
+    font-size: 1em;
+    color: #333;
+}
+
+a {
+    text-decoration: none;
+    color: #007bff; /* Link color */
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.highlight {
+    font-weight: bold;
+    color: red; /* Highlighted Sinhala text */
+}
+
+.highlight-blue {
+    font-weight: bold;
+    color: #0056b3; /* Blue Sinhala text */
+}
+
+   /* Button Group */
+   .btn-group {
+    display: flex;
+    justify-content: center; /* Center-align buttons */
+    gap: 15px; /* Spacing between buttons */
+}
+
+/* Unique Button Styles */
+.btn {
+    font-size: 16px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+/* Top Ads Button - Unique Class */
+.btn-top-ads {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Banner Posting Button - Unique Class */
+.btn-banner-posting {
+    background-color: #17a2b8;
+    color: white;
+}
+
+/* Button Hover Effect */
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Responsive Layout */
+@media (max-width: 768px) {
+    .btn-group {
+        flex-direction: column; /* Stack buttons vertically */
+        gap: 10px; /* Reduce gap for mobile */
+    }
+
+    .btn {
+        width: 100%; /* Make buttons full width */
+    }
+}
+
+/*payment button*/
+
+/* Container for payment buttons */
+.payment-methods {
+    text-align: center; /* Center the buttons */
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #f9f9f9; /* Light gray background */
+    border: 1px solid #ddd; /* Subtle border */
+    border-radius: 8px; /* Rounded corners */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow */
+}
+
+/* Button Group */
+.payment-methods .btn-group {
+    display: flex;
+    justify-content: center; /* Evenly space buttons */
+    flex-wrap: wrap; /* Ensure responsiveness */
+    gap: 10px; /* Spacing between buttons */
+}
+
+/* Button General Styles */
+.payment-methods .btn {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Individual Button Colors */
+.payment-methods .btn-ipg {
+    background-color: #28a745; /* Green */
+}
+
+.payment-methods .btn-onlinefund {
+    background-color: #17a2b8; /* Teal */
+}
+
+.payment-methods .btn-overthecounter {
+    background-color: #ffc107; /* Yellow */
+    color: #333; /* Darker text for contrast */
+}
+
+.payment-methods .btn-QRCodeforjobads {
+    background-color: #007bff; /* Blue */
+}
+
+/* Hover Effects */
+.payment-methods .btn:hover {
+    transform: translateY(-2px); /* Slight lift effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    opacity: 0.9; /* Slight transparency */
+}

@@ -21,8 +21,12 @@ class JobPosting extends Model
         'image',
         'requirements',
         'employer_id',
+        'admin_id',
         'closing_date',
+        'approved_date',
+        'rejected_date',
         'status',
+        'rejection_reason',
         'job_id',
     ];
 
@@ -40,5 +44,10 @@ class JobPosting extends Model
     public function employer()
     {
         return $this->belongsTo(Employer::class);
+    }
+
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
     }
 }

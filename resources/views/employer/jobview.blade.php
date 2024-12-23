@@ -32,8 +32,11 @@
                         <th>Title</th>
                         <th>Category</th>
                         <th>Subcategory</th>
+                        <th>Reviewed By</th>
                         <th>Status</th>
-                        <th>Actions</th>
+                        <th>Reviewed Date</th>
+                        <th>Review Reason</th>
+                        <th>Acttion</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -43,18 +46,38 @@
                             <td>{{ $job->title }}</td>
                             <td>{{ $job->category->name }}</td>
                             <td>{{ $job->subcategory->name }}</td>
+                            <td>{{ $job->admin->name ?? 'N/A' }}</td>
                             <td>{{ ucfirst($job->status) }}</td>
                             <td>
+                                @if ($job->status === 'approved')
+                                    {{ $job->approved_date ? \Carbon\Carbon::parse($job->approved_date)->format('Y-m-d') : 'N/A' }}
+                                @elseif ($job->status === 'rejected')
+                                    {{ $job->rejected_date ? \Carbon\Carbon::parse($job->rejected_date)->format('Y-m-d') : 'N/A' }}
+                                @else
+                                    N/A
+                                @endif
+                            </td>
+
+
+                            <td>{{ $job->review_reason ?? 'N/A' }}</td>
+                            <td>
+                                <!-- Edit button -->
                                 <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
-                                    class="btn btn-primary">Edit</a>
+                                    class="btn btn-primary btn-sm">Edit</a>
+
+                                <!-- Delete button -->
                                 <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}" method="POST"
-                                    style="display: inline-block;">
+                                    style="display: inline;">
                                     @csrf
                                     @method('DELETE')
-                                    <button type="submit" class="btn btn-danger"
-                                        onclick="return confirm('Are you sure?')">Delete</button>
+                                    <button type="submit" class="btn btn-danger btn-sm"
+                                        onclick="return confirm('Are you sure you want to delete this job posting?');">
+                                        Delete
+                                    </button>
                                 </form>
                             </td>
+
+
                         </tr>
                     @endforeach
                 </tbody>

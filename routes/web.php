@@ -20,10 +20,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 //Breeze routes
-Route::get('/', function () {
-    $categories = Category::with('subcategories')->get();
-    return view('home.home', compact('categories'));
-})->name('/');
+Route::get('/', [JobPostingController::class, 'home'])->name('home');
 Route::get('/categories/{id}/subcategories', function ($id) {
     $category = Category::with('subcategories')->findOrFail($id);
     return response()->json(['subcategories' => $category->subcategories]);
@@ -121,9 +118,12 @@ Route::prefix('admin')->group(function () {
     });
 
 });
+
+Route::get('/jobs/{id}', [JobPostingController::class, 'showjob'])->name('job.details');
 Route::middleware('admin')->group(function () {
     Route::get('/admin/profile', [AdminAuthController::class, 'showProfileForm'])
         ->name('admin.profile');
+    Route::get('/job_postings/{id}', [JobPostingController::class, 'show'])->name('job_postings.show');
 
     Route::put('/admin/profile', [AdminAuthController::class, 'updateProfile'])
         ->name('admin.profile.update');

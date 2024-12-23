@@ -45,6 +45,18 @@ class JobPostingController extends Controller
 
         return view('home.home', compact('categories', 'jobs'));
     }
+    public function show($id)
+    {
+        $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
+        return view('admin.showonejob', compact('job'
+        ));
+    }
+    public function showjob($id)
+    {
+        $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
+        return view('home.jobs.show', compact('job'
+        ));
+    }
 
     public function updateStatus(Request $request, $id)
     {

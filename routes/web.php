@@ -118,9 +118,12 @@ Route::prefix('admin')->group(function () {
     });
 
 });
+
+Route::get('/jobs/{id}', [JobPostingController::class, 'showjob'])->name('job.details');
 Route::middleware('admin')->group(function () {
     Route::get('/admin/profile', [AdminAuthController::class, 'showProfileForm'])
         ->name('admin.profile');
+    Route::get('/job_postings/{id}', [JobPostingController::class, 'show'])->name('job_postings.show');
 
     Route::put('/admin/profile', [AdminAuthController::class, 'updateProfile'])
         ->name('admin.profile.update');

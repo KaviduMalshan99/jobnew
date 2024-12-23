@@ -72,29 +72,19 @@
         </head>
 
         <body class="bg-gray-50">
-            <div class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
                 <!-- Job Category List -->
-                <section class="job-titles-section bg-white shadow-2xl rounded-2xl overflow-hidden">
-                    <div class="job-titles-container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
-                        @foreach ($categories as $category)
-                            <div class="job-titles-column text-center category-card">
-                                <h4 class="category-title">
-                                    <a href="#"
-                                        class="main-category block px-6 py-4 text-blue-700 font-bold text-lg
-                                              bg-white border border-blue-100
-                                              rounded-xl
-                                              transition-all duration-300
-                                              hover:bg-blue-50 hover:text-blue-900
-                                              hover:translate-y-[-5px]"
-                                        data-category-id="{{ $category->id }}">
-                                        <span class="block">{{ $category->name }}</span>
-                                        <span class="text-sm text-gray-500 mt-2 block">
-                                            {{ $category->jobs_count ?? 'Explore' }} Jobs
-                                        </span>
-                                    </a>
-                                </h4>
-                            </div>
-                        @endforeach
+                <section class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div class="job-categories-container bg-white shadow-md rounded-md p-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                            @foreach ($categories as $category)
+                                <a href=""
+                                    class="block px-4 py-2 text-blue-700 font-bold text-sm bg-blue-50 border border-blue-100 rounded-md
+                                          hover:bg-blue-100 hover:text-blue-900 transition">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </section>
 
@@ -139,7 +129,7 @@
                         <div class="job-listings-row">
                             @foreach ($jobChunk as $job)
                                 <div class="job-card">
-                                    <a href="" class="job-title">
+                                    <a href="{{ route('job.details', $job->id) }} class="job-title">
                                         {{ $job->title }}
                                     </a>
                                     <p>{{ $job->employer->company_name }}</p>

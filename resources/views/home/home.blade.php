@@ -78,9 +78,9 @@
                     <div class="job-categories-container bg-white shadow-md rounded-md p-6">
                         <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                             @foreach ($categories as $category)
-                                <a href=""
+                                <a href="javascript:void(0);" data-category-id="{{ $category->id }}"
                                     class="block px-4 py-2 text-blue-700 font-bold text-sm bg-blue-50 border border-blue-100 rounded-md
-                                          hover:bg-blue-100 hover:text-blue-900 transition">
+                                   hover:bg-blue-100 hover:text-blue-900 transition category-link">
                                     {{ $category->name }}
                                 </a>
                             @endforeach
@@ -88,56 +88,41 @@
                     </div>
                 </section>
 
-                <!-- Subcategories Section -->
-                <section id="subcategories-section"
-                    class="subcategories-section hidden mt-12 bg-white shadow-2xl rounded-2xl overflow-hidden
-                                transition-all duration-700 ease-in-out">
-                    <div class="subcategories-container p-8">
-                        <h4 id="selected-category-name"
-                            class="text-3xl font-extrabold text-center text-blue-700 mb-10
-                                   tracking-tight uppercase">
-                        </h4>
 
-                        <div id="subcategories-list" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6"></div>
-                    </div>
-                </section>
             </div>
 
             <hr class="hr" />
 
             <!-- Filters Section -->
             <section class="filters">
-                <input class="text-input" type="text" placeholder="Enter Vacancy Name/Company/Job Reference">
-                <input class="text-input" type="text" id="town-input" list="town-options"
-                    placeholder="Type and Select a Town Name" />
-                <datalist id="town-options">
-                    <option value="Town 1"></option>
-                    <option value="Town 2"></option>
-                    <option value="Town 3"></option>
-                    <option value="Town 4"></option>
-                </datalist>
-                <button class="view-btn">View As List</button>
+                <form method="GET" action="{{ route('home') }}">
+                    <input class="text-input" type="text" name="search"
+                        placeholder="Enter Vacancy Name/Company/Job Reference" value="{{ request('search') }}">
+                    <input class="text-input" type="text" name="location" placeholder="Enter your Location"
+                        value="{{ request('location') }}">
+                    <button class="view-btn" type="submit">Search</button>
+                </form>
             </section>
 
             <hr class="hr2" /><br />
 
             <!-- Full Job Listings -->
-            <section class="job-listingsss-container">
-                <div class="ob-listingsss">
-                    @foreach ($jobs->chunk(4) as $jobChunk)
-                        <!-- Divide job postings into rows of 4 -->
-                        <div class="job-listings-row">
-                            @foreach ($jobChunk as $job)
-                                <div class="job-card">
-                                    <a href="{{ route('job.details', $job->id) }} class="job-title">
-                                        {{ $job->title }}
-                                    </a>
-                                    <p>{{ $job->employer->company_name }}</p>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endforeach
-                </div>
+            <section id="job-listings" class="job-listings-container">
+                @if ($jobs->isEmpty())
+                    <p>No jobs found matching your criteria.</p>
+                @else
+                    <div class="job-listings">
+                        @foreach ($jobs as $job)
+                            <div class="job-card">
+                                <a href="{{ route('job.details', $job->id) }}" class="job-title">
+                                    {{ $job->title }}
+                                </a>
+                                <p>{{ $job->employer->company_name }}</p>
+                                <p>{{ $job->location }}</p>
+                            </div>
+                        @endforeach
+                    </div>
+                @endif
             </section>
 
     </main><br />

@@ -22,14 +22,19 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->text('requirements');
             $table->unsignedBigInteger('employer_id');
+            $table->unsignedBigInteger('admin_id')->nullable(); // Admin ID column
             $table->date('closing_date');
+            $table->dateTime('approved_date')->nullable(); // Approved date column
+            $table->dateTime('rejected_date')->nullable();
             $table->string('status')->default('pending'); // Status column
+            $table->string('rejection_reason')->nullable(); // Rejection reason column
             $table->string('job_id')->index(); // Job ID column (required)
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');
             $table->foreign('subcategory_id')->references('id')->on('subcategories');
             $table->foreign('employer_id')->references('id')->on('employers');
+            $table->foreign('admin_id')->references('id')->on('admins'); // Admin foreign key
         });
     }
 

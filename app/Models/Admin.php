@@ -24,4 +24,8 @@ class Admin extends Authenticatable
         'password',
         'remember_token',
     ];
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
+    }
 }

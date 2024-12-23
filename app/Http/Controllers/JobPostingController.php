@@ -12,15 +12,85 @@ class JobPostingController extends Controller
 {
     public function index()
     {
-        $jobPostings = JobPosting::with(['category', 'subcategory', 'employer'])->paginate(10);
-        return view('admin.jobview', compact('jobPostings'));
+        // Fetch all published jobs
+        $jobPostings = JobPosting::with(['category', 'subcategory', 'employer'])
+            ->where('status', 'approved')
+            ->paginate(10);
+
+        // Fetch all pending jobs
+        $pendingJobs = JobPosting::with(['category', 'subcategory', 'employer'])
+            ->where('status', 'pending')
+            ->paginate(10);
+
+        // Fetch all rejected jobs
+        $rejectedJobs = JobPosting::with(['category', 'subcategory', 'employer'])
+            ->where('status', 'reject')
+            ->paginate(10);
+
+        return view('admin.jobview', compact('jobPostings', 'pendingJobs', 'rejectedJobs'));
     }
+
+    public function home()
+    {
+        // Fetch categories with subcategories
+        $categories = Category::with('subcategories')->get();
+
+        // Fetch approved job postings
+        $jobPostings = JobPosting::with(['category', 'subcategory'])
+            ->where('status', 'approved')
+            ->get();
+
+        // Pass job postings as $jobs to the view
+        $jobs = $jobPostings;
+
+        return view('home.home', compact('categories', 'jobs'));
+    }
+    public function show($id)
+    {
+        $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
+        return view('admin.showonejob', compact('job'
+        ));
+    }
+    public function showjob($id)
+    {
+        $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
+        return view('home.jobs.show', compact('job'
+        ));
+    }
+
     public function updateStatus(Request $request, $id)
     {
-        $job = JobPosting::findOrFail($id); // Retrieve the job posting by ID
-        $job->status = $request->input('status'); // Update the status
-        $job->save(); // Save the changes
+        // Validate the incoming request
+        $request->validate([
+            'status' => 'required|in:pending,approved,reject',
+            'rejection_reason' => 'nullable|string|max:255', // Validate rejection reason
+        ]);
 
+        // Retrieve the job posting by ID
+        $job = JobPosting::findOrFail($id);
+
+        // Update the status
+        $job->status = $request->input('status');
+
+        // Save approved date if status is approved
+        if ($job->status === 'approved') {
+            $job->approved_date = now(); // Save the current timestamp
+            $job->rejection_reason = null; // Clear rejection reason if previously set
+        }
+
+        // Save rejected date and reason if status is reject
+        if ($job->status === 'reject') {
+            $job->rejected_date = now(); // Save the current timestamp
+            $job->rejection_reason = $request->input('rejection_reason'); // Save rejection reason
+        }
+
+        // Save the admin ID who updated the status
+        $job->admin_id = auth('admin')->id(); // Assuming admin is logged in
+
+        // Save the changes to the database
+        $job->save();
+
+        // Redirect back with a success message
         return redirect()->route('job_postings.index')->with('success', 'Job status updated successfully.');
     }
 
@@ -39,7 +109,7 @@ class JobPostingController extends Controller
 
         // Retrieve job postings created by the employer
         $jobPostings = JobPosting::where('employer_id', $employerId)
-            ->with(['category', 'subcategory'])
+            ->with(['category', 'subcategory', 'admin'])
             ->paginate(10);
 
         // Return the view with the job postings data

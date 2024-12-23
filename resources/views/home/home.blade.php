@@ -72,29 +72,19 @@
         </head>
 
         <body class="bg-gray-50">
-            <div class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 ">
                 <!-- Job Category List -->
-                <section class="job-titles-section bg-white shadow-2xl rounded-2xl overflow-hidden">
-                    <div class="job-titles-container grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 p-8">
-                        @foreach ($categories as $category)
-                            <div class="job-titles-column text-center category-card">
-                                <h4 class="category-title">
-                                    <a href="#"
-                                        class="main-category block px-6 py-4 text-blue-700 font-bold text-lg
-                                              bg-white border border-blue-100
-                                              rounded-xl
-                                              transition-all duration-300
-                                              hover:bg-blue-50 hover:text-blue-900
-                                              hover:translate-y-[-5px]"
-                                        data-category-id="{{ $category->id }}">
-                                        <span class="block">{{ $category->name }}</span>
-                                        <span class="text-sm text-gray-500 mt-2 block">
-                                            {{ $category->jobs_count ?? 'Explore' }} Jobs
-                                        </span>
-                                    </a>
-                                </h4>
-                            </div>
-                        @endforeach
+                <section class="job-categories-wrapper max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+                    <div class="job-categories-container bg-white shadow-md rounded-md p-6">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+                            @foreach ($categories as $category)
+                                <a href=""
+                                    class="block px-4 py-2 text-blue-700 font-bold text-sm bg-blue-50 border border-blue-100 rounded-md
+                                          hover:bg-blue-100 hover:text-blue-900 transition">
+                                    {{ $category->name }}
+                                </a>
+                            @endforeach
+                        </div>
                     </div>
                 </section>
 
@@ -133,201 +123,22 @@
 
             <!-- Full Job Listings -->
             <section class="job-listingsss-container">
-                <div class="job-listingsss">
-                    <!-- First row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Assistant Manager - Sales & Marketing</a>
-                            <p>Cleanline Linen Management (Pvt) Ltd</p>
+                <div class="ob-listingsss">
+                    @foreach ($jobs->chunk(4) as $jobChunk)
+                        <!-- Divide job postings into rows of 4 -->
+                        <div class="job-listings-row">
+                            @foreach ($jobChunk as $job)
+                                <div class="job-card">
+                                    <a href="{{ route('job.details', $job->id) }} class="job-title">
+                                        {{ $job->title }}
+                                    </a>
+                                    <p>{{ $job->employer->company_name }}</p>
+                                </div>
+                            @endforeach
                         </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Finance Controller - Fiji</a>
-                            <p>Ba Industries Pte Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Trainee Technical Consultant - D365</a>
-                            <p>Business Central</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Receptionist (Female)</a>
-                            <p>Sky Sport Lanka (Pvt) Ltd</p>
-                        </div>
-                    </div>
-
-                    <!-- Second row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
-                    <!-- Third row with job cards -->
-                    <div class="job-listingsss-row">
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Senior Waiter | Commi</a>
-                            <p>The Bungalow Galle Fort</p>
-                        </div>
-                        <div class="job-card">
-                            <a href="job-details.html" class="job-title">Accounts Assistant</a>
-                            <p>B Plus (Pvt) Ltd</p>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
+            </section>
 
     </main><br />
 

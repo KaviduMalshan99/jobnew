@@ -110,3 +110,55 @@
         });
     });
 </script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryLinks = document.querySelectorAll('.category-link');
+        const jobListingsContainer = document.getElementById(
+        'job-listings'); // Ensure this ID exists in your HTML
+
+        categoryLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                const categoryId = this.getAttribute('data-category-id');
+
+                // Show loading message
+                jobListingsContainer.innerHTML = '<p>Loading jobs...</p>';
+
+                // Fetch jobs for the selected category
+                fetch(`/jobs/category/${categoryId}`) // Correct fetch URL syntax
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(jobs => {
+                        // Clear the loading message
+                        jobListingsContainer.innerHTML = '';
+
+                        if (jobs.length > 0) {
+                            // Populate the job listings
+                            jobs.forEach(job => {
+                                const jobCard = `
+                                <div class="job-card">
+                                    <a href="/jobs/${job.id}" class="job-title font-bold text-lg text-blue-600 hover:underline">
+                                        ${job.title}
+                                    </a>
+                                    <p class="text-gray-600">${job.employer.company_name}</p>
+                                </div>
+                            `;
+                                jobListingsContainer.innerHTML += jobCard;
+                            });
+                        } else {
+                            jobListingsContainer.innerHTML =
+                                '<p>No jobs found for this category.</p>';
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error fetching jobs:', error);
+                        jobListingsContainer.innerHTML =
+                            '<p>Failed to load jobs. Please try again later.</p>';
+                    });
+            });
+        });
+    });
+</script>

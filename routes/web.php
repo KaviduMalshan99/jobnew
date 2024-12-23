@@ -120,6 +120,7 @@ Route::prefix('admin')->group(function () {
 });
 
 Route::get('/jobs/{id}', [JobPostingController::class, 'showjob'])->name('job.details');
+Route::get('/jobs/category/{categoryId}', [JobPostingController::class, 'getJobsByCategory']);
 Route::middleware('admin')->group(function () {
     Route::get('/admin/profile', [AdminAuthController::class, 'showProfileForm'])
         ->name('admin.profile');

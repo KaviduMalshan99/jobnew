@@ -30,21 +30,32 @@ class JobPostingController extends Controller
         return view('admin.jobview', compact('jobPostings', 'pendingJobs', 'rejectedJobs'));
     }
 
-    public function home()
+    public function home(Request $request)
     {
-        // Fetch categories with subcategories
-        $categories = Category::with('subcategories')->get();
+        $search = $request->input('search');
+        $location = $request->input('location');
 
-        // Fetch approved job postings
-        $jobPostings = JobPosting::with(['category', 'subcategory'])
-            ->where('status', 'approved')
+        $jobs = JobPosting::with(['category', 'subcategory'])
+            ->where('status', 'approved') // Ensures only approved jobs
+            ->when($search, function ($query, $search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('title', 'like', "%{$search}%")
+                        ->orWhere('description', 'like', "%{$search}%")
+                        ->orWhereHas('employer', function ($q) use ($search) {
+                            $q->where('company_name', 'like', "%{$search}%");
+                        });
+                });
+            })
+            ->when($location, function ($query, $location) {
+                $query->where('location', 'like', "%{$location}%");
+            })
             ->get();
 
-        // Pass job postings as $jobs to the view
-        $jobs = $jobPostings;
+        $categories = Category::with('subcategories')->get();
 
         return view('home.home', compact('categories', 'jobs'));
     }
+
     public function show($id)
     {
         $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
@@ -92,6 +103,16 @@ class JobPostingController extends Controller
 
         // Redirect back with a success message
         return redirect()->route('job_postings.index')->with('success', 'Job status updated successfully.');
+    }
+    public function getJobsByCategory($categoryId)
+    {
+        // Fetch jobs belonging to the specified category
+        $jobs = JobPosting::where('category_id', $categoryId)
+            ->where('status', 'approved')
+            ->with('employer') // Load employer relationship if needed
+            ->get();
+
+        return response()->json($jobs);
     }
 
     public function create()

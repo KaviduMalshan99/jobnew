@@ -31,7 +31,7 @@
 
 
     <!-- Include Contact Us Popup Blade Component -->
-    {{-- @include('contactus.contactus') --}}
+     @include('contactus.contactus') 
 
 </body>
 

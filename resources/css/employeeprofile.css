@@ -1,0 +1,172 @@
+
+.profile-body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: #333;
+}
+.profile-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.profile-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+.profile-header h1 {
+    font-size: 2rem;
+    color: #333;
+}
+.form-section {
+    margin-bottom: 20px;
+}
+.form-section label {
+    font-size: 1rem;
+    font-weight: bold;
+    display: block;
+    margin-bottom: 5px;
+    color: #0056b3;
+}
+.form-section input,
+.form-section textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    margin-left: -10px;
+}
+
+.form-section textarea {
+    resize: vertical;
+}
+.form-buttons {
+    text-align: right;
+}
+.form-buttons button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.save-btn {
+    background-color: #28a745;
+    color: #fff;
+}
+.cancel-btn {
+    background-color: #dc3545;
+    color: #fff;
+    margin-right: 10px;
+}
+    /* Password Update Section Styling */
+    .password-update-container {
+        border: 2px solid #08730b; /* Green border */
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 10px;
+        background-color: #f9f9f9; /* Light background for contrast */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for elevation */
+    }
+    
+    .password-update-container h2 {
+        font-size: 1.5rem;
+        color: #0e0ef0;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .password-update-container .form-section {
+        margin-bottom: 15px;
+    }
+    
+    .password-update-container label {
+        display: block;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    .password-update-container input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        font-size: 0.95rem;
+        background-color: #fff;
+        outline: none;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        transition: border-color 0.3s;
+    }
+    
+    .password-update-container input:focus {
+        border-color: #4CAF50;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+    
+    .password-update-container .form-buttons {
+        text-align: right;
+    }
+    
+    .password-update-container .form-buttons .save-btn {
+        background-color: #4CAF50;
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .password-update-container .form-buttons .save-btn:hover {
+        background-color: #45a049;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    }
+    /* Delete Account Section Styling */
+    .delete-account-container {
+        border: 2px solid #ff4d4d; /* Red border */
+        padding: 20px;
+        margin-top: 30px;
+        border-radius: 10px;
+        background-color: #fff5f5; /* Light red background */
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+    }
+    
+    .delete-account-container h2 {
+        font-size: 1.5rem;
+        color: #cc0000; /* Dark red for emphasis */
+        margin-bottom: 10px;
+    }
+    
+    .delete-account-container p {
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 20px;
+    }
+    
+    .delete-account-container .delete-btn {
+        background-color: #ff4d4d; /* Red button */
+        color: #fff;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s, box-shadow 0.3s;
+    }
+    
+    .delete-account-container .delete-btn:hover {
+        background-color: #e60000; /* Darker red on hover */
+        box-shadow: 0 4px 6px rgba(255, 77, 77, 0.2);
+    }
+    
+    

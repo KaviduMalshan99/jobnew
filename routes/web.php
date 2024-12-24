@@ -11,6 +11,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CVController;
 use App\Http\Controllers\EmployerAuthController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
@@ -21,6 +22,7 @@ use Illuminate\Support\Facades\Session;
 
 //Breeze routes
 Route::get('/', [JobPostingController::class, 'home'])->name('home');
+
 Route::get('/categories/{id}/subcategories', function ($id) {
     $category = Category::with('subcategories')->findOrFail($id);
     return response()->json(['subcategories' => $category->subcategories]);
@@ -70,6 +72,29 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+//profile testing routes
+Route::get('/mainprofileview', [ProfileController::class, 'edit'])->name('user.jobseekerprofile.mainview.profileview');
+
+Route::get('/mainprofileview/common', function () {
+    return view('user.jobseekerprofile.jobseekerprofile');
+})->name('user.jobseekerprofile.jobseekerprofile');
+
+Route::get('/mainprofileview/personal', function () {
+    return view('user.jobseekerprofile.personal');
+})->name('user.jobseekerprofile.personal');
+
+Route::get('/mainprofileview/education', function () {
+    return view('user.jobseekerprofile.education');
+})->name('user.jobseekerprofile.education');
+
+Route::get('/mainprofileview/expirience', function () {
+    return view('user.jobseekerprofile.expirience');
+})->name('user.jobseekerprofile.expirience');
+
+Route::get('/mainprofileview/myapplication', function () {
+    return view('user.jobseekerprofile.myjobs.myapplication');
+})->name('user.jobseekerprofile.myjobs.myapplication');
+
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -88,6 +113,9 @@ Route::middleware('auth')->group(function () {
     Route::post('confirm-password', [ConfirmablePasswordController::class, 'store']);
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
+
+    Route::get('/generate-cv', [CVController::class, 'generateCV'])->name('generate.cv');
+    Route::get('/profile/cv', [CVController::class, 'index'])->name('generate.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
@@ -395,17 +423,17 @@ Route::prefix('others')->group(function () {
 });
 
 Route::prefix('authentication')->group(function () {
-    Route::view('login', 'authentication.login')->name('login');
-    Route::view('login-one', 'authentication.login-one')->name('login-one');
-    Route::view('login-two', 'authentication.login-two')->name('login-two');
-    Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
-    Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
-    Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
+    // Route::view('login', 'authentication.login')->name('login');
+    // Route::view('login-one', 'authentication.login-one')->name('login-one');
+    // Route::view('login-two', 'authentication.login-two')->name('login-two');
+    // Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
+    // Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
+    // Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
     Route::view('sign-up', 'authentication.sign-up')->name('sign-up');
-    Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
-    Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
-    Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
-    Route::view('unlock', 'authentication.unlock')->name('unlock');
+    // Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
+    // Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
+    // Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
+    // Route::view('unlock', 'authentication.unlock')->name('unlock');
     Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
     Route::view('reset-password', 'authentication.reset-password')->name('reset-password');
     Route::view('maintenance', 'authentication.maintenance')->name('maintenance');
@@ -501,93 +529,3 @@ Route::get('/clear-cache', function () {
     Artisan::call('route:clear');
     return "Cache is cleared";
 })->name('clear.cache');
-
-
-//////////////////////////////////////////////////////////////////////////
-
-Route::get('/contactus', function () {
-    return view('contactus/contactus');
-
-});
-
-Route::get('/terms', function () {
-    return view('user/SideComponent/terms');
-
-});
-
-Route::get('/faq', function () {
-    return view('user/SideComponent/faq');
-
-});
-Route::get('/privacy', function () {
-    return view('user/SideComponent/privacy');
-
-});
-
-
-//job post
-
-Route::get('/postjob', function () {
-    return view('user.postvacancy.postvacancy');
-})->name('user.postvacancy');
-
-Route::get('/postjob/topads', function () {
-    return view('user.postvacancy.topads');
-})->name('user.postvacancy.topads');
-
-Route::get('/postjob/bannerposting', function () {
-    return view('user.postvacancy.bannerposting');
-})->name('user.postvacancy.bannerposting');
-
-// payment methods
-
-Route::get('/postjob/ipg', function () {
-    return view('user.postvacancy.paymentmethod.ipg');
-})->name('user.postvacancy.paymentmethod.ipg');
-
-Route::get('/postjob/onlinefundtransfer', function () {
-    return view('user.postvacancy.paymentmethod.onlinefundtransfer');
-})->name('user.postvacancy.paymentmethod.onlinefundtransfer');
-
-Route::get('/postjob/overthecounter', function () {
-    return view('user.postvacancy.paymentmethod.overthecounter');
-})->name('user.postvacancy.paymentmethod.overthecounter');
-
-Route::get('/postjob/qrcodeforjobads', function () {
-    return view('user.postvacancy.paymentmethod.qrcodeforjobads');
-})->name('user.postvacancy.paymentmethod.qrcodeforjobads');
-
-
-//profileviewmain
-
-Route::get('/mainprofileview', function () {
-    return view('user.jobseekerprofile.mainview.profileview');
-})->name('user.jobseekerprofile.mainview.profileview');
-
-Route::get('/mainprofileview/common', function () {
-    return view('user.jobseekerprofile.jobseekerprofile');
-})->name('user.jobseekerprofile.jobseekerprofile');
-
-Route::get('/mainprofileview/personal', function () {
-    return view('user.jobseekerprofile.personal');
-})->name('user.jobseekerprofile.personal');
-
-Route::get('/mainprofileview/education', function () {
-    return view('user.jobseekerprofile.education');
-})->name('user.jobseekerprofile.education');
-
-Route::get('/mainprofileview/expirience', function () {
-    return view('user.jobseekerprofile.expirience');
-})->name('user.jobseekerprofile.expirience');
-
-
-//my jobs
-
-// Route::get('/myapplication', function () {
-//     return view('jobseekerprofile/myjobs/myapplication');
-
-// });
-
-Route::get('/mainprofileview/myapplication', function () {
-    return view('user.jobseekerprofile.myjobs.myapplication');
-})->name('user.jobseekerprofile.myjobs.myapplication');

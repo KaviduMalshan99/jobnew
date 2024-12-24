@@ -11,17 +11,21 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CVController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
+use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 
 //Breeze routes
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [JobPostingController::class, 'home'])->name('home');
+Route::get('/categories/{id}/subcategories', function ($id) {
+    $category = Category::with('subcategories')->findOrFail($id);
+    return response()->json(['subcategories' => $category->subcategories]);
 });
-
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
@@ -32,9 +36,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-Route::get('/', function () {
-    return redirect()->route('index');
-})->name('/');
+// Route::get('/', function () {
+//     return redirect()->route('index');
+// })->name('/');
 
 //Language Change
 Route::get('lang/{locale}', function ($locale) {
@@ -86,6 +90,8 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
+    Route::get('/generate-cv', [CVController::class, 'generateCV'])->name('generate.cv');
+
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
 });
@@ -115,9 +121,13 @@ Route::prefix('admin')->group(function () {
     });
 
 });
+
+Route::get('/jobs/{id}', [JobPostingController::class, 'showjob'])->name('job.details');
+Route::get('/jobs/category/{categoryId}', [JobPostingController::class, 'getJobsByCategory']);
 Route::middleware('admin')->group(function () {
     Route::get('/admin/profile', [AdminAuthController::class, 'showProfileForm'])
         ->name('admin.profile');
+    Route::get('/job_postings/{id}', [JobPostingController::class, 'show'])->name('job_postings.show');
 
     Route::put('/admin/profile', [AdminAuthController::class, 'updateProfile'])
         ->name('admin.profile.update');
@@ -154,6 +164,10 @@ Route::middleware('admin')->prefix('admin')->group(function () {
 
     // Delete a category
     Route::delete('/categories/{id}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
+
+    // Job Posting admin side route
+    Route::get('job_postings', [JobPostingController::class, 'index'])->name('job_postings.index');
+    Route::patch('job_postings/{id}/status', [JobPostingController::class, 'updateStatus'])->name('job_postings.updateStatus');
 });
 
 //Employee Routes
@@ -167,8 +181,18 @@ Route::prefix('employer')->name('employer.')->group(function () {
 
     Route::middleware('auth:employer')->group(function () {
         Route::get('/dashboard', [EmployerAuthController::class, 'dashboard'])->name('dashboard');
+        // Job Posting routes
+        Route::prefix('job-postings')->name('job_postings.')->group(function () {
+            Route::get('/jobs', [JobPostingController::class, 'employerJobs'])->name('employer.jobs');
+            Route::get('/create', [JobPostingController::class, 'create'])->name('post.create');
+            Route::post('/', [JobPostingController::class, 'store'])->name('post.store');
+            Route::get('/{jobPosting}/edit', [JobPostingController::class, 'edit'])->name('post.edit');
+            Route::patch('/{jobPosting}', [JobPostingController::class, 'update'])->name('post.update');
+            Route::delete('/{jobPosting}', [JobPostingController::class, 'destroy'])->name('post.destroy');
+        });
     });
 });
+Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');
 
 Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
@@ -373,22 +397,22 @@ Route::prefix('others')->group(function () {
     Route::view('503', 'errors.503')->name('error-503');
 });
 
-Route::prefix('authentication')->group(function () {
-    Route::view('login', 'authentication.login')->name('login');
-    Route::view('login-one', 'authentication.login-one')->name('login-one');
-    Route::view('login-two', 'authentication.login-two')->name('login-two');
-    Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
-    Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
-    Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
-    Route::view('sign-up', 'authentication.sign-up')->name('sign-up');
-    Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
-    Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
-    Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
-    Route::view('unlock', 'authentication.unlock')->name('unlock');
-    Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
-    Route::view('reset-password', 'authentication.reset-password')->name('reset-password');
-    Route::view('maintenance', 'authentication.maintenance')->name('maintenance');
-});
+// Route::prefix('authentication')->group(function () {
+//     Route::view('login', 'authentication.login')->name('login');
+//     Route::view('login-one', 'authentication.login-one')->name('login-one');
+//     Route::view('login-two', 'authentication.login-two')->name('login-two');
+//     Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
+//     Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
+//     Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
+//     Route::view('sign-up', 'authentication.sign-up')->name('sign-up');
+//     Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
+//     Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
+//     Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
+//     Route::view('unlock', 'authentication.unlock')->name('unlock');
+//     Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
+//     Route::view('reset-password', 'authentication.reset-password')->name('reset-password');
+//     Route::view('maintenance', 'authentication.maintenance')->name('maintenance');
+// });
 
 Route::view('comingsoon', 'comingsoon.comingsoon')->name('comingsoon');
 Route::view('comingsoon-bg-video', 'comingsoon.comingsoon-bg-video')->name('comingsoon-bg-video');

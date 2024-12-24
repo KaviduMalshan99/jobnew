@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class ProfileController extends Controller
         $experiences = $user->jobExperiences ?? collect();
         $educations = $user->jobEducations ?? collect();
 
-        return view('profile.edit', compact('user', 'experiences', 'educations'));
+        return view('User.jobseekerprofile.mainview.profileview', compact('user', 'experiences', 'educations'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
@@ -150,4 +151,16 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')
             ->with('status', 'resume-removed');
     }
+    public function generateCv()
+    {
+        $user = auth()->user();
+        $experiences = $user->experiences;
+        $educations = $user->educations;
+
+        // Generate PDF using the alias
+        $pdf = Pdf::loadView('profile.cv', compact('user', 'experiences', 'educations'));
+
+        return $pdf->download('cv.pdf');
+    }
+
 }

@@ -1,0 +1,83 @@
+.profileview-container{
+    font-family: Arial, sans-serif;
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+    max-width: 300px;
+    margin-left: 20px;
+}
+
+.profileview-header{
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
+.maintopic{
+    margin-left: 30px;
+}
+.btn-group {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Align buttons horizontally in the center */
+    gap: 10px; /* Add spacing between buttons */
+    margin-bottom: 20px; /* Space below the button group */
+}
+
+.btn {
+    padding: 10px 20px; /* Button size */
+    font-size: 16px; /* Font size */
+    font-family: Arial, sans-serif; /* Font style */
+    border: 1px solid #ddd; /* Border for buttons */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor on hover */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+}
+
+.btn-common {
+    background-color: #007bff; /* Blue background */
+    color: #fff; /* White text */
+}
+
+.btn-common:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+    color: #fff; /* Keep white text */
+}
+
+.btn-personal {
+    background-color: #28a745; /* Green background */
+    color: #fff; /* White text */
+}
+
+.btn-personal:hover {
+    background-color: #1c7a32; /* Darker green on hover */
+    color: #fff; /* Keep white text */
+}
+
+.btn-education {
+    background-color: #ffc107; /* Yellow background */
+    color: #fff; /* White text */
+}
+
+.btn-education:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+    color: #fff; /* Keep white text */
+}
+
+.btn-expirience {
+    background-color: #dc3545; /* Red background */
+    color: #fff; /* White text */
+}
+
+.btn-expirience:hover {
+    background-color: #a71d2a; /* Darker red on hover */
+    color: #fff; /* Keep white text */
+}
+#componentContainer{
+    margin-left: 400px;
+    margin-top: -900px;
+}

@@ -53,8 +53,9 @@
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="category_id" class="form-control" required>
-                    <!-- Add dynamic category options -->
-                    @foreach ($categories as $category)
+                
+                    
+                  @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
@@ -67,6 +68,7 @@
                 <label for="subcategory_id" class="form-label">Subcategory</label>
                 <select name="subcategory_id" id="subcategory_id" class="form-control" required>
                     <option value="">Select a subcategory</option>
+                
                 </select>
                 @error('subcategory_id')
                     <div class="text-danger">{{ $message }}</div>

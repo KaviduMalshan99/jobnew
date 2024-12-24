@@ -35,7 +35,7 @@ class ProfileController extends Controller
         $experiences = $user->jobExperiences ?? collect();
         $educations = $user->jobEducations ?? collect();
 
-        return view('profile.edit', compact('user', 'experiences', 'educations'));
+        return view('User.jobseekerprofile.mainview.profileview', compact('user', 'experiences', 'educations'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse

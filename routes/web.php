@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Session;
 
 //Breeze routes
 Route::get('/', [JobPostingController::class, 'home'])->name('home');
+
 Route::get('/categories/{id}/subcategories', function ($id) {
     $category = Category::with('subcategories')->findOrFail($id);
     return response()->json(['subcategories' => $category->subcategories]);
@@ -71,6 +72,29 @@ Route::middleware('guest')->group(function () {
         ->name('password.store');
 });
 
+//profile testing routes
+Route::get('/mainprofileview', [ProfileController::class, 'edit'])->name('user.jobseekerprofile.mainview.profileview');
+
+Route::get('/mainprofileview/common', function () {
+    return view('user.jobseekerprofile.jobseekerprofile');
+})->name('user.jobseekerprofile.jobseekerprofile');
+
+Route::get('/mainprofileview/personal', function () {
+    return view('user.jobseekerprofile.personal');
+})->name('user.jobseekerprofile.personal');
+
+Route::get('/mainprofileview/education', function () {
+    return view('user.jobseekerprofile.education');
+})->name('user.jobseekerprofile.education');
+
+Route::get('/mainprofileview/expirience', function () {
+    return view('user.jobseekerprofile.expirience');
+})->name('user.jobseekerprofile.expirience');
+
+Route::get('/mainprofileview/myapplication', function () {
+    return view('user.jobseekerprofile.myjobs.myapplication');
+})->name('user.jobseekerprofile.myjobs.myapplication');
+
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
         ->name('verification.notice');
@@ -91,6 +115,7 @@ Route::middleware('auth')->group(function () {
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
     Route::get('/generate-cv', [CVController::class, 'generateCV'])->name('generate.cv');
+    Route::get('/profile/cv', [CVController::class, 'index'])->name('generate.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])
         ->name('logout');
@@ -397,22 +422,22 @@ Route::prefix('others')->group(function () {
     Route::view('503', 'errors.503')->name('error-503');
 });
 
-// Route::prefix('authentication')->group(function () {
-//     Route::view('login', 'authentication.login')->name('login');
-//     Route::view('login-one', 'authentication.login-one')->name('login-one');
-//     Route::view('login-two', 'authentication.login-two')->name('login-two');
-//     Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
-//     Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
-//     Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
-//     Route::view('sign-up', 'authentication.sign-up')->name('sign-up');
-//     Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
-//     Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
-//     Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
-//     Route::view('unlock', 'authentication.unlock')->name('unlock');
-//     Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
-//     Route::view('reset-password', 'authentication.reset-password')->name('reset-password');
-//     Route::view('maintenance', 'authentication.maintenance')->name('maintenance');
-// });
+Route::prefix('authentication')->group(function () {
+    // Route::view('login', 'authentication.login')->name('login');
+    // Route::view('login-one', 'authentication.login-one')->name('login-one');
+    // Route::view('login-two', 'authentication.login-two')->name('login-two');
+    // Route::view('login-bs-validation', 'authentication.login-bs-validation')->name('login-bs-validation');
+    // Route::view('login-bs-tt-validation', 'authentication.login-bs-tt-validation')->name('login-bs-tt-validation');
+    // Route::view('login-sa-validation', 'authentication.login-sa-validation')->name('login-sa-validation');
+    Route::view('sign-up', 'authentication.sign-up')->name('sign-up');
+    // Route::view('sign-up-one', 'authentication.sign-up-one')->name('sign-up-one');
+    // Route::view('sign-up-two', 'authentication.sign-up-two')->name('sign-up-two');
+    // Route::view('sign-up-wizard', 'authentication.sign-up-wizard')->name('sign-up-wizard');
+    // Route::view('unlock', 'authentication.unlock')->name('unlock');
+    Route::view('forget-password', 'authentication.forget-password')->name('forget-password');
+    Route::view('reset-password', 'authentication.reset-password')->name('reset-password');
+    Route::view('maintenance', 'authentication.maintenance')->name('maintenance');
+});
 
 Route::view('comingsoon', 'comingsoon.comingsoon')->name('comingsoon');
 Route::view('comingsoon-bg-video', 'comingsoon.comingsoon-bg-video')->name('comingsoon-bg-video');

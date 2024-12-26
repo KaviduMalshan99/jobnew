@@ -5,20 +5,20 @@
     @csrf
     @method('PATCH')
     <div class="form-section">
-        <label for="company-name">Name</label>
-        <input type="text" id="company-name" name="company_name" value="{{ $user->name }}">
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ auth()->user()->name }}">
     </div>
 
     <div class="form-section">
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" value="{{ $user->email }}">
+        <input type="email" id="email" name="email" value="{{ auth()->user()->email }}">
     </div>
 
     <div class="form-section">
         <label for="contact">Phone Number</label>
-        <input type="text" id="contact" name="contact" value="{{ $user->phone_number }}">
+        <input type="text" id="contact" name="contact" value="{{ auth()->user()->phone_number }}">
         <label for="address">Address</label>
-        <textarea id="address" name="address" rows="3" VA>{{ $user->address }}</textarea>
+        <textarea id="address" name="address" rows="3">{{ auth()->user()->address }}</textarea>
     </div>
 
     <div class="form-section">

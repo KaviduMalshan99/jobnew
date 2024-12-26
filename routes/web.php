@@ -12,7 +12,9 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CVController;
+use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
 use App\Models\Category;
@@ -35,6 +37,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    //Route::patch('/profile/update', [EducationController::class, 'update'])->name('education.update');
+    Route::post('/profile/education', [EducationController::class, 'storeOrUpdate'])->name('education.store-or-update');
+    Route::get('/profile/experience', [JobExperienceController::class, 'showExperience'])->name('experience.show');
+    Route::post('/profile/experience', [JobExperienceController::class, 'storeOrUpdate'])->name('experience.store-or-update');
 });
 
 // Route::get('/', function () {
@@ -83,9 +89,7 @@ Route::get('/mainprofileview/personal', function () {
     return view('user.jobseekerprofile.personal');
 })->name('user.jobseekerprofile.personal');
 
-Route::get('/mainprofileview/education', function () {
-    return view('user.jobseekerprofile.education');
-})->name('user.jobseekerprofile.education');
+Route::get('profile/education', [EducationController::class, 'showEducation'])->middleware('auth')->name('user.jobseekerprofile.education');
 
 Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');

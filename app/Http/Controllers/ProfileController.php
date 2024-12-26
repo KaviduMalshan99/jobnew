@@ -48,7 +48,7 @@ class ProfileController extends Controller
             $user->update($request->only([
                 'name', 'email', 'phone_number', 'address',
                 'linkedin', 'summary', 'skills',
-                'portfolio_link',
+                'portfolio_link', 'experience', 'education', 'certifications', 'social_links',
             ]));
 
             // Handle Resume Upload
@@ -66,12 +66,24 @@ class ProfileController extends Controller
 
             // Update Experiences
             // Use deleteMany() for more robust deletion
-            $user->jobExperiences()->delete();
-            if ($request->has('experiences')) {
-                foreach ($request->input('experiences', []) as $experience) {
-                    // Ensure all required fields are present
-                    if (!empty($experience['company_name']) && !empty($experience['job_title'])) {
-                        $user->jobExperiences()->create($experience);
+            if ($request->has('educations')) {
+                // Delete existing education records
+                $user->jobEducations()->delete();
+
+                // Create new education records
+                foreach ($request->input('educations') as $education) {
+                    // Validate required fields
+                    if (!empty($education['institution_name']) &&
+                        !empty($education['degree']) &&
+                        !empty($education['field_of_study'])) {
+
+                        $user->jobEducations()->create([
+                            'institution_name' => $education['institution_name'],
+                            'degree' => $education['degree'],
+                            'field_of_study' => $education['field_of_study'],
+                            'start_date' => $education['start_date'],
+                            'end_date' => $education['end_date'],
+                        ]);
                     }
                 }
             }

@@ -1,83 +1,67 @@
 <body>
     <div class="container">
         <h2 class="section-header">School Education</h2>
-        <form action="" method="POST">
+        <form method="POST" action="{{ route('education.store-or-update') }}" enctype="multipart/form-data">
             @csrf
+            @method('POST')
+
             <div class="form-row">
+                <input type="hidden" name="job_seeker_id" value="{{ auth()->id() }}">
                 <div class="form-group col-md-6">
-                    <label for="qualification">Qualification <span class="required"></span></label>
-                    <select id="qualification" name="qualification" class="form-control">
-                        <option value="">Select Education Level</option>
-                        <!-- Add dynamic options -->
-                    </select>
+                    <label for="institution_name">School/Institute <span class="required"></span></label>
+                    <input type="text" id="institution_name" name="educations[0][institution_name]"
+                        value="{{ optional(auth()->user()->jobEducations->first())->institution_name }}"
+                        class="form-control @error('educations.0.institution_name') is-invalid @enderror">
+                    @error('educations.0.institution_name')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="scheme">Scheme <span class="required"></span></label>
-                    <select id="scheme" name="scheme" class="form-control">
-                        <option value="">No Schemes</option>
-                        <!-- Add dynamic options -->
-                    </select>
+                    <label for="degree">Program <span class="required"></span></label>
+                    <input type="text" id="degree" name="educations[0][degree]"
+                        value="{{ optional(auth()->user()->jobEducations->first())->degree }}"
+                        class="form-control @error('educations.0.degree') is-invalid @enderror">
+                    @error('educations.0.degree')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
+                </div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="field_of_study">Field of Study <span class="required"></span></label>
+                    <textarea name="educations[0][field_of_study]" id="field_of_study"
+                        class="form-control @error('educations.0.field_of_study') is-invalid @enderror" rows="10">{{ optional(auth()->user()->jobEducations->first())->field_of_study }}</textarea>
+                    @error('educations.0.field_of_study')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
 
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <label for="results">Results <span class="required"></span></label>
-                    <select id="results" name="results" class="form-control">
-                        <option value="">No Subjects</option>
-                        <!-- Add dynamic options -->
-                    </select>
+                    <label for="start_date">Start Date <span class="required"></span></label>
+                    <input type="date" id="start_date" name="educations[0][start_date]"
+                        value="{{ optional(auth()->user()->jobEducations->first())->start_date }}"
+                        class="form-control @error('educations.0.start_date') is-invalid @enderror">
+                    @error('educations.0.start_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="form-group col-md-6">
-                    <label for="grade">Grade</label>
-                    <select id="grade" name="grade" class="form-control">
-                        <option value="">Grade</option>
-                        <!-- Add dynamic options -->
-                    </select>
-                    <button type="button" class="btn btn-add-grade"><i class="icon-add"></i></button>
+                    <label for="end_date">End Date <span class="required"></span></label>
+                    <input type="date" id="end_date" name="educations[0][end_date]"
+                        value="{{ optional(auth()->user()->jobEducations->first())->end_date }}"
+                        class="form-control @error('educations.0.end_date') is-invalid @enderror">
+                    @error('educations.0.end_date')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
             </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="achieved_on">Achieved On <span class="required"></span></label>
-                    <input type="date" id="achieved_on" name="achieved_on" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="medium">Medium</label>
-                    <select id="medium" name="medium" class="form-control">
-                        <option value="">Select Medium</option>
-                        <!-- Add dynamic options -->
-                    </select>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="school_institute">School/Institute <span class="required"></span></label>
-                    <input type="text" id="school_institute" name="school_institute" class="form-control">
-                </div>
-
-                <div class="form-group col-md-6">
-                    <label for="country">Country <span class="required"></span></label>
-                    <select id="country" name="country" class="form-control">
-                        <option value="Sri Lanka">Sri Lanka</option>
-                        <!-- Add more countries -->
-                    </select>
-                </div>
-            </div>
-
-
 
             <button type="submit" class="btn btn-success">Save</button>
         </form>
-
-
     </div>
-
 </body>
-
-</html>

@@ -25,8 +25,8 @@ class CVController extends Controller
         $educations = $user->jobEducations; // Ensure the relationship is defined as jobEducations()
 
         // Load the CV view with the data
-        $pdf = PDF::loadView('User.cv', compact('user', 'experiences', 'educations'));
-
+        $hideButton = true; // Define the flag
+        $pdf = PDF::loadView('User.cv', compact('user', 'experiences', 'educations', 'hideButton'));
         // Return the generated PDF for download
         return $pdf->download('cv.pdf');
     }

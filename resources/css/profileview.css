@@ -1,4 +1,4 @@
-.profileview-container{
+.profileview-container {
     font-family: Arial, sans-serif;
     margin-top: 20px;
     padding: 20px;
@@ -9,7 +9,7 @@
     margin-left: 20px;
 }
 
-.profileview-header{
+.profileview-header {
     background-color: #e0f0ff; /* Light blue background */
     color: #000;
     font-weight: bold;
@@ -17,7 +17,7 @@
     font-size: 1.1em;
     border-radius: 5px 5px 0 0;
 }
-.maintopic{
+.maintopic {
     margin-left: 30px;
 }
 .btn-group {
@@ -42,7 +42,10 @@
     background-color: #007bff; /* Blue background */
     color: #fff; /* White text */
 }
-
+.btn-cv {
+    background-color: #ee8b0a; /* Blue background */
+    color: #fff; /* White text */
+}
 .btn-common:hover {
     background-color: #0056b3; /* Darker blue on hover */
     color: #fff; /* Keep white text */
@@ -77,7 +80,7 @@
     background-color: #a71d2a; /* Darker red on hover */
     color: #fff; /* Keep white text */
 }
-#componentContainer{
+#componentContainer {
     margin-left: 400px;
     margin-top: -1150px;
 }

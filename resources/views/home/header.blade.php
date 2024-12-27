@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us Popup</title>
     @vite(['resources/css/header.css']) <!-- Laravel Vite for including CSS -->
-  
+
 </head>
 
 <body>
@@ -23,16 +23,16 @@
             <a href="#" id="contact-us-btn">Contact Us</a>
         </nav>
         <div class="search-bar unique-search-bar">
-    <input type="text" placeholder="Search Job Titles" id="search-input" class="animated-input">
-    <button id="search-button" class="animated-button">Search</button>
+            <input type="text" placeholder="Search Job Titles" id="search-input" class="animated-input">
+            <button id="search-button" class="animated-button">Search</button>
         </div>
 
 
 
         </div>
         <div class="auth-buttons unique-auth-buttons">
-            <button class="login-btn unique-login-btn">LOG IN</button>
-            <button class="signup-btn unique-signup-btn">SIGN UP</button>
+            <button id="login-button" class="login-btn unique-login-btn">LOG IN</button>
+            <button id="signup-button" class="signup-btn unique-signup-btn">SIGN UP</button>
         </div>
         <!-- Profile Dropdown -->
         <div class="profile-dropdown">
@@ -44,43 +44,52 @@
             </div>
         </div>
     </header>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>
-    const searchButton = document.getElementById('search-button');
-const searchInput = document.getElementById('search-input');
-let hideTimeout;
+        const searchButton = document.getElementById('search-button');
+        const searchInput = document.getElementById('search-input');
+        let hideTimeout;
 
-// Function to show the input bar
-function showInputBar() {
-    clearTimeout(hideTimeout); // Clear any previous hide timeout
-    searchInput.classList.add('visible');
-}
+        // Function to show the input bar
+        function showInputBar() {
+            clearTimeout(hideTimeout); // Clear any previous hide timeout
+            searchInput.classList.add('visible');
+        }
 
-// Function to hide the input bar
-function hideInputBar() {
-    hideTimeout = setTimeout(() => {
-        searchInput.classList.remove('visible');
-    }, 10000); // Hide after 10 seconds
-}
+        // Function to hide the input bar
+        function hideInputBar() {
+            hideTimeout = setTimeout(() => {
+                searchInput.classList.remove('visible');
+            }, 10000); // Hide after 10 seconds
+        }
 
-// Event listeners for the search button
-searchButton.addEventListener('mouseover', () => {
-    showInputBar();
-    hideInputBar(); // Start hide timer
-});
+        // Event listeners for the search button
+        searchButton.addEventListener('mouseover', () => {
+            showInputBar();
+            hideInputBar(); // Start hide timer
+        });
 
-searchButton.addEventListener('mouseout', () => {
-    hideInputBar();
-});
+        searchButton.addEventListener('mouseout', () => {
+            hideInputBar();
+        });
 
-// Reset timer when the input is hovered over
-searchInput.addEventListener('mouseover', () => {
-    clearTimeout(hideTimeout);
-});
+        // Reset timer when the input is hovered over
+        searchInput.addEventListener('mouseover', () => {
+            clearTimeout(hideTimeout);
+        });
 
-searchInput.addEventListener('mouseout', () => {
-    hideInputBar();
-});
+        searchInput.addEventListener('mouseout', () => {
+            hideInputBar();
+        });
+        $(document).ready(function() {
+            $('#login-button').on('click', function() {
+                window.location.href = '/login';
+            });
 
+            $('#signup-button').on('click', function() {
+                window.location.href = '/register';
+            });
+        });
     </script>
 
     <!-- Include Contact Us Popup Blade Component -->

@@ -18,6 +18,7 @@
         main {
             max-width: 900px;
             margin: 0 auto;
+            padding-top: 20px;
         }
 
         .job-card {
@@ -127,59 +128,98 @@
         .job-card .apply-button a i {
             margin-right: 10px;
         }
+
         /* Button Styling */
-.btn-apply {
-    background-color: #007bff;
-    color: white;
-    font-size: 1.2rem;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    margin-bottom:20px;
-    margin-left:40px;
-}
 
-/* Hover Effect */
-.btn-apply:hover {
-    background-color: #0056b3;
-    transform: scale(1.05);
-    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
+        .back-button {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background-color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: none;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
 
-/* Active/Pressed Effect */
-.btn-apply:active {
-    transform: scale(0.95);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-}
+        .back-button i {
+            color: #4a5568;
+            font-size: 1.2rem;
+        }
 
-/* Animation */
-@keyframes button-bounce {
-    0%, 100% {
-        transform: translateY(0);
-    }
-    50% {
-        transform: translateY(-5px);
-    }
-}
+        .back-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
 
-#apply {
-    animation: button-bounce 1s infinite alternate;
-}
+        .back-button:active {
+            transform: scale(0.95);
+        }
 
+        .btn-apply {
+            background-color: #007bff;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            margin-left: 40px;
+        }
+
+        /* Hover Effect */
+        .btn-apply:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        /* Active/Pressed Effect */
+        .btn-apply:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Animation */
+        @keyframes button-bounce {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-5px);
+            }
+        }
+
+        #apply {
+            animation: button-bounce 1s infinite alternate;
+        }
     </style>
 </head>
 
 <body>
+    <button class="back-button" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
     <main>
         <!-- Job Card -->
         <div class="job-card">
             <!-- Header Section -->
             <div class="header">
                 @if ($job->image)
-                    <img src="{{asset('storage/job_images/' . $job->image) }}" alt="Company banner">
+                    <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
                     <div class="overlay"></div>
                 @endif
             </div>
@@ -237,32 +277,33 @@
                 @endif
 
                 <!-- Apply Button -->
-               
-                </div>
-                <div class="btn-group mb-4">
-                <button class="btn btn-apply" id="apply">Apply Now</button>
-                </div>
 
             </div>
+            <div class="btn-group mb-4">
+                <button class="btn btn-apply" id="apply">Apply Now</button>
+            </div>
+
+        </div>
         </div>
     </main>
-     <!-- apply Options Content -->
-     <div id="componentContainer-apply">
-        
+    <!-- apply Options Content -->
+    <div id="componentContainer-apply">
+
     </div>
 
     <!-- Script for Dynamic Component Loading -->
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             // Load Top Ads Component
-            $('#apply').on('click', function () {
-                $('#componentContainer-apply').load('{{ route('home.jobs.apply') }}');
-                
+            $('#apply').on('click', function() {
+                const jobId = '{{ $job->id }}'; // Pass the job ID
+                $('#componentContainer-apply').load(`/apply/${jobId}`);
+
             });
 
-          
 
-          
+
+
         });
     </script>
 </body>

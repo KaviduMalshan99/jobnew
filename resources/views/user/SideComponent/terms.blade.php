@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Terms & Conditions</title>
-    @vite([ 'resources/css/terms.css'])
+    @vite([ 'resources/css/terms.css','resources/css/header.css','resources/css/home.css'])
 </head>
 <body>
     @include('home.header')

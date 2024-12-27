@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ class ProfileController extends Controller
         $experiences = $user->jobExperiences ?? collect();
         $educations = $user->jobEducations ?? collect();
 
-        return view('profile.edit', compact('user', 'experiences', 'educations'));
+        return view('User.jobseekerprofile.mainview.profileview', compact('user', 'experiences', 'educations'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse
@@ -47,7 +48,7 @@ class ProfileController extends Controller
             $user->update($request->only([
                 'name', 'email', 'phone_number', 'address',
                 'linkedin', 'summary', 'skills',
-                'portfolio_link',
+                'portfolio_link', 'experience', 'education', 'certifications', 'social_links',
             ]));
 
             // Handle Resume Upload
@@ -65,12 +66,24 @@ class ProfileController extends Controller
 
             // Update Experiences
             // Use deleteMany() for more robust deletion
-            $user->jobExperiences()->delete();
-            if ($request->has('experiences')) {
-                foreach ($request->input('experiences', []) as $experience) {
-                    // Ensure all required fields are present
-                    if (!empty($experience['company_name']) && !empty($experience['job_title'])) {
-                        $user->jobExperiences()->create($experience);
+            if ($request->has('educations')) {
+                // Delete existing education records
+                $user->jobEducations()->delete();
+
+                // Create new education records
+                foreach ($request->input('educations') as $education) {
+                    // Validate required fields
+                    if (!empty($education['institution_name']) &&
+                        !empty($education['degree']) &&
+                        !empty($education['field_of_study'])) {
+
+                        $user->jobEducations()->create([
+                            'institution_name' => $education['institution_name'],
+                            'degree' => $education['degree'],
+                            'field_of_study' => $education['field_of_study'],
+                            'start_date' => $education['start_date'],
+                            'end_date' => $education['end_date'],
+                        ]);
                     }
                 }
             }
@@ -150,4 +163,16 @@ class ProfileController extends Controller
         return Redirect::route('profile.edit')
             ->with('status', 'resume-removed');
     }
+    public function generateCv()
+    {
+        $user = auth()->user();
+        $experiences = $user->experiences;
+        $educations = $user->educations;
+
+        // Generate PDF using the alias
+        $pdf = Pdf::loadView('profile.cv', compact('user', 'experiences', 'educations'));
+
+        return $pdf->download('cv.pdf');
+    }
+
 }

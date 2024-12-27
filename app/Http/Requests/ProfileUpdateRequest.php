@@ -20,6 +20,8 @@ class ProfileUpdateRequest extends FormRequest
             'address' => 'nullable|string|max:255',
             'linkedin' => 'nullable|url|max:255',
             'summary' => 'nullable|string|max:1000',
+            'education' => 'nullable|string|max:1000',
+            'experience' => 'nullable|string|max:1000',
             'skills' => 'nullable|string|max:1000',
             'certifications' => 'nullable|string|max:1000',
             'portfolio_link' => 'nullable|url|max:255',

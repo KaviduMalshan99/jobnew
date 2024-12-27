@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $job->title }} - Job Details</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -126,6 +127,48 @@
         .job-card .apply-button a i {
             margin-right: 10px;
         }
+        /* Button Styling */
+.btn-apply {
+    background-color: #007bff;
+    color: white;
+    font-size: 1.2rem;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    margin-bottom:20px;
+    margin-left:40px;
+}
+
+/* Hover Effect */
+.btn-apply:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* Active/Pressed Effect */
+.btn-apply:active {
+    transform: scale(0.95);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Animation */
+@keyframes button-bounce {
+    0%, 100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-5px);
+    }
+}
+
+#apply {
+    animation: button-bounce 1s infinite alternate;
+}
+
     </style>
 </head>
 
@@ -136,7 +179,7 @@
             <!-- Header Section -->
             <div class="header">
                 @if ($job->image)
-                    <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
+                    <img src="{{asset('storage/job_images/' . $job->image) }}" alt="Company banner">
                     <div class="overlay"></div>
                 @endif
             </div>
@@ -194,15 +237,34 @@
                 @endif
 
                 <!-- Apply Button -->
-                <div class="apply-button">
-                    <a href="#">
-                        <i class="fas fa-paper-plane"></i>
-                        Apply Now
-                    </a>
+               
                 </div>
+                <div class="btn-group mb-4">
+                <button class="btn btn-apply" id="apply">Apply Now</button>
+                </div>
+
             </div>
         </div>
     </main>
+     <!-- apply Options Content -->
+     <div id="componentContainer-apply">
+        
+    </div>
+
+    <!-- Script for Dynamic Component Loading -->
+    <script>
+        $(document).ready(function () {
+            // Load Top Ads Component
+            $('#apply').on('click', function () {
+                $('#componentContainer-apply').load('{{ route('home.jobs.apply') }}');
+                
+            });
+
+          
+
+          
+        });
+    </script>
 </body>
 
 </html>

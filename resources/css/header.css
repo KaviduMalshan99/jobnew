@@ -151,3 +151,128 @@
         padding: 15px;
     }
 }
+  /* Profile Dropdown Styles */
+        .profile-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .profile-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .profile-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+            z-index: 1;
+            width: 200px;
+            right: 0; /* Align dropdown to the right */
+        }
+
+        .profile-dropdown-content a {
+            color: black;
+            padding: 10px 15px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .profile-dropdown-content a:hover {
+            background-color: #f1f1f1;
+        }
+
+        .profile-dropdown:hover .profile-dropdown-content {
+            display: block;
+        }
+
+        /* .search-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            
+        }
+        
+        .animated-input {
+            width: 200px;
+            padding: 10px;
+            border: 10px solid #ddd;
+            border-radius: 5px;
+            transition: all 0.3s ease-in-out;
+            
+        }
+        
+        .animated-input:focus {
+            width: 300px;
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            outline: none;
+            
+        }
+        
+        .animated-button {
+            background-color: #11047a;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        
+        .animated-button:hover {
+            transform: scale(1.1);
+            background-color: #de0d0d;
+        }
+         */
+
+         .search-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            position: relative;
+            overflow: hidden; /* Prevent overflow during animation */
+        }
+        
+        .animated-input {
+            width: 0;
+            opacity: 0;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            transition: all 0.5s ease-in-out;
+        }
+        
+        .animated-input.visible {
+            width: 200px;
+            opacity: 1;
+            border-color: #4caf50;
+            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
+            outline: none;
+        }
+       
+        
+        .animated-button {
+            background-color: #4caf50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 55px;
+            cursor: pointer;
+            transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+        }
+        
+        .animated-button:hover {
+            transform: scale(1.1);
+            background-color: #d80606;
+        }
+        
+        

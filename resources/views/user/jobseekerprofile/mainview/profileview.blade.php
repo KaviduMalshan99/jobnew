@@ -90,31 +90,22 @@
 
             $('#myapplication').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
             });
             $('#flagged').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
             });
             $('#preferred').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
             });
             $('#recent').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
             });
 
-            // jo alerts
-
-            $('#jobalerts').on('click', function () {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.jobalerts.jobalerts') }}');
-                window.scrollTo(0, 0);
-            });
         });
     </script>
 
     <br/>
+    
 </body>
 
 </html>

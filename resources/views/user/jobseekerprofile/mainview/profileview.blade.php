@@ -42,6 +42,18 @@
 </div>
 </div>
 
+<div class = profileview-container>
+<div class ="profileview-header">
+    My Preferences
+</div>
+<br/>
+<p>Choose how job information is delivered; configure your account</p>,<br/>
+<div class="btn-group mb-4">
+        <button class="btn btn-common" id="jobalerts">Job Alerts</button>
+        
+</div>
+</div>
+
 
 
     <!-- Component Content Section -->
@@ -78,17 +90,27 @@
 
             $('#myapplication').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                window.scrollTo(0, 0);
             });
             $('#flagged').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                window.scrollTo(0, 0);
             });
             $('#preferred').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                window.scrollTo(0, 0);
             });
             $('#recent').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                window.scrollTo(0, 0);
             });
 
+            // jo alerts
+
+            $('#jobalerts').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.jobalerts.jobalerts') }}');
+                window.scrollTo(0, 0);
+            });
         });
     </script>
 

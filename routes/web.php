@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -534,7 +535,6 @@ Route::get('/clear-cache', function () {
     return "Cache is cleared";
 })->name('clear.cache');
 
-
 //////////////////////////////////////////////////////////////////////////
 
 Route::get('/contactus', function () {
@@ -555,10 +555,6 @@ Route::get('/privacy', function () {
     return view('user/SideComponent/privacy');
 
 });
-
-
-
-
 
 //job post
 
@@ -592,7 +588,6 @@ Route::get('/postjob/qrcodeforjobads', function () {
     return view('user.postvacancy.paymentmethod.qrcodeforjobads');
 })->name('user.postvacancy.paymentmethod.qrcodeforjobads');
 
-
 //profileviewmain
 
 Route::get('/mainprofileview', function () {
@@ -615,9 +610,7 @@ Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');
 })->name('user.jobseekerprofile.expirience');
 
-
 //my jobs
-
 
 Route::get('/mainprofileview/myapplication', function () {
     return view('user.jobseekerprofile.myjobs.myapplication');
@@ -629,19 +622,18 @@ Route::get('/mainprofileview/alerts', function () {
     return view('user.jobseekerprofile.jobalerts.jobalerts');
 })->name('user.jobseekerprofile.jobalerts.jobalerts');
 
-
 // apply route
 
-Route::get('/apply', function () {
-    return view('home.jobs.apply');
-})->name('home.jobs.apply');
-
+// Route::get('/apply', function () {
+//     return view('home.jobs.apply');
+// })->name('home.jobs.apply');
+Route::get('/apply/{job}', [ApplicationController::class, 'showApplyForm'])->name('apply.form');
+Route::post('/apply', [ApplicationController::class, 'submitForm'])->name('apply.submit');
 
 // feedback
 Route::get('/feedback', function () {
     return view('home.feedback');
 })->name('feedback');
-
 
 Route::get('/alerts', function () {
     return view('user/jobseekerprofile/jobalerts/jobalerts');

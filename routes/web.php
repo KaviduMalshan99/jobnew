@@ -533,3 +533,166 @@ Route::get('/clear-cache', function () {
     Artisan::call('route:clear');
     return "Cache is cleared";
 })->name('clear.cache');
+
+
+//////////////////////////////////////////////////////////////////////////
+
+Route::get('/contactus', function () {
+    return view('contactus/contactus');
+
+});
+
+Route::get('/terms', function () {
+    return view('user/SideComponent/terms');
+
+});
+
+Route::get('/faq', function () {
+    return view('user/SideComponent/faq');
+
+});
+Route::get('/privacy', function () {
+    return view('user/SideComponent/privacy');
+
+});
+
+
+
+
+
+//job post
+
+Route::get('/postjob', function () {
+    return view('user.postvacancy.postvacancy');
+})->name('user.postvacancy');
+
+Route::get('/postjob/topads', function () {
+    return view('user.postvacancy.topads');
+})->name('user.postvacancy.topads');
+
+Route::get('/postjob/bannerposting', function () {
+    return view('user.postvacancy.bannerposting');
+})->name('user.postvacancy.bannerposting');
+
+// payment methods
+
+Route::get('/postjob/ipg', function () {
+    return view('user.postvacancy.paymentmethod.ipg');
+})->name('user.postvacancy.paymentmethod.ipg');
+
+Route::get('/postjob/onlinefundtransfer', function () {
+    return view('user.postvacancy.paymentmethod.onlinefundtransfer');
+})->name('user.postvacancy.paymentmethod.onlinefundtransfer');
+
+Route::get('/postjob/overthecounter', function () {
+    return view('user.postvacancy.paymentmethod.overthecounter');
+})->name('user.postvacancy.paymentmethod.overthecounter');
+
+Route::get('/postjob/qrcodeforjobads', function () {
+    return view('user.postvacancy.paymentmethod.qrcodeforjobads');
+})->name('user.postvacancy.paymentmethod.qrcodeforjobads');
+
+
+//profileviewmain
+
+Route::get('/mainprofileview', function () {
+    return view('user.jobseekerprofile.mainview.profileview');
+})->name('user.jobseekerprofile.mainview.profileview');
+
+Route::get('/mainprofileview/common', function () {
+    return view('user.jobseekerprofile.jobseekerprofile');
+})->name('user.jobseekerprofile.jobseekerprofile');
+
+Route::get('/mainprofileview/personal', function () {
+    return view('user.jobseekerprofile.personal');
+})->name('user.jobseekerprofile.personal');
+
+Route::get('/mainprofileview/education', function () {
+    return view('user.jobseekerprofile.education');
+})->name('user.jobseekerprofile.education');
+
+Route::get('/mainprofileview/expirience', function () {
+    return view('user.jobseekerprofile.expirience');
+})->name('user.jobseekerprofile.expirience');
+
+
+//my jobs
+
+
+Route::get('/mainprofileview/myapplication', function () {
+    return view('user.jobseekerprofile.myjobs.myapplication');
+})->name('user.jobseekerprofile.myjobs.myapplication');
+
+// job alerts
+
+Route::get('/mainprofileview/alerts', function () {
+    return view('user.jobseekerprofile.jobalerts.jobalerts');
+})->name('user.jobseekerprofile.jobalerts.jobalerts');
+
+
+// apply route
+
+Route::get('/apply', function () {
+    return view('home.jobs.apply');
+})->name('home.jobs.apply');
+
+
+// feedback
+Route::get('/feedback', function () {
+    return view('home.feedback');
+})->name('feedback');
+
+
+Route::get('/alerts', function () {
+    return view('user/jobseekerprofile/jobalerts/jobalerts');
+
+});
+
+// top Employees
+
+// routes/web.php
+Route::get('/topemployees', function () {
+    $employers = [
+        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
+        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
+        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
+
+        // Add more employers here...
+    ];
+    return view('user/topemployees', compact('employers'));
+});

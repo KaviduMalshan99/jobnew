@@ -28,20 +28,19 @@
     </div>
     <br />
 
-    <div class=profileview-container>
-        <div class ="profileview-header">
-            My Jobs
-        </div>
-        <br />
-        <p>Manage your CV, photograph, certificates, online profile. featured employers, View/Edit your login details.
-        </p>,<br />
-        <div class="btn-group mb-4">
-            <button class="btn btn-common" id="myapplication">My Applications</button>
-            <button class="btn btn-personal" id="flagged">Flagged Jobs</button>
-            <button class="btn btn-education" id="preferred">Preferred Companies</button>
-            <button class="btn btn-expirience" id="recent">Recent Jobs</button>
-        </div>
-    </div>
+<div class = profileview-container>
+<div class ="profileview-header">
+   My Jobs
+</div>
+<br/>
+<p>Manage your CV, photograph, certificates, online profile. featured employers, View/Edit your login details.</p>,<br/>
+<div class="btn-group mb-4">
+        <button class="btn btn-common" id="myapplication">My Applications</button>
+        <button class="btn btn-personal" id="flagged">Flagged Jobs</button>
+        <button class="btn btn-education" id="preferred">Preferred Companies</button>
+        <button class="btn btn-expirience" id="recent">Recent Jobs</button>
+</div>
+</div>
 
 
 
@@ -77,23 +76,23 @@
 
             //my Jobs
 
-            $('#myapplication').on('click', function() {
-                $('#componentContainer').load('{{ route('generate.index') }}');
+            $('#myapplication').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
             });
-            $('#flagged').on('click', function() {
-                $('#componentContainer').load('{{ route('generate.index') }}');
+            $('#flagged').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
             });
-            $('#preferred').on('click', function() {
-                $('#componentContainer').load('{{ route('generate.index') }}');
+            $('#preferred').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
             });
-            $('#recent').on('click', function() {
-                $('#componentContainer').load('{{ route('generate.index') }}');
+            $('#recent').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
             });
 
         });
     </script>
 
-    <br />
+    <br/>
 </body>
 
 </html>

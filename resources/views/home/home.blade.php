@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css'])
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
 </head>
 
@@ -52,6 +53,12 @@
                 @else
                     @foreach ($jobs as $job)
                         <div class="job-card">
+                            @auth
+                                <button class="flag-btn" data-job-id="{{ $job->id }}">
+                                    <i
+                                        class="fa {{ auth()->user()->flaggedJobs->contains($job->id)? 'fa-flag': 'fa-flag-o' }}"></i>
+                                </button>
+                            @endauth
                             <a href="{{ route('job.details', $job->id) }}" class="job-title">
                                 {{ $job->title }}
                             </a>
@@ -61,10 +68,33 @@
                     @endforeach
                 @endif
             </div>
+
         </section>
     </main>
 
     @include('home.footer')
+    <script>
+        $(document).on('click', '.flag-btn', function() {
+            let jobId = $(this).data('job-id');
+            let button = $(this);
+
+            $.ajax({
+                url: `/jobs/${jobId}/flag`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'flagged') {
+                        button.find('i').removeClass('fa-flag-o').addClass('fa-flag');
+                    } else {
+                        button.find('i').removeClass('fa-flag').addClass('fa-flag-o');
+                    }
+                    alert(response.message);
+                }
+            });
+        });
+    </script>
 </body>
 
 </html>

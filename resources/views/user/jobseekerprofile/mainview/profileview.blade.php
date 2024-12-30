@@ -95,6 +95,7 @@
             //my Jobs
 
             $('#myapplication').on('click', function() {
+                console.log('My Applications clicked');
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
                 window.scrollTo(0, 0);
             });

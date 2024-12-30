@@ -19,6 +19,24 @@ class ApplicationController extends Controller
         return view('home.jobs.apply', compact('job', 'employerEmail')); // Replace with the actual view path
     }
 
+    public function myApplications()
+    {
+        $applications = Application::with(['job', 'job.employer'])
+            ->where('user_id', auth()->id())
+            ->get();
+
+        return view('User.jobseekerprofile.myJobs.myapplication', compact('applications'));
+    }
+    public function viewApplicationDetails($id)
+    {
+        // Fetch the application along with the associated job and employer
+        $application = Application::with('job.employer')
+            ->where('id', $id)
+            ->where('user_id', auth()->id()) // Ensure the user owns the application
+            ->firstOrFail();
+
+        return view('User.jobseekerprofile.myJobs.applicationDetails', compact('application'));
+    }
     /**
      * Handle form submission.
      */
@@ -34,6 +52,7 @@ class ApplicationController extends Controller
             'employer_id' => 'required|exists:employers,id',
             'user_id' => 'nullable|exists:users,id',
             'company_mail' => 'required|email',
+            'job_posting_id' => 'required|exists:job_postings,id',
         ]);
 
         // Handle file upload

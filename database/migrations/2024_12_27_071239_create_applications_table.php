@@ -23,11 +23,13 @@ class CreateApplicationsTable extends Migration
             $table->unsignedBigInteger('employer_id'); // Foreign Key for Employer
             $table->string('company_mail'); // Employer's Email
             $table->string('cv_path')->nullable(); // Path to uploaded CV
+            $table->unsignedBigInteger('job_posting_id');
             $table->timestamps(); // Created and Updated timestamps
 
             // Foreign Key Constraints
             $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');
             $table->foreign('employer_id')->references('id')->on('employers')->onDelete('cascade');
+            $table->foreign('job_posting_id')->references('id')->on('job_postings')->onDelete('cascade');
         });
     }
 

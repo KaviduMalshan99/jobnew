@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\FlaggedJobController;
 use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
@@ -42,7 +43,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/education', [EducationController::class, 'storeOrUpdate'])->name('education.store-or-update');
     Route::get('/profile/experience', [JobExperienceController::class, 'showExperience'])->name('experience.show');
     Route::post('/profile/experience', [JobExperienceController::class, 'storeOrUpdate'])->name('experience.store-or-update');
+    Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('user.jobseekerprofile.myjobs.myapplication');
+    Route::get('/my-applications/{id}', [ApplicationController::class, 'viewApplicationDetails'])
+        ->name('user.jobseekerprofile.myjobs.view');
+
 });
+Route::post('/jobs/{jobId}/flag', [FlaggedJobController::class, 'toggleFlag'])->name('jobs.flag');
+Route::get('/user/flagged-jobs', [FlaggedJobController::class, 'showFlaggedJobs'])->name('user.flagged_jobs');
 
 // Route::get('/', function () {
 //     return redirect()->route('index');
@@ -95,10 +102,6 @@ Route::get('profile/education', [EducationController::class, 'showEducation'])->
 Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');
 })->name('user.jobseekerprofile.expirience');
-
-Route::get('/mainprofileview/myapplication', function () {
-    return view('user.jobseekerprofile.myjobs.myapplication');
-})->name('user.jobseekerprofile.myjobs.myapplication');
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
@@ -611,10 +614,6 @@ Route::get('/mainprofileview/expirience', function () {
 })->name('user.jobseekerprofile.expirience');
 
 //my jobs
-
-Route::get('/mainprofileview/myapplication', function () {
-    return view('user.jobseekerprofile.myjobs.myapplication');
-})->name('user.jobseekerprofile.myjobs.myapplication');
 
 // job alerts
 

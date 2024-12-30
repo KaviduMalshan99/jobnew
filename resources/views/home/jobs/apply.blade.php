@@ -124,6 +124,7 @@
                 Your CV is sent to the employer directly and they will contact you directly on the selection process.
             </div>
             <!-- Hidden Fields for employer_id and user_id -->
+            <input type="hidden" name="job_posting_id" value="{{ $job->id }}">
             <input type="hidden" name="employer_id" value="{{ $job->employer_id }}">
             <input type="hidden" name="user_id" value="{{ Auth::id() }}">
             <div class="form-group">

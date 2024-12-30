@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css'])
-   
+
 </head>
 
 <body>
@@ -16,8 +16,8 @@
     <section class="feedback-section">
         <div class="rectangle"></div>
         <a href="{{ route('feedback') }}">
-        <button class="feedback-btn">Jobs Feedback</button>
-    </a>
+            <button class="feedback-btn">Jobs Feedback</button>
+        </a>
     </section><br />
 
     <!-- Filters Section -->
@@ -33,17 +33,15 @@
 
     <main class="main-content">
         <!-- Categories Section -->
-        <section class="categories-container">
-            <h3 class="categories-title">Job Categories</h3>
-            <hr />
-            <div class="categories-list">
+        <div class="job-categories-header">
+            <div class="categories-grid">
                 @foreach ($categories as $category)
                     <a href="javascript:void(0);" data-category-id="{{ $category->id }}" class="category-link">
                         {{ $category->name }}
                     </a>
                 @endforeach
             </div>
-        </section>
+        </div>
 
         <!-- Job Listings Section -->
         <section id="job-listings" class="job-listings-container">

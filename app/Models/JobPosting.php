@@ -50,4 +50,13 @@ class JobPosting extends Model
     {
         return $this->belongsTo(Admin::class);
     }
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'job_posting_id');
+    }
+    public function flaggedByUsers()
+    {
+        return $this->belongsToMany(User::class, 'flagged_jobs', 'job_posting_id', 'user_id');
+    }
+
 }

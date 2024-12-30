@@ -23,6 +23,7 @@ class Application extends Model
         'employer_id',
         'company_mail',
         'cv_path',
+        'job_posting_id',
     ];
 
     /**
@@ -39,5 +40,9 @@ class Application extends Model
     public function employer()
     {
         return $this->belongsTo(Employer::class, 'employer_id');
+    }
+    public function job()
+    {
+        return $this->belongsTo(JobPosting::class, 'job_posting_id');
     }
 }

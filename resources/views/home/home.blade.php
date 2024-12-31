@@ -16,7 +16,7 @@
     <!-- Feedback Section -->
     <section class="feedback-section">
         <div class="rectangle"></div>
-        <a href="{{ route('feedback') }}">
+        <a href="#">
             <button class="feedback-btn">Jobs Feedback</button>
         </a>
     </section><br />

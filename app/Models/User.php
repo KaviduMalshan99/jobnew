@@ -75,5 +75,9 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(JobPosting::class, 'flagged_jobs', 'user_id', 'job_posting_id');
     }
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class);
+    }
 
 }

@@ -15,6 +15,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FlaggedJobController;
 use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
@@ -98,6 +99,45 @@ Route::get('/mainprofileview/personal', function () {
 })->name('user.jobseekerprofile.personal');
 
 Route::get('profile/education', [EducationController::class, 'showEducation'])->middleware('auth')->name('user.jobseekerprofile.education');
+
+// routes/web.php
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::post('profile/education', [EducationController::class, 'store'])
+        ->name('education.store');
+
+    Route::put('profile/education/{id}', [EducationController::class, 'update'])
+        ->name('education.update');
+
+    Route::get('profile/education/{id}/delete', [EducationController::class, 'destroy'])
+        ->name('education.delete');
+});
+
+// Add these routes to your web.php file
+
+// Experience Management Routes
+Route::middleware(['auth'])->group(function () {
+    // Show experience form
+    Route::get('/experience', [JobExperienceController::class, 'showExperience'])
+        ->name('experience.show');
+
+    // Store new experience
+    Route::post('/experience/store', [JobExperienceController::class, 'store'])
+        ->name('experience.store');
+
+    // Update existing experience
+    Route::put('/experience/update/{id}', [JobExperienceController::class, 'update'])
+        ->name('experience.update');
+
+    // Delete experience
+    Route::get('/experience/delete/{id}', [JobExperienceController::class, 'destroy'])
+        ->name('experience.delete');
+
+    // Store or update experience (alternative route for your existing storeOrUpdate method)
+    Route::post('/experience/store-or-update', [JobExperienceController::class, 'storeOrUpdate'])
+        ->name('experience.store-or-update');
+});
 
 Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');
@@ -630,9 +670,15 @@ Route::get('/apply/{job}', [ApplicationController::class, 'showApplyForm'])->nam
 Route::post('/apply', [ApplicationController::class, 'submitForm'])->name('apply.submit');
 
 // feedback
-Route::get('/feedback', function () {
-    return view('home.feedback');
-})->name('feedback');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+});
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/feedback', [FeedbackController::class, 'manageFeedback'])->name('admin.feedback.manage');
+    Route::post('/admin/feedback/{feedback}/update', [FeedbackController::class, 'update'])->name('admin.feedback.update');
+    Route::delete('/admin/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
+});
 
 Route::get('/alerts', function () {
     return view('user/jobseekerprofile/jobalerts/jobalerts');

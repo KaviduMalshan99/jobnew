@@ -17,63 +17,92 @@ class JobExperienceController extends Controller
         $user_id = auth()->id();
         $experiences = JobExperience::where('job_seeker_id', $user_id)->get();
 
-        return view('user.jobseekerprofile.expirience', compact('experiences'));
+        return view('user.jobseekerprofile.experience', compact('experiences'));
     }
 
-    public function storeOrUpdate(Request $request)
+    public function store(Request $request)
     {
-        // Log the incoming request data
-        Log::info('Incoming request data:', $request->all());
+        Log::info('Incoming new experience data:', $request->all());
+
+        $validatedData = $request->validate([
+            'job_seeker_id' => 'required|exists:users,id',
+            'experiences.*.company_name' => 'required|string|max:255',
+            'experiences.*.job_title' => 'required|string|max:255',
+            'experiences.*.job_description' => 'nullable|string',
+            'experiences.*.start_date' => 'required|date',
+            'experiences.*.end_date' => 'nullable|date|after_or_equal:experiences.*.start_date',
+        ]);
 
         try {
-            $validatedData = $request->validate([
-                'job_seeker_id' => 'required|exists:users,id',
-                'experiences' => 'required|array',
-                'experiences.*.organisation' => 'required|string|max:255',
-                'experiences.*.designation' => 'required|string|max:255',
-                'experiences.*.commenced_date' => 'required|date',
-                'experiences.*.completion_date' => 'required|date',
-                'experiences.*.job_description' => 'required|string', // Added validation for description
-            ]);
-
-            $jobSeekerId = $request->input('job_seeker_id');
-
-            // Get existing experience for this user
-            $existingExperience = JobExperience::where('job_seeker_id', $jobSeekerId)->first();
-
-            Log::info('Existing experience:', ['experience' => $existingExperience]);
-
-            foreach ($request->experiences as $experienceData) {
-                $updateData = [
-                    'company_name' => $experienceData['organisation'],
-                    'job_title' => $experienceData['designation'],
-                    'start_date' => $experienceData['commenced_date'],
-                    'end_date' => $experienceData['completion_date'],
-                    'job_description' => $experienceData['job_description'], // Added description to update data
-                ];
-
-                if ($existingExperience) {
-                    // Update existing record
-                    Log::info('Updating existing experience:', $updateData);
-                    $updated = $existingExperience->update($updateData);
-                    Log::info('Update result:', ['success' => $updated]);
-                } else {
-                    // Create new record
-                    Log::info('Creating new experience:', $updateData);
-                    $updateData['job_seeker_id'] = $jobSeekerId;
-                    $created = JobExperience::create($updateData);
-                    Log::info('Creation result:', ['success' => $created]);
-                }
+            foreach ($validatedData['experiences'] as $experienceData) {
+                JobExperience::create([
+                    'job_seeker_id' => $validatedData['job_seeker_id'],
+                    'company_name' => $experienceData['company_name'],
+                    'job_title' => $experienceData['job_title'],
+                    'job_description' => $experienceData['job_description'],
+                    'start_date' => $experienceData['start_date'],
+                    'end_date' => $experienceData['end_date'],
+                ]);
             }
 
-            return redirect()->back()->with('success', 'Experience details saved successfully!');
+            return redirect()->back()->with('success', 'Experience details added successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error in experience creation:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function update(Request $request, $id)
+    {
+        Log::info('Incoming experience update data:', $request->all());
+
+        $validatedData = $request->validate([
+            'company_name' => 'required|string|max:255',
+            'job_title' => 'required|string|max:255',
+            'job_description' => 'nullable|string',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        try {
+            $experience = JobExperience::where('id', $id)
+                ->where('job_seeker_id', auth()->id())
+                ->firstOrFail();
+
+            $experience->update($validatedData);
+
+            return redirect()->back()->with('success', 'Experience details updated successfully!');
         } catch (\Exception $e) {
             Log::error('Error in experience update:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
-            return redirect()->back()->with('error', 'Error: ' . $e->getMessage())->withInput();
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $experience = JobExperience::where('id', $id)
+                ->where('job_seeker_id', auth()->id())
+                ->firstOrFail();
+
+            $experience->delete();
+
+            return redirect()->back()->with('success', 'Experience record deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error in experience deletion:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred while deleting the record.');
         }
     }
 }

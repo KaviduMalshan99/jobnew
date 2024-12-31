@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
@@ -30,6 +31,18 @@ class JobPostingController extends Controller
             ->paginate(10); // Rejected jobs are displayed regardless of closing date
 
         return view('admin.jobview', compact('jobPostings', 'pendingJobs', 'rejectedJobs'));
+    }
+
+    public function topEmployers()
+    {
+        // Fetch top 28 employers based on job postings count
+        $topEmployers = Employer::withCount('jobPostings') // Assuming 'jobPostings' is the relationship
+            ->orderBy('job_postings_count', 'desc') // Sort by the number of job postings
+            ->take(28) // Limit to top 28
+            ->get();
+
+        // Pass data to the view
+        return view('User.topemployees', compact('topEmployers'));
     }
 
     public function home(Request $request)

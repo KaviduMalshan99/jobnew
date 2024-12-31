@@ -128,6 +128,32 @@ class EmployerAuthController extends Controller
         return redirect()->route('employer.profile')
             ->with('success', 'Profile updated successfully.');
     }
+    public function updateLogo(Request $request)
+    {
+        $employer = Auth::guard('employer')->user();
+
+        // Validate the logo
+        $request->validate([
+            'logo' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048', // Accept only images with a max size of 2MB
+        ]);
+
+        if ($request->hasFile('logo')) {
+            // Delete the old logo if it exists
+            if ($employer->logo) {
+                \Storage::delete('public/' . $employer->logo);
+            }
+
+            // Store the new logo
+            $logoPath = $request->file('logo')->store('logos', 'public'); // Save in 'public/logos'
+            $employer->logo = $logoPath;
+        }
+
+        // Save the employer with the updated logo
+        $employer->save();
+
+        return redirect()->route('employer.profile')->with('success', 'Logo updated successfully.');
+    }
+
     public function toggleStatus($id)
     {
         $employer = Employer::findOrFail($id);

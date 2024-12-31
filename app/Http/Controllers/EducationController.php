@@ -20,10 +20,9 @@ class EducationController extends Controller
         return view('user.jobseekerprofile.education', compact('educations'));
     }
 
-    public function storeOrUpdate(Request $request)
+    public function store(Request $request)
     {
-        // First, let's log the incoming request data
-        Log::info('Incoming education data:', $request->all());
+        Log::info('Incoming new education data:', $request->all());
 
         $validatedData = $request->validate([
             'job_seeker_id' => 'required|exists:users,id',
@@ -35,52 +34,74 @@ class EducationController extends Controller
         ]);
 
         try {
-            $jobSeekerId = $validatedData['job_seeker_id'];
-
-            // Get existing education record for this user
-            $existingEducation = JobEducation::where('job_seeker_id', $jobSeekerId)->first();
-
             foreach ($validatedData['educations'] as $educationData) {
-                if ($existingEducation) {
-                    // Log update attempt
-                    Log::info('Updating existing education record:', [
-                        'id' => $existingEducation->id,
-                        'data' => $educationData,
-                    ]);
-
-                    // Update existing record
-                    $existingEducation->update([
-                        'institution_name' => $educationData['institution_name'],
-                        'degree' => $educationData['degree'],
-                        'field_of_study' => $educationData['field_of_study'],
-                        'start_date' => $educationData['start_date'],
-                        'end_date' => $educationData['end_date'],
-                    ]);
-                } else {
-                    // Log new record creation
-                    Log::info('Creating new education record:', $educationData);
-
-                    // Create new record
-                    JobEducation::create([
-                        'job_seeker_id' => $jobSeekerId,
-                        'institution_name' => $educationData['institution_name'],
-                        'degree' => $educationData['degree'],
-                        'field_of_study' => $educationData['field_of_study'],
-                        'start_date' => $educationData['start_date'],
-                        'end_date' => $educationData['end_date'],
-                    ]);
-                }
+                JobEducation::create([
+                    'job_seeker_id' => $validatedData['job_seeker_id'],
+                    'institution_name' => $educationData['institution_name'],
+                    'degree' => $educationData['degree'],
+                    'field_of_study' => $educationData['field_of_study'],
+                    'start_date' => $educationData['start_date'],
+                    'end_date' => $educationData['end_date'],
+                ]);
             }
 
-            return redirect()->back()->with('success', 'Education details saved successfully!');
+            return redirect()->back()->with('success', 'Education details added successfully!');
         } catch (\Exception $e) {
-            // Log any errors
+            Log::error('Error in education creation:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+    public function update(Request $request, $id)
+    {
+        Log::info('Incoming education update data:', $request->all());
+
+        $validatedData = $request->validate([
+            'institution_name' => 'required|string|max:255',
+            'degree' => 'required|string|max:255',
+            'field_of_study' => 'nullable|string|max:255',
+            'start_date' => 'required|date',
+            'end_date' => 'nullable|date|after_or_equal:start_date',
+        ]);
+
+        try {
+            $education = JobEducation::where('id', $id)
+                ->where('job_seeker_id', auth()->id())
+                ->firstOrFail();
+
+            $education->update($validatedData);
+
+            return redirect()->back()->with('success', 'Education details updated successfully!');
+        } catch (\Exception $e) {
             Log::error('Error in education update:', [
                 'error' => $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ]);
 
             return redirect()->back()->with('error', 'An error occurred: ' . $e->getMessage());
+        }
+    }
+
+    public function destroy($id)
+    {
+        try {
+            $education = JobEducation::where('id', $id)
+                ->where('job_seeker_id', auth()->id())
+                ->firstOrFail();
+
+            $education->delete();
+
+            return redirect()->back()->with('success', 'Education record deleted successfully!');
+        } catch (\Exception $e) {
+            Log::error('Error in education deletion:', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
+            return redirect()->back()->with('error', 'An error occurred while deleting the record.');
         }
     }
 }

@@ -266,10 +266,11 @@ Route::prefix('employer')->name('employer.')->group(function () {
     });
 });
 Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');
-
+Route::get('/topemployees', [JobPostingController::class, 'topEmployers'])->name('top.employers');
 Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
     Route::put('/employer/profile', [EmployerAuthController::class, 'updateProfile'])->name('employer.updateProfile');
+    Route::post('/employer/logo/update', [EmployerAuthController::class, 'updateLogo'])->name('employer.update.logo');
 });
 
 Route::prefix('ecommerce')->group(function () {
@@ -688,48 +689,3 @@ Route::get('/alerts', function () {
 // top Employees
 
 // routes/web.php
-Route::get('/topemployees', function () {
-    $employers = [
-        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
-        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
-        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-
-        // Add more employers here...
-    ];
-    return view('user/topemployees', compact('employers'));
-});

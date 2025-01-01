@@ -57,7 +57,7 @@
             color: green;
         }
 
-        /* New Rating Styles */
+        /* Rating Styles */
         .rating-container {
             display: flex;
             flex-direction: column;
@@ -93,6 +93,64 @@
         .rating-stars label:hover~label {
             color: #ffd700;
         }
+
+        /* History Table Styles */
+        .history-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .history-table th,
+        .history-table td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .history-table th {
+            background-color: #f5f5f5;
+            font-weight: bold;
+        }
+
+        .history-table tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .star-rating {
+            color: #ffd700;
+        }
+
+        .status-badge {
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            font-weight: bold;
+        }
+
+        .status-pending {
+            background-color: #ffd700;
+            color: #000;
+        }
+
+        .status-approve {
+            background-color: #4caf50;
+            color: #fff;
+        }
+
+        .status-reject {
+            background-color: #f44336;
+            color: #fff;
+        }
     </style>
 </head>
 
@@ -126,6 +184,40 @@
             </div>
             <button type="submit">Submit Feedback</button>
         </form>
+    </div>
+
+    <div class="history-container">
+        <h2>Your Feedback History</h2>
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Rating</th>
+                    <th>Message</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (auth()->user()->feedback as $feedback)
+                    <tr>
+                        <td>{{ $feedback->created_at->format('Y-m-d') }}</td>
+                        <td>
+                            <div class="star-rating">
+                                @for ($i = 1; $i <= 5; $i++)
+                                    @if ($i <= $feedback->rating)
+                                        ★
+                                    @else
+                                        ☆
+                                    @endif
+                                @endfor
+                            </div>
+                        </td>
+                        <td>{{ $feedback->message }}</td>
+
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
     </div>
 </body>
 

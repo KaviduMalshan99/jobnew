@@ -22,8 +22,10 @@
 
             @foreach ($topEmployers as $employer)
                 <div class="employer-card">
-                    <img class="employer-logo" src="{{ asset('storage/' . $employer->logo) }}"
-                        alt="{{ $employer['alt'] }}">
+
+                    <img src="{{ asset('storage/' . $employer->logo) }}" alt="{{ $employer['alt'] }}">
+
+
                 </div>
             @endforeach
         </div>

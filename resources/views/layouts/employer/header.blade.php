@@ -211,11 +211,21 @@
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <li><a href="#"><i data-feather="user"></i><span>Account </span></a></li>
-                        <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
-                        <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
+                        <li><a href="{{ route('employer.profile') }}"><i data-feather="user"></i><span>Account
+                                </span></a></li>
+
                         <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
-                        <li><a href="#"><i data-feather="log-in"> </i><span>Log in</span></a></li>
+                        <li>
+                            <a href="{{ route('employer.logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('employer-logout-form').submit();">
+                                <i data-feather="log-out"></i>
+                                <span>Log out</span>
+                            </a>
+                            <form id="employer-logout-form" action="{{ route('employer.logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>

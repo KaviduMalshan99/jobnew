@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $job->title }} - Job Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+    <!-- Also make sure jQuery is included -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -281,6 +285,11 @@
             </div>
             <div class="btn-group mb-4">
                 <button class="btn btn-apply" id="apply">Apply Now</button>
+                @auth
+                    <button class="flag-btn" data-job-id="{{ $job->id }}">
+                        <i class="fa {{ auth()->user()->flaggedJobs->contains($job->id)? 'fa-flag': 'fa-flag-o' }}"></i>
+                    </button>
+                @endauth
             </div>
 
         </div>
@@ -304,6 +313,28 @@
 
 
 
+        });
+    </script>
+    <script>
+        $(document).on('click', '.flag-btn', function() {
+            let jobId = $(this).data('job-id');
+            let button = $(this);
+
+            $.ajax({
+                url: `/jobs/${jobId}/flag`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'flagged') {
+                        button.find('i').removeClass('fa-flag-o').addClass('fa-flag');
+                    } else {
+                        button.find('i').removeClass('fa-flag').addClass('fa-flag-o');
+                    }
+                    alert(response.message);
+                }
+            });
         });
     </script>
 </body>

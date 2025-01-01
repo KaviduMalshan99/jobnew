@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\ContactUs;
 use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Subcategory;
@@ -68,8 +69,9 @@ class JobPostingController extends Controller
             ->get();
 
         $categories = Category::with('subcategories')->get();
+        $contacts = ContactUs::all();
 
-        return view('home.home', compact('categories', 'jobs'));
+        return view('home.home', compact('categories', 'jobs', 'contacts'));
     }
 
     public function show($id)

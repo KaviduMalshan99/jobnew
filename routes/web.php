@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
@@ -219,6 +220,7 @@ Route::middleware('admin')->group(function () {
 
 });
 
+Route::get('/contactus', [ContactUsController::class, 'index'])->name('contactus.index');
 Route::middleware('admin')->prefix('admin')->group(function () {
     // List all categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
@@ -241,6 +243,23 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Job Posting admin side route
     Route::get('job_postings', [JobPostingController::class, 'index'])->name('job_postings.index');
     Route::patch('job_postings/{id}/status', [JobPostingController::class, 'updateStatus'])->name('job_postings.updateStatus');
+
+    //
+
+    // Show form to create new contact details
+    Route::get('/contactus/create', [ContactUsController::class, 'create'])->name('contactus.create');
+
+    // Store new contact details
+    Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus.store');
+
+    // Show form to edit specific contact details
+    Route::get('/contactus/{contactus}/edit', [ContactUsController::class, 'edit'])->name('contactus.edit');
+
+    // Update specific contact details
+    Route::put('/contactus/{contactus}', [ContactUsController::class, 'update'])->name('contactus.update');
+
+    // Delete specific contact details
+    Route::delete('/contactus/{contactus}', [ContactUsController::class, 'destroy'])->name('contactus.destroy');
 });
 
 //Employee Routes
@@ -580,11 +599,6 @@ Route::get('/clear-cache', function () {
 })->name('clear.cache');
 
 //////////////////////////////////////////////////////////////////////////
-
-Route::get('/contactus', function () {
-    return view('contactus/contactus');
-
-});
 
 Route::get('/terms', function () {
     return view('user/SideComponent/terms');

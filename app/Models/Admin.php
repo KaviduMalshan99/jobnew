@@ -28,4 +28,9 @@ class Admin extends Authenticatable
     {
         return $this->hasMany(JobPosting::class);
     }
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class);
+    }
+
 }

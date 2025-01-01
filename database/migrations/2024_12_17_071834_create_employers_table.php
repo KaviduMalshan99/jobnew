@@ -20,6 +20,7 @@ return new class extends Migration
             $table->text('business_info')->nullable();
             $table->json('job_posting_settings')->nullable();
             $table->boolean('is_active')->default(true);
+            $table->string('logo')->nullable(); // Column to store the logo's file path
             $table->rememberToken();
             $table->timestamps();
         });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
@@ -15,19 +16,33 @@ class JobPostingController extends Controller
         // Fetch all published jobs
         $jobPostings = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'approved')
+            ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->paginate(10);
 
         // Fetch all pending jobs
         $pendingJobs = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'pending')
+            ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->paginate(10);
 
         // Fetch all rejected jobs
         $rejectedJobs = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'reject')
-            ->paginate(10);
+            ->paginate(10); // Rejected jobs are displayed regardless of closing date
 
         return view('admin.jobview', compact('jobPostings', 'pendingJobs', 'rejectedJobs'));
+    }
+
+    public function topEmployers()
+    {
+        // Fetch top 28 employers based on job postings count
+        $topEmployers = Employer::withCount('jobPostings') // Assuming 'jobPostings' is the relationship
+            ->orderBy('job_postings_count', 'desc') // Sort by the number of job postings
+            ->take(28) // Limit to top 28
+            ->get();
+
+        // Pass data to the view
+        return view('User.topemployees', compact('topEmployers'));
     }
 
     public function home(Request $request)
@@ -36,7 +51,8 @@ class JobPostingController extends Controller
         $location = $request->input('location');
 
         $jobs = JobPosting::with(['category', 'subcategory'])
-            ->where('status', 'approved') // Ensures only approved jobs
+            ->where('status', 'approved') // Only approved jobs
+            ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->when($search, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
@@ -125,15 +141,13 @@ class JobPostingController extends Controller
     }
     public function employerJobs()
     {
-        // Get the logged-in employer's ID
         $employerId = auth('employer')->id();
 
-        // Retrieve job postings created by the employer
         $jobPostings = JobPosting::where('employer_id', $employerId)
+            ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->with(['category', 'subcategory', 'admin'])
             ->paginate(10);
 
-        // Return the view with the job postings data
         return view('employer.jobview', compact('jobPostings'));
     }
 

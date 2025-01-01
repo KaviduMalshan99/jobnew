@@ -18,6 +18,7 @@ class Employer extends Authenticatable
         'business_info',
         'job_posting_settings',
         'is_active',
+        'logo', // Include the logo field
     ];
 
     protected $hidden = [
@@ -32,5 +33,9 @@ class Employer extends Authenticatable
     public function jobPostings()
     {
         return $this->hasMany(JobPosting::class);
+    }
+    public function applications()
+    {
+        return $this->hasMany(Application::class, 'employer_id');
     }
 }

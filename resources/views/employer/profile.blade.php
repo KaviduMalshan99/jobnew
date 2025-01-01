@@ -76,6 +76,17 @@
 
                     <button type="submit" class="btn btn-primary">Update Profile</button>
                 </form>
+                <form action="{{ route('employer.update.logo') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="form-group">
+                        <label for="logo">Update Logo</label>
+                        <input type="file" name="logo" id="logo" class="form-control">
+                    </div>
+                    @if ($employer->logo)
+                        <img src="{{ asset('storage/' . $employer->logo) }}" alt="Current Logo" style="max-height: 100px;">
+                    @endif
+                    <button type="submit" class="btn btn-primary mt-3">Update Logo</button>
+                </form>
             </div>
         </div>
     </div>

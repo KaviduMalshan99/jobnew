@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -14,6 +15,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\FeedbackController;
+use App\Http\Controllers\FlaggedJobController;
 use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
@@ -41,7 +44,13 @@ Route::middleware('auth')->group(function () {
     Route::post('/profile/education', [EducationController::class, 'storeOrUpdate'])->name('education.store-or-update');
     Route::get('/profile/experience', [JobExperienceController::class, 'showExperience'])->name('experience.show');
     Route::post('/profile/experience', [JobExperienceController::class, 'storeOrUpdate'])->name('experience.store-or-update');
+    Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('user.jobseekerprofile.myjobs.myapplication');
+    Route::get('/my-applications/{id}', [ApplicationController::class, 'viewApplicationDetails'])
+        ->name('user.jobseekerprofile.myjobs.view');
+
 });
+Route::post('/jobs/{jobId}/flag', [FlaggedJobController::class, 'toggleFlag'])->name('jobs.flag');
+Route::get('/user/flagged-jobs', [FlaggedJobController::class, 'showFlaggedJobs'])->name('user.flagged_jobs');
 
 // Route::get('/', function () {
 //     return redirect()->route('index');
@@ -91,13 +100,48 @@ Route::get('/mainprofileview/personal', function () {
 
 Route::get('profile/education', [EducationController::class, 'showEducation'])->middleware('auth')->name('user.jobseekerprofile.education');
 
+// routes/web.php
+
+Route::middleware(['auth'])->group(function () {
+
+    Route::post('profile/education', [EducationController::class, 'store'])
+        ->name('education.store');
+
+    Route::put('profile/education/{id}', [EducationController::class, 'update'])
+        ->name('education.update');
+
+    Route::get('profile/education/{id}/delete', [EducationController::class, 'destroy'])
+        ->name('education.delete');
+});
+
+// Add these routes to your web.php file
+
+// Experience Management Routes
+Route::middleware(['auth'])->group(function () {
+    // Show experience form
+    Route::get('/experience', [JobExperienceController::class, 'showExperience'])
+        ->name('experience.show');
+
+    // Store new experience
+    Route::post('/experience/store', [JobExperienceController::class, 'store'])
+        ->name('experience.store');
+
+    // Update existing experience
+    Route::put('/experience/update/{id}', [JobExperienceController::class, 'update'])
+        ->name('experience.update');
+
+    // Delete experience
+    Route::get('/experience/delete/{id}', [JobExperienceController::class, 'destroy'])
+        ->name('experience.delete');
+
+    // Store or update experience (alternative route for your existing storeOrUpdate method)
+    Route::post('/experience/store-or-update', [JobExperienceController::class, 'storeOrUpdate'])
+        ->name('experience.store-or-update');
+});
+
 Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');
 })->name('user.jobseekerprofile.expirience');
-
-Route::get('/mainprofileview/myapplication', function () {
-    return view('user.jobseekerprofile.myjobs.myapplication');
-})->name('user.jobseekerprofile.myjobs.myapplication');
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
@@ -222,10 +266,11 @@ Route::prefix('employer')->name('employer.')->group(function () {
     });
 });
 Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');
-
+Route::get('/topemployees', [JobPostingController::class, 'topEmployers'])->name('top.employers');
 Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
     Route::put('/employer/profile', [EmployerAuthController::class, 'updateProfile'])->name('employer.updateProfile');
+    Route::post('/employer/logo/update', [EmployerAuthController::class, 'updateLogo'])->name('employer.update.logo');
 });
 
 Route::prefix('ecommerce')->group(function () {
@@ -534,7 +579,6 @@ Route::get('/clear-cache', function () {
     return "Cache is cleared";
 })->name('clear.cache');
 
-
 //////////////////////////////////////////////////////////////////////////
 
 Route::get('/contactus', function () {
@@ -555,10 +599,6 @@ Route::get('/privacy', function () {
     return view('user/SideComponent/privacy');
 
 });
-
-
-
-
 
 //job post
 
@@ -592,7 +632,6 @@ Route::get('/postjob/qrcodeforjobads', function () {
     return view('user.postvacancy.paymentmethod.qrcodeforjobads');
 })->name('user.postvacancy.paymentmethod.qrcodeforjobads');
 
-
 //profileviewmain
 
 Route::get('/mainprofileview', function () {
@@ -615,13 +654,7 @@ Route::get('/mainprofileview/expirience', function () {
     return view('user.jobseekerprofile.expirience');
 })->name('user.jobseekerprofile.expirience');
 
-
 //my jobs
-
-
-Route::get('/mainprofileview/myapplication', function () {
-    return view('user.jobseekerprofile.myjobs.myapplication');
-})->name('user.jobseekerprofile.myjobs.myapplication');
 
 // job alerts
 
@@ -629,19 +662,24 @@ Route::get('/mainprofileview/alerts', function () {
     return view('user.jobseekerprofile.jobalerts.jobalerts');
 })->name('user.jobseekerprofile.jobalerts.jobalerts');
 
-
 // apply route
 
-Route::get('/apply', function () {
-    return view('home.jobs.apply');
-})->name('home.jobs.apply');
-
+// Route::get('/apply', function () {
+//     return view('home.jobs.apply');
+// })->name('home.jobs.apply');
+Route::get('/apply/{job}', [ApplicationController::class, 'showApplyForm'])->name('apply.form');
+Route::post('/apply', [ApplicationController::class, 'submitForm'])->name('apply.submit');
 
 // feedback
-Route::get('/feedback', function () {
-    return view('home.feedback');
-})->name('feedback');
-
+Route::middleware(['auth'])->group(function () {
+    Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
+    Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
+});
+Route::middleware('admin')->group(function () {
+    Route::get('/admin/feedback', [FeedbackController::class, 'manageFeedback'])->name('admin.feedback.manage');
+    Route::post('/admin/feedback/{feedback}/update', [FeedbackController::class, 'update'])->name('admin.feedback.update');
+    Route::delete('/admin/feedback/{feedback}', [FeedbackController::class, 'destroy'])->name('admin.feedback.destroy');
+});
 
 Route::get('/alerts', function () {
     return view('user/jobseekerprofile/jobalerts/jobalerts');
@@ -651,48 +689,3 @@ Route::get('/alerts', function () {
 // top Employees
 
 // routes/web.php
-Route::get('/topemployees', function () {
-    $employers = [
-        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
-        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'cloud-atlantic.png', 'alt' => 'Cloud Atlantic'],
-        ['logo' => 'crocodile.png', 'alt' => 'Crocodile'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-        ['logo' => 'ideal-group.png', 'alt' => 'Ideal Group'],
-
-        // Add more employers here...
-    ];
-    return view('user/topemployees', compact('employers'));
-});

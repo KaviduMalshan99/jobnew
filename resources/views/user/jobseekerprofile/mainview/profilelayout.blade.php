@@ -21,15 +21,9 @@
         </p>,<br />
         <div class="btn-group mb-4">
     <a href="/mainprofileview/common" class="btn btn-common" id="commonprofile">Common Profile</a>
-<<<<<<< Updated upstream
     <a href="/mainprofileview/personal" class="btn btn-common" id="personalprofile">Personal Profile</a>
     <a href="/mainprofileview/education" class="btn btn-common" id="education">Education</a>
     <a href="/mainprofileview/expirience" class="btn btn-common" id="expirience">Experience</a>
-=======
-    <a href="/mainprofileview/personal" class="btn btn-personal" id="personalprofile">Personal Profile</a>
-    <a href="/mainprofileview/education" class="btn btn-education" id="education">Education</a>
-    <a href="/mainprofileview/expirience" class="btn btn-expirience" id="expirience">Experience</a>
->>>>>>> Stashed changes
 </div>
 
     </div>

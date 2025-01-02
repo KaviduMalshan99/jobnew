@@ -15,7 +15,7 @@
                 <li><a href="privacy">Privacy policy</a></li>
                 <li><a href="terms">T & C</a></li>
                 <li><a href="feedback">Feedback</a></li>
-                <li><a href="reviews">Reviews</a></li>
+                <li><a href="aboutus">AboutUs</a></li>
             </ul>
         </div>
         <div class="footer-section">

@@ -19,7 +19,7 @@
         </div>
         <nav class="nav-links unique-nav-links">
             <a href="/postjob">Post Your Vacancy</a>
-            <a href="#">Happy Customers</a>
+            <a href="reviews">Happy Customers</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>
         </nav>

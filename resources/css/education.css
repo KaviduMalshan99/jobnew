@@ -6,6 +6,8 @@
     border: 2px  b;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 450px;
+    margin-top: -1100px;
     
 }
 
@@ -105,4 +107,86 @@ textarea.form-control {
 .table th {
     background-color: #f5f5f5;
     font-weight: bold;
+}
+
+/* mobile responsive*/
+@media (max-width: 768px) {
+    /* Container */
+    .container {
+        max-width: 100%;
+        margin: 20px auto;
+        padding: 15px;
+        background: #fff;
+        border: 2px solid #ccc; /* Fixed invalid border style */
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        margin-left: 0;
+        margin-top: 0;
+    }
+
+    /* Section Header */
+    .section-header {
+        font-size: 18px;
+        padding: 8px;
+        text-align: center;
+    }
+
+    /* Form Rows */
+    .form-row {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .form-group {
+        width: 100%;
+    }
+
+    /* Labels and Form Controls */
+    label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    textarea.form-control {
+        resize: none;
+    }
+
+    .example {
+        font-size: 10px;
+    }
+
+    /* Buttons */
+    .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 14px;
+        text-align: center;
+    }
+
+    .btn-add-grade {
+        width: auto;
+        margin-left: 0;
+        margin-top: 10px;
+    }
+
+    /* Table */
+    .table {
+        width: 100%;
+        font-size: 12px;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .table th, .table td {
+        padding: 6px;
+        font-size: 12px;
+    }
+
+    .table th {
+        font-size: 14px;
+    }
 }

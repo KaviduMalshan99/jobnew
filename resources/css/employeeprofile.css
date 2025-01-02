@@ -1,9 +1,9 @@
 
 .profile-body {
-    font-family: Arial, sans-serif;
+    font-family: Bahnschrift;
     margin: 20px;
     padding: 0;
-    background-color: #f9f9f9;
+   
     color: #333;
 }
 .profile-container {
@@ -13,6 +13,8 @@
     background: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-left: 500px;
+    margin-top: -1120px;
 }
 .profile-header {
     text-align: center;
@@ -170,3 +172,41 @@
     }
     
     
+    /* Mobile Responsive CSS */
+@media (max-width: 768px) {
+    .profile-container {
+        max-width: 100%;
+        padding: 15px;
+        margin: 10px;
+    }
+
+    .profile-header h1 {
+        font-size: 1.5rem;
+    }
+
+    .form-section label {
+        font-size: 0.9rem;
+    }
+
+    .form-section input,
+    .form-section textarea {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+
+    .form-buttons button {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .password-update-container h2,
+    .delete-account-container h2 {
+        font-size: 1.2rem;
+    }
+
+    .password-update-container input,
+    .delete-account-container .delete-btn {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}

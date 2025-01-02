@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Job Posting Platform</title>
-    @vite(['resources/css/postjob.css', 'resources/css/header.css' ,'resources/css/bannerposting.css','resources/css/topads.css', 'resources/js/app.js','resources/css/home.css' ])
+    @vite(['resources/css/postjob.css', 'resources/css/header.css' ,'resources/css/bannerposting.css','resources/css/topads.css', 'resources/js/app.js','resources/css/home.css'])
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
@@ -89,5 +89,7 @@
             });
         });
     </script>
+
+ 
 </body>
 </html>

@@ -11,7 +11,7 @@
 
 <body>
     @include('home.header')
-    <h1 class="maintopic">My Profile</h1>
+    <h1 class="maintopic"></h1><br/>
     <div class=profileview-container>
         <div class ="profileview-header">
             Profile View
@@ -110,6 +110,21 @@
             $('#recent').on('click', function() {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
                 window.scrollTo(0, 0);
+            $('#myapplication').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.application') }}');
+                window.scrollTo(0, 0); 
+            });
+            $('#flagged').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.flaggedjob') }}');
+                window.scrollTo(0, 0); 
+            });
+            $('#preferred').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.preferredcompany') }}');
+                window.scrollTo(0, 0); 
+            });
+            $('#recent').on('click', function () {
+                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.recentjob') }}');
+                window.scrollTo(0, 0); 
             });
 
             // jo alerts

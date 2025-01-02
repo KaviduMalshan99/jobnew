@@ -42,7 +42,7 @@ class JobPostingController extends Controller
             ->get();
 
         // Pass data to the view
-        return view('User.topemployees', compact('topEmployers'));
+        return view('user.topemployees', compact('topEmployers'));
     }
 
     public function home(Request $request)

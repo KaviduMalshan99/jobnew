@@ -8,7 +8,7 @@
 
 </head>
 <body>
-   
+@include('user.jobseekerprofile.mainview.profilelayout')
     <!--update profile-->
 <div class = "profile-body">
     <div class="profile-container">

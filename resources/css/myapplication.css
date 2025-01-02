@@ -1,10 +1,13 @@
 .jobcontainer {
-    width: 80%;
+    width: 70%;
     margin: auto;
     padding: 20px;
     background-color: #ffffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    font-family: Arial, sans-serif;
+    font-family: Bahnschrift;
+    margin-left: 400px;
+    margin-top: -1100px;
+   
 }
 
 .jobsection {
@@ -55,4 +58,36 @@ table td a {
 
 table td a:hover {
     text-decoration: underline;
+}
+
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .jobcontainer {
+        width: 90%; /* Adjust container width for smaller screens */
+        margin: 20px auto; /* Center align */
+        padding: 15px; /* Reduce padding */
+        margin-left: auto;
+        margin-top: 0;
+    }
+
+    .jobsection h2 {
+        font-size: 1.2rem; /* Scale down header size */
+    }
+
+    .note {
+        font-size: 0.8rem; /* Adjust note text size */
+    }
+
+    table th,
+    table td {
+        font-size: 0.9rem; /* Adjust table text size */
+        padding: 8px; /* Reduce padding for table cells */
+    }
+
+    table {
+        display: block; /* Enable scrolling on small screens */
+        overflow-x: auto;
+        white-space: nowrap;
+    }
 }

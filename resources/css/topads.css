@@ -55,7 +55,7 @@
 /* contact css */
 
 .contact-info {
-    font-family: Arial, sans-serif;
+    font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #409cf1;
@@ -113,7 +113,7 @@
 /*  how to post vacancy */
 
 .post-info{
-    font-family: Arial, sans-serif;
+    font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #409cf1;
@@ -133,7 +133,7 @@
 }
 /*payment methods*/
 .payment-info{
-    font-family: Arial, sans-serif;
+    font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #409cf1;
@@ -276,4 +276,146 @@ tr:hover {
 td {
     font-size: 14px;
     color: #555;
+}
+
+
+
+
+/* Global Styles for Mobile */
+@media (max-width: 768px) {
+
+    /* Header Styles */
+    .unique-header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px;
+    }
+
+    .unique-nav-links {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .unique-nav-links a {
+        margin: 5px 0;
+    }
+
+    .unique-search-bar {
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .unique-search-bar input {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .unique-auth-buttons {
+        display: flex;
+        flex-direction: column;
+        margin-top: 10px;
+    }
+
+    .unique-auth-buttons button {
+        margin-top: 5px;
+    }
+
+    .profile-dropdown-content {
+        width: 100%;
+    }
+
+    /* Top Ads Section */
+    .topads-container {
+        max-width: 100%;
+        margin: 10px auto;
+    }
+
+    .topads-header {
+        font-size: 1em;
+    }
+
+    .topads-content ul {
+        padding-left: 20px;
+    }
+
+    .topads-content ul li {
+        font-size: 0.9em;
+    }
+
+    /* Contact Info Section */
+    .contact-info {
+        max-width: 100%;
+        margin-left: 0;
+        margin-top: 20px;
+        padding: 10px;
+    }
+
+    .contact-info p {
+        font-size: 12px;
+    }
+
+    .contact-info ul {
+        flex-direction: column;
+    }
+
+    /* Post Info Section */
+    .post-info {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .post-header {
+        font-size: 1em;
+    }
+
+    /* Payment Methods */
+    .payment-info {
+        max-width: 100%;
+        margin-left: 0;
+    }
+
+    .payment-header {
+        font-size: 1em;
+    }
+
+    /* Paymentmethod Info */
+    .paymentmethod-info ul {
+        flex-direction: column;
+    }
+
+    /* Fund Transfer Table */
+    .bank-info table {
+        width: 100%;
+        margin: 0;
+    }
+
+    .bank-info th, .bank-info td {
+        padding: 8px;
+    }
+
+    .table-container {
+        width: 100%;
+    }
+
+    table {
+        width: 100%;
+        margin: 0;
+    }
+
+    th, td {
+        padding: 8px;
+        font-size: 12px;
+    }
+
+    /* General Mobile Button Styling */
+    .animated-button {
+        padding: 8px 15px;
+        font-size: 14px;
+    }
+
+    .signup-btn, .login-btn {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
 }

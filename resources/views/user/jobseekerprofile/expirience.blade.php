@@ -9,6 +9,7 @@
 </head>
 
 <body>
+@include('user.jobseekerprofile.mainview.profilelayout')
     <div class="container">
         <h2 class="section-header">Professional Experience</h2>
 

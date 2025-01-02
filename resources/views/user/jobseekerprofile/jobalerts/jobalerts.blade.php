@@ -10,6 +10,7 @@
 </head>
 
 <body>
+@include('user.jobseekerprofile.mainview.profilelayout')
     <div class="jobalerts-container">
         <h2 class="jobalerts-title">
             Job Alert Preferences

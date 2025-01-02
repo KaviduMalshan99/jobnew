@@ -5,24 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
-    @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css'])
+   
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
+    @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css','resources/css/header.css'])
+   
 </head>
 
 <body>
     @include('home.header')
 
-    <!-- Feedback Section -->
-    <section class="feedback-section">
-        <div class="rectangle"></div>
-        <a href="#">
-            <button class="feedback-btn">Jobs Feedback</button>
-        </a>
-    </section><br />
+
+        <!-- Categories Section -->
+        <section class="categories-container">
+            <h3 class="categories-title"> Scroll for more Job Categories</h3>
+            <div class="scroll-wrapper">
+            <div class="categories-list">
+                @foreach ($categories as $category)
+                    <a href="javascript:void(0);" data-category-id="{{ $category->id }}" class="category-link">
+                        {{ $category->name }}
+                    </a>
+                @endforeach
+            </div>
+            </div>
+        </section>
 
     <!-- Filters Section -->
     <section class="filters">
+    <h3 class="jobtitle">
+        Available Jobs :  {{ $jobs->count() }} new hot jobs
+    </h3>
         <form method="GET" action="{{ route('home') }}">
             <input class="text-input" type="text" name="search"
                 placeholder="Enter Vacancy Name/Company/Job Reference" value="{{ request('search') }}">
@@ -31,18 +43,8 @@
             <button class="view-btn" type="submit">Search</button>
         </form>
     </section>
+   
 
-    <main class="main-content">
-        <!-- Categories Section -->
-        <div class="job-categories-header">
-            <div class="categories-grid">
-                @foreach ($categories as $category)
-                    <a href="javascript:void(0);" data-category-id="{{ $category->id }}" class="category-link">
-                        {{ $category->name }}
-                    </a>
-                @endforeach
-            </div>
-        </div>
 
         <!-- Job Listings Section -->
         <section id="job-listings" class="job-listings-container">
@@ -70,7 +72,11 @@
             </div>
 
         </section>
-    </main>
+    
+
+
+
+    </main><br/><br/><br/><br/>
 
     @include('home.footer')
     <script>

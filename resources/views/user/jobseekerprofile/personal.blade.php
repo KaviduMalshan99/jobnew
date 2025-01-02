@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    @include('user.jobseekerprofile.mainview.profilelayout')
 
     <div class="personalcontainer">
         <h1>Personal Details</h1>

@@ -152,6 +152,8 @@
             color: #fff;
         }
     </style>
+    @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/header.css', 'resources/css/feedback.css'])
+    
 </head>
 
 <body>
@@ -177,6 +179,9 @@
                     <input type="radio" id="star1" name="rating" value="1">
                     <label for="star1"></label>
                 </div>
+            <div>
+                <label for="feedback-name">Name:</label>
+                <input type="text" id="feedback-name" name="name" required>
             </div>
             <div>
                 <label for="feedback-message">Describe Your Feedback:</label>

@@ -1,3 +1,9 @@
+
+<head>
+@vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/education.css'])
+</head>
+<body>
+@include('user.jobseekerprofile.mainview.profilelayout')
 <div class="container">
     <h2 class="section-header">School Education</h2>
 
@@ -163,3 +169,4 @@
         button.closest('.education-entry').remove();
     }
 </script>
+</body>

@@ -27,6 +27,7 @@
                         <th>Company</th>
                         <th>Date Applied</th>
 
+                       
                     </tr>
                 </thead>
                 <tbody>
@@ -42,6 +43,13 @@
                 </tbody>
             </table>
 
+                        
+                       
+                    </tr>
+                  
+                </tbody>
+            </table>
+            
         </div>
 
         <div class="jobsection">
@@ -89,6 +97,30 @@
                     </tbody>
                 </table>
             @endif
+            <p>You have not flagged any vacancies</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Vacancy</th>
+                        <th>Company</th>
+                        <th>Closing Date</th>
+                        <th>Status</th>
+                       
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td></td>
+                        <td>0001304267 - Lowcode Minds</a></td>
+                        <td>Data Management Systems (Pvt) Ltd</td>
+                        <td>2024/12/27 10:34 AM</td>
+                        <td><a href="#">View&Apply</td>
+                       
+                    </tr>
+                  
+                </tbody>
+            </table>
         </div>
 
         <div class="jobsection">

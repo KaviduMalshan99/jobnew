@@ -39,19 +39,20 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/profile/personal', [ProfileController::class, 'showpersonal'])->name('profile.personal');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     //Route::patch('/profile/update', [EducationController::class, 'update'])->name('education.update');
     Route::post('/profile/education', [EducationController::class, 'storeOrUpdate'])->name('education.store-or-update');
     Route::get('/profile/experience', [JobExperienceController::class, 'showExperience'])->name('experience.show');
     Route::post('/profile/experience', [JobExperienceController::class, 'storeOrUpdate'])->name('experience.store-or-update');
-    Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('user.jobseekerprofile.myjobs.myapplication');
+    Route::get('/my-applications', [ApplicationController::class, 'myApplications'])->name('user.jobseekerprofile.myjobs.application');
     Route::get('/my-applications/{id}', [ApplicationController::class, 'viewApplicationDetails'])
         ->name('user.jobseekerprofile.myjobs.view');
+    Route::post('/jobs/{jobId}/flag', [FlaggedJobController::class, 'toggleFlag'])->name('jobs.flag');
+    Route::get('/user/flagged-jobs', [FlaggedJobController::class, 'showFlaggedJobs'])->name('user.flagged_jobs');
 
 });
-Route::post('/jobs/{jobId}/flag', [FlaggedJobController::class, 'toggleFlag'])->name('jobs.flag');
-Route::get('/user/flagged-jobs', [FlaggedJobController::class, 'showFlaggedJobs'])->name('user.flagged_jobs');
 
 // Route::get('/', function () {
 //     return redirect()->route('index');
@@ -89,15 +90,10 @@ Route::middleware('guest')->group(function () {
 });
 
 //profile testing routes
-Route::get('/mainprofileview', [ProfileController::class, 'edit'])->name('user.jobseekerprofile.mainview.profileview');
 
-Route::get('/mainprofileview/common', function () {
-    return view('user.jobseekerprofile.jobseekerprofile');
-})->name('user.jobseekerprofile.jobseekerprofile');
-
-Route::get('/mainprofileview/personal', function () {
-    return view('user.jobseekerprofile.personal');
-})->name('user.jobseekerprofile.personal');
+// Route::get('/mainprofileview/personal', function () {
+//     return view('user.jobseekerprofile.personal');
+// })->name('user.jobseekerprofile.personal');
 
 Route::get('profile/education', [EducationController::class, 'showEducation'])->middleware('auth')->name('user.jobseekerprofile.education');
 
@@ -139,10 +135,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/experience/store-or-update', [JobExperienceController::class, 'storeOrUpdate'])
         ->name('experience.store-or-update');
 });
-
-Route::get('/mainprofileview/expirience', function () {
-    return view('user.jobseekerprofile.expirience');
-})->name('user.jobseekerprofile.expirience');
 
 Route::middleware('auth')->group(function () {
     Route::get('verify-email', EmailVerificationPromptController::class)
@@ -647,26 +639,6 @@ Route::get('/postjob/qrcodeforjobads', function () {
 })->name('user.postvacancy.paymentmethod.qrcodeforjobads');
 
 //profileviewmain
-
-Route::get('/mainprofileview', function () {
-    return view('user.jobseekerprofile.mainview.profileview');
-})->name('user.jobseekerprofile.mainview.profileview');
-
-Route::get('/mainprofileview/common', function () {
-    return view('user.jobseekerprofile.jobseekerprofile');
-})->name('user.jobseekerprofile.jobseekerprofile');
-
-Route::get('/mainprofileview/personal', function () {
-    return view('user.jobseekerprofile.personal');
-})->name('user.jobseekerprofile.personal');
-
-Route::get('/mainprofileview/education', function () {
-    return view('user.jobseekerprofile.education');
-})->name('user.jobseekerprofile.education');
-
-Route::get('/mainprofileview/expirience', function () {
-    return view('user.jobseekerprofile.expirience');
-})->name('user.jobseekerprofile.expirience');
 
 //my jobs
 

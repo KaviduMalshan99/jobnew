@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\FlaggedJob;
 use Illuminate\Http\Request;
 
@@ -35,8 +36,9 @@ class FlaggedJobController extends Controller
         $flaggedJobs = FlaggedJob::where('user_id', $user->id)
             ->with(['jobPosting.employer']) // Access the jobPosting relationship
             ->get();
+        $contacts = ContactUs::all();
 
-        return view('User.jobseekerprofile.myJobs.myapplication', compact('flaggedJobs'));
+        return view('User.jobseekerprofile.myJobs.flaggedjob', compact('flaggedJobs', 'contacts'));
     }
 
 }

@@ -8,7 +8,7 @@
     <title>{{ $job->title }} - Job Details</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-   
+
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -161,12 +161,12 @@
             transform: scale(1.1);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             background-color: white;
-            color:blue;
+            color: blue;
         }
 
         .back-button:active {
             transform: scale(0.95);
-          
+
         }
 
         .btn-apply {
@@ -212,122 +212,123 @@
         #apply {
             animation: button-bounce 1s infinite alternate;
         }
-<style>
-    .btn-flag {
-        background-color: #e53e3e;
-        color: white;
-        font-size: 1.2rem;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-left: 10px;
-        margin-top: -150px; /* Add space above */
-    }
 
-    .btn-back {
-        background-color: #4a5568; /* Gray color */
-        color: white;
-        font-size: 1rem;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-top: -150px; /* Add space above */
-    }
+        <style>.btn-flag {
+            background-color: #e53e3e;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+            margin-top: -150px;
+            /* Add space above */
+        }
 
-    .btn-back:hover {
-        background-color: #2d3748; /* Darker gray */
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
+        .btn-back {
+            background-color: #4a5568;
+            /* Gray color */
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: -150px;
+            /* Add space above */
+        }
 
-    .btn-back:active {
-        transform: scale(0.95);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+        .btn-back:hover {
+            background-color: #2d3748;
+            /* Darker gray */
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
 
-    .backbutton {
-        text-align: center; /* Center the button */
-        margin-left:650px;
-        margin-bottom:-70px;
-        
-    }
-</style>
+        .btn-back:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
 
-<style>
-    .btn-flag {
-        background-color: #e53e3e;
-        color: white;
-        font-size: 1.2rem;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-left: 10px;
-        margin-top: -150px; /* Add space above */
-    }
+        .backbutton {
+            text-align: center;
+            /* Center the button */
+            margin-left: 650px;
+            margin-bottom: -70px;
 
-    .btn-back {
-        background-color: #4a5568; /* Gray color */
-        color: white;
-        font-size: 1rem;
-        padding: 10px 20px;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.3s ease;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        margin-top: -150px; /* Add space above */
-    }
+        }
+    </style>
 
-    .btn-back:hover {
-        background-color: #2d3748; /* Darker gray */
-        transform: scale(1.05);
-        box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-    }
+    <style>
+        .btn-flag {
+            background-color: #e53e3e;
+            color: white;
+            font-size: 1.2rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-left: 10px;
+            margin-top: -150px;
+            /* Add space above */
+        }
 
-    .btn-back:active {
-        transform: scale(0.95);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    }
+        .btn-back {
+            background-color: #4a5568;
+            /* Gray color */
+            color: white;
+            font-size: 1rem;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: -150px;
+            /* Add space above */
+        }
 
-    .backbutton {
-        text-align: center; /* Center the button */
-        margin-left:700px;
-        margin-bottom:20px;
-        
-    }
-</style>
+        .btn-back:hover {
+            background-color: #2d3748;
+            /* Darker gray */
+            transform: scale(1.05);
+            box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-back:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        .backbutton {
+            text-align: center;
+            /* Center the button */
+            margin-left: 700px;
+            margin-bottom: 20px;
+
+        }
+    </style>
 
     </style>
 </head>
 
 <body>
-<<<<<<< Updated upstream
-    <button class="back-button" onclick="window.history.back()">
-        <i class="fas fa-arrow-left"></i>
-    </button>
-=======
->>>>>>> Stashed changes
-  
+
     <main>
         <!-- Job Card -->
         <div class="job-card">
             <!-- Header Section -->
             <div class="header">
                 @if ($job->image)
-<<<<<<< Updated upstream
                     <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
-=======
-                    <img src="{{asset('storage/' . $job->image) }}" alt="Company banner">
->>>>>>> Stashed changes
+
                     <div class="overlay"></div>
                 @endif
             </div>
@@ -391,7 +392,7 @@
                 </div> -->
 
                 <div class="backbutton">
-                <button class="btn btn-back" id="back">Back to Home</button>
+                    <button class="btn btn-back" id="back">Back to Home</button>
                 </div>
 
             </div>

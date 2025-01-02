@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\JobEducation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +17,9 @@ class EducationController extends Controller
 
         $user_id = auth()->id();
         $educations = JobEducation::where('job_seeker_id', $user_id)->get();
+        $contacts = ContactUs::all();
 
-        return view('user.jobseekerprofile.education', compact('educations'));
+        return view('user.jobseekerprofile.education', compact('educations', 'contacts'));
     }
 
     public function store(Request $request)

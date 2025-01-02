@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\JobExperience;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -16,8 +17,9 @@ class JobExperienceController extends Controller
 
         $user_id = auth()->id();
         $experiences = JobExperience::where('job_seeker_id', $user_id)->get();
+        $contacts = ContactUs::all();
 
-        return view('user.jobseekerprofile.experience', compact('experiences'));
+        return view('User.jobseekerprofile.expirience', compact('experiences', 'contacts'));
     }
 
     public function store(Request $request)

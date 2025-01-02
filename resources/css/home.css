@@ -6,8 +6,6 @@ body {
     background-color: rgb(245, 249, 253);
 }
 
-
-
 .feedback-section {
     text-align: center;
     position: relative; /* Enable positioning for child elements */
@@ -27,7 +25,6 @@ body {
     border-radius: 0 0 35px 35px;
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2); /* Subtle shadow with blur and transparency */
 }
-
 
 .feedback-btn {
     position: relative; /* Keep the button on top of the rectangle */
@@ -49,9 +46,7 @@ body {
 .feedback-btn:hover {
     background: linear-gradient(to right, #0056b3, #003a80);
     color: #ffffff;
-    
 }
-
 
 .filters {
     display: flex;
@@ -78,9 +73,8 @@ body {
     border-radius: 3px;
     font-size: 16px;
     width: 400px; /* Adjust width automatically if needed */
-    
 }
-.filters select{
+.filters select {
     padding: 5px 10px; /* Keep height the same */
     margin: 0 5px;
     border: 1px solid #ddd;
@@ -105,7 +99,6 @@ body {
     background-color: #0056b3;
 }
 
-
 .job-listings {
     display: flex;
     flex-wrap: wrap; /* Allow items to wrap to the next line */
@@ -118,11 +111,10 @@ body {
     margin: -10px;
     flex: 1 1 calc(33.33% - 20px); /* Ensure 3 columns by dividing the row into 3 parts */
     box-sizing: border-box; /* Include padding and borders in width calculations */
-}  
-   
+}
 
- /* Job listings container */
- .job-listingsss-container {
+/* Job listings container */
+.job-listingsss-container {
     max-height: 400px; /* Adjust the height to your preference */
     overflow-y: auto; /* Enable vertical scrolling */
     border: 1px solid #ccc; /* Optional: Add a border for better visual separation */
@@ -132,9 +124,9 @@ body {
     border-radius: 8px; /* Optional: Rounded corners */
     width: 80%;
 }
- .job-listingsss {
+.job-listingsss {
     display: flex;
-    flex-wrap: wrap;  /* Allow wrapping of rows */
+    flex-wrap: wrap; /* Allow wrapping of rows */
     gap: 20px; /* Space between rows */
     justify-content: space-between; /* Spread out the rows evenly */
 }
@@ -149,7 +141,6 @@ body {
     background-color: #fff;
     transition: transform 0.3s ease, background-color 0.3s ease; /* Add smooth transition */
     cursor: pointer; /* Show pointer cursor on hover */
-    
 }
 .job-card:nth-child(odd) {
     background-color: #fff; /* White background */
@@ -183,150 +174,141 @@ body {
 
 .job-card p {
     margin: 5px 0;
-    font-size: 14px
+    font-size: 14px;
 }
 
 .job-card .job-title {
     font-weight: bold;
-    font-size: 15px
+    font-size: 15px;
 }
 .job-title {
     text-decoration: none; /* Remove underline by default */
     color: #fd0c0c; /* Set text color */
     font-weight: bold;
-    
 }
 
-
-.hr2{
+.hr2 {
     width: 100%;
     height: 75px;
     background-color: #a7cbf4b3;
     margin-top: -80px;
     box-shadow: 0px 2px 3px rgba(0.2, 0.2, 0.2, 0.2);
 }
-       /* Job Titles Section */
-       .job-titles-container {
-        display: flex;
-        padding: 20px;
-       
-    }
-    
-    .job-titles-column {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        margin-left: 20px;
-        gap: -100px;
-       
-    }
-    
-    .job-titles {
-        text-decoration: none;
-        color: #007BFF; /* Blue color for links */
-        font-size: 16px;
-        font-weight: bold;
-        transition: color 0.3s ease;
-        margin-top: 5px;
-    }
-    
-    .job-titles:hover {
-        color: #f12203; /* Darker blue on hover */
-    }
+/* Job Titles Section */
+.job-titles-container {
+    display: flex;
+    padding: 20px;
+}
 
-    /* Categories styles*/
+.job-titles-column {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+    gap: -100px;
+}
 
-      /* General body styling */
-      body {
-        
-        margin: 0;
-        padding: 0;
-    }
+.job-titles {
+    text-decoration: none;
+    color: #007bff; /* Blue color for links */
+    font-size: 16px;
+    font-weight: bold;
+    transition: color 0.3s ease;
+    margin-top: 5px;
+}
 
-    /* Job categories wrapper */
-    .job-categories-wrapper {
-        max-width: 1120px; /* Matches max-w-7xl */
-        margin: 0 auto; /* Center horizontally */
-        padding: 16px; /* Default padding */
-    }
+.job-titles:hover {
+    color: #f12203; /* Darker blue on hover */
+}
 
-   
+/* Categories styles*/
 
-    /* Grid layout */
+/* General body styling */
+body {
+    margin: 0;
+    padding: 0;
+}
+
+/* Job categories wrapper */
+.job-categories-wrapper {
+    max-width: 1120px; /* Matches max-w-7xl */
+    margin: 0 auto; /* Center horizontally */
+    padding: 16px; /* Default padding */
+}
+
+/* Grid layout */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Default 2 columns */
+    gap: -10px; /* Spacing between items */
+}
+
+@media (min-width: 640px) {
     .grid {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr); /* Default 2 columns */
-        gap: -10px; /* Spacing between items */
+        grid-template-columns: repeat(3, 1fr); /* 3 columns on small screens */
     }
+}
 
-    @media (min-width: 640px) {
-        .grid {
-            grid-template-columns: repeat(3, 1fr); /* 3 columns on small screens */
-        }
+@media (min-width: 1024px) {
+    .grid {
+        grid-template-columns: repeat(5, 1fr); /* 5 columns on large screens */
     }
+}
 
-    @media (min-width: 1024px) {
-        .grid {
-            grid-template-columns: repeat(5, 1fr); /* 5 columns on large screens */
-        }
-    }
+/* Job Listings Section */
+.job-listings-container {
+    flex: 3;
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
 
-    /* Job Listings Section */
-    .job-listings-container {
-        flex: 3;
-        background: #fff;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
+.jobtitle {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    color: red;
+}
 
-    .jobtitle {
-        font-size: 18px;
-        font-weight: bold;
-        margin-bottom: 15px;
-        color: red;
-    }
+.job-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr); /* Four equal columns */
+    grid-auto-rows: 1fr; /* Ensure rows automatically adjust to fill available space */
+    padding: 0; /* Remove padding around the grid if not needed */
+    margin: 0; /* Remove margin for tight alignment */
+}
 
-    .job-grid {
-        display: grid;
-        grid-template-columns: repeat(5, 1fr); /* Four equal columns */
-        grid-auto-rows: 1fr; /* Ensure rows automatically adjust to fill available space */
-        padding: 0; /* Remove padding around the grid if not needed */
-        margin: 0; /* Remove margin for tight alignment */
-    }
-    
- 
-    .job-card {
-        padding: 15px;
-        background: #fff;
-        border-radius: 5px;
-        border: 1px solid #ddd;
-        text-align: center;
-        font-size: 14px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        width: 260px;
-      
-    }
+.job-card {
+    padding: 15px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 14px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 260px;
+}
 
-    .job-card .job-title {
-        font-size: 16px;
-        font-weight: bold;
-        color: #07a822;
-        text-decoration: none;
-    }
+.job-card .job-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #07a822;
+    text-decoration: none;
+}
 
-    .job-card .job-title:hover {
-        text-decoration: none;
-    }
+.job-card .job-title:hover {
+    text-decoration: none;
+}
 
-        /* Main Layout */
-        .main-content {
-            display: flex;
-            gap: 20px;
-        }
+/* Main Layout */
+.main-content {
+    display: flex;
+    gap: 20px;
+}
 
-    /* Category links */
-   /* Categories Section */
+/* Category links */
+/* Categories Section */
 .categories-container {
     flex: 1;
     padding: 15px;
@@ -354,8 +336,6 @@ body {
     padding-right: 5px;
 }
 
-
-
 .category-link {
     font-size: 16px;
     font-weight: bold;
@@ -369,7 +349,6 @@ body {
 }
 
 .category-link:hover {
-    
     color: rgb(255, 1, 1); /* White text on hover */
 }
 /* Mobile-Responsive Styles */
@@ -407,7 +386,8 @@ body {
         gap: 10px;
     }
 
-    .filters input, .filters select {
+    .filters input,
+    .filters select {
         width: 100%; /* Full width on smaller screens */
         margin: 5px 0;
     }

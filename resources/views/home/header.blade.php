@@ -32,17 +32,17 @@
 
         </div>
         <div class="menu">
-        @auth
-            <!-- For authenticated users -->
-            <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->
-        @endauth
+            @auth
+                <!-- For authenticated users -->
+                <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->
+            @endauth
 
-        @guest
-            <!-- For guests -->
-            <a href="{{ route('login') }}"class="login-btn">Login</a>
-            <a href="{{ route('register') }}" class="signup-btn">Sign Up</a>
-        @endguest
-    </div>
+            @guest
+                <!-- For guests -->
+                <a href="{{ route('login') }}"class="login-btn">Login</a>
+                <a href="{{ route('register') }}" class="signup-btn">Sign Up</a>
+            @endguest
+        </div>
         <!-- Profile Dropdown -->
         <div class="profile-dropdown">
             <!-- Replace Button with Image -->
@@ -73,7 +73,7 @@
         }
 
         // Event listeners for the search button
-       
+
 
         searchButton.addEventListener('mouseout', () => {
             hideInputBar();

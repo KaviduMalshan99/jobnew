@@ -73,7 +73,6 @@ class JobPostingController extends Controller
 
         return view('home.home', compact('categories', 'jobs', 'contacts'));
     }
-
     public function show($id)
     {
         $job = JobPosting::with(['category', 'employer'])->findOrFail($id);

@@ -26,11 +26,7 @@
                         <th>Vacancy</th>
                         <th>Company</th>
                         <th>Date Applied</th>
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
-                       
                     </tr>
                 </thead>
                 <tbody>
@@ -39,7 +35,6 @@
                         <td><a href="#">0001304267 - Lowcode Minds</a></td>
                         <td>Data Management Systems (Pvt) Ltd</td>
                         <td>2024/12/27 10:34 AM</td>
-<<<<<<< Updated upstream
 
 
                     </tr>
@@ -47,15 +42,6 @@
                 </tbody>
             </table>
 
-=======
->>>>>>> Stashed changes
-                        
-                       
-                    </tr>
-                  
-                </tbody>
-            </table>
-            
         </div>
 
         <div class="jobsection">
@@ -112,7 +98,7 @@
                         <th>Company</th>
                         <th>Closing Date</th>
                         <th>Status</th>
-                       
+
                     </tr>
                 </thead>
                 <tbody>
@@ -122,9 +108,9 @@
                         <td>Data Management Systems (Pvt) Ltd</td>
                         <td>2024/12/27 10:34 AM</td>
                         <td><a href="#">View&Apply</td>
-                       
+
                     </tr>
-                  
+
                 </tbody>
             </table>
         </div>

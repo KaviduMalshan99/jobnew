@@ -115,7 +115,7 @@
 
         <p><strong>Submitted On:</strong> {{ $application->created_at->format('d M Y') }}</p>
 
-        <a href="{{ route('user.jobseekerprofile.mainview.profileview') }}" class="back-btn">
+        <a href="{{ route('profile.edit') }}" class="back-btn">
             <i class="fas fa-arrow-left"></i>
             Back to My Applications
         </a>

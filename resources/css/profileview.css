@@ -1,10 +1,7 @@
-<<<<<<< Updated upstream
 .profileview-container {
     font-family: Arial, sans-serif;
 }
-=======
->>>>>>> Stashed changes
-.profileview-container{
+.profileview-container {
     font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
@@ -35,8 +32,8 @@
     text-decoration: none;
 }
 
-.btn-group a{
-    text-decoration: none; 
+.btn-group a {
+    text-decoration: none;
 }
 
 .btn {

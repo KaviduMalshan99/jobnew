@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProfileUpdateRequest;
+use App\Models\ContactUs;
 use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\RedirectResponse;
@@ -34,8 +35,21 @@ class ProfileController extends Controller
         // Ensure these relationships exist in the User model
         $experiences = $user->jobExperiences ?? collect();
         $educations = $user->jobEducations ?? collect();
+        $contacts = ContactUs::all();
 
-        return view('User.jobseekerprofile.mainview.profileview', compact('user', 'experiences', 'educations'));
+        return view('user.jobseekerprofile.jobseekerprofile', compact('user', 'experiences', 'educations', 'contacts'));
+    }
+    public function showpersonal(Request $request): View
+    {
+        // Use $request->user() instead of auth()->user()
+        $user = $request->user();
+
+        // Ensure these relationships exist in the User model
+        $experiences = $user->jobExperiences ?? collect();
+        $educations = $user->jobEducations ?? collect();
+        $contacts = ContactUs::all();
+
+        return view('user.jobseekerprofile.personal', compact('user', 'experiences', 'educations', 'contacts'));
     }
 
     public function update(ProfileUpdateRequest $request): RedirectResponse

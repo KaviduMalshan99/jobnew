@@ -11,7 +11,7 @@
 
 <body>
     @include('home.header')
-    <h1 class="maintopic"></h1><br/>
+    <h1 class="maintopic"></h1><br />
     <div class=profileview-container>
         <div class ="profileview-header">
             Profile View
@@ -67,77 +67,79 @@
     <!-- Script for Dynamic Component Loading -->
     <script>
         $(document).ready(function() {
-            // my profile
-            $('#commonprofile').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.jobseekerprofile') }}');
+                    // my profile
+                    $('#commonprofile').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.jobseekerprofile') }}');
 
-            });
-            $('#cv').on('click', function() {
-                window.location.href = '{{ route('generate.index') }}';
-            });
-
-
-
-            $('#personalprofile').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.personal') }}');
-
-            });
+                    });
+                    $('#cv').on('click', function() {
+                        window.location.href = '{{ route('generate.index') }}';
+                    });
 
 
-            $('#education').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.education') }}');
-            });
 
-            $('#expirience').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.expirience') }}');
-            });
+                    $('#personalprofile').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.personal') }}');
 
-            //my Jobs
+                    });
 
-<<<<<<< Updated upstream
-            $('#myapplication').on('click', function() {
-                console.log('My Applications clicked');
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
-            });
-            $('#flagged').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
-            });
-            $('#preferred').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
-            });
-            $('#recent').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
-                window.scrollTo(0, 0);
-=======
->>>>>>> Stashed changes
-            $('#myapplication').on('click', function () {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.application') }}');
-                window.scrollTo(0, 0); 
-            });
-            $('#flagged').on('click', function () {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.flaggedjob') }}');
-                window.scrollTo(0, 0); 
-            });
-            $('#preferred').on('click', function () {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.preferredcompany') }}');
-                window.scrollTo(0, 0); 
-            });
-            $('#recent').on('click', function () {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.recentjob') }}');
-                window.scrollTo(0, 0); 
-            });
 
-            // jo alerts
+                    $('#education').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.education') }}');
+                    });
 
-            $('#jobalerts').on('click', function() {
-                $('#componentContainer').load('{{ route('user.jobseekerprofile.jobalerts.jobalerts') }}');
-                window.scrollTo(0, 0);
-            });
+                    $('#expirience').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.expirience') }}');
+                    });
 
-        });
+                    //my Jobs
+
+                    $('#myapplication').on('click', function() {
+                        console.log('My Applications clicked');
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                        window.scrollTo(0, 0);
+                    });
+                    $('#flagged').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                        window.scrollTo(0, 0);
+                    });
+                    $('#preferred').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                        window.scrollTo(0, 0);
+                    });
+                    $('#recent').on('click', function() {
+                        $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
+                        window.scrollTo(0, 0);
+                        $('#myapplication').on('click', function() {
+                            $('#componentContainer').load(
+                                '{{ route('user.jobseekerprofile.myjobs.application') }}');
+                            window.scrollTo(0, 0);
+                        });
+                        $('#flagged').on('click', function() {
+                            $('#componentContainer').load(
+                                '{{ route('user.jobseekerprofile.myjobs.flaggedjob') }}');
+                            window.scrollTo(0, 0);
+                        });
+                        $('#preferred').on('click', function() {
+                            $('#componentContainer').load(
+                                '{{ route('user.jobseekerprofile.myjobs.preferredcompany') }}');
+                            window.scrollTo(0, 0);
+                        });
+                        $('#recent').on('click', function() {
+                            $('#componentContainer').load(
+                                '{{ route('user.jobseekerprofile.myjobs.recentjob') }}');
+                            window.scrollTo(0, 0);
+                        });
+
+                        // jo alerts
+
+                        $('#jobalerts').on('click', function() {
+                            $('#componentContainer').load(
+                                '{{ route('user.jobseekerprofile.jobalerts.jobalerts') }}');
+                            window.scrollTo(0, 0);
+                        });
+
+                    });
     </script>
 
     <br />

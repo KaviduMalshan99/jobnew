@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Application;
+use App\Models\ContactUs;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
@@ -24,8 +25,9 @@ class ApplicationController extends Controller
         $applications = Application::with(['job', 'job.employer'])
             ->where('user_id', auth()->id())
             ->get();
+        $contacts = ContactUs::all();
 
-        return view('User.jobseekerprofile.myJobs.myapplication', compact('applications'));
+        return view('User.jobseekerprofile.myJobs.application', compact('applications', 'contacts'));
     }
     public function viewApplicationDetails($id)
     {

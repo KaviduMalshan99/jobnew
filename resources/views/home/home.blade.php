@@ -43,7 +43,6 @@
         </form>
     </section>
    
-<<<<<<< Updated upstream
 
 
         <!-- Job Listings Section -->
@@ -77,32 +76,6 @@
 
 
     </main><br/><br/><br/><br/>
-=======
-    <main class="main-content">
-    
-
-        <!-- Job Listings Section -->
-        <section id="job-listings" class="job-listings-container">
-   
-    <div class="job-grid">
-        @if ($jobs->isEmpty())
-            <p>No jobs found matching your criteria.</p>
-        @else
-            @foreach ($jobs as $job)
-                <div class="job-card">
-                    <a href="{{ route('job.details', $job->id) }}" class="job-title">
-                        {{ $job->title }}
-                    </a>
-                    <p><strong>{{ $job->employer->company_name }}</strong></p>
-                    <p>{{ $job->location }}</p>
-                </div>
-            @endforeach
-        @endif
-    </div>
-</section>
-
-    </main>
->>>>>>> Stashed changes
 
     @include('home.footer')
     <script>

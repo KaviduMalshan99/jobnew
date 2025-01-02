@@ -43,15 +43,9 @@
 <p>Manage your CV, photograph, certificates, online profile. featured employers, View/Edit your login details.</p>,<br/>
 <div class="btn-group mb-4">
         <a href="/mainprofileview/application" class="btn btn-common" id="myapplication">My Applications</a>
-<<<<<<< Updated upstream
         <a href="/mainprofileview/flaggedjob" class="btn btn-common" id="flagged">Flagged Jobs</a>
         <a href="/mainprofileview/preferredcompany" class="btn btn-common" id="preferred">Preferred Companies</a>
         <a href="/mainprofileview/recentjob" class="btn btn-common" id="recent">Recent Jobs</a>
-=======
-        <a href="/mainprofileview/flaggedjob" class="btn btn-personal" id="flagged">Flagged Jobs</a>
-        <a href="/mainprofileview/preferredcompany" class="btn btn-education" id="preferred">Preferred Companies</a>
-        <a href="/mainprofileview/recentjob" class="btn btn-expirience" id="recent">Recent Jobs</a>
->>>>>>> Stashed changes
 </div>
 </div>
 

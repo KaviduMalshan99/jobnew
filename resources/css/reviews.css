@@ -1,13 +1,7 @@
 body {
-<<<<<<< Updated upstream
     font-family: Bahnschrift;
     background-color: #f9f9f9;
     
-=======
-    font-family: Arial, sans-serif;
-    background-color: #f9f9f9;
-
->>>>>>> Stashed changes
 }
 
 .feedback-container {
@@ -17,10 +11,6 @@ body {
     gap: 20px;
     max-width: 1200px;
     margin: 20px auto;
-<<<<<<< Updated upstream
-=======
-    min-height: 100vh;
->>>>>>> Stashed changes
 }
 
 .feedback-card {

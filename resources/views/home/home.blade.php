@@ -5,12 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HomePage</title>
-<<<<<<< Updated upstream
    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
-=======
->>>>>>> Stashed changes
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css','resources/css/header.css'])
    
 </head>
@@ -18,12 +15,6 @@
 <body>
     @include('home.header')
 
-<<<<<<< Updated upstream
-
-=======
-   
-    <br />
->>>>>>> Stashed changes
         <!-- Categories Section -->
         <section class="categories-container">
             <h3 class="categories-title"> Scroll for more Job Categories</h3>

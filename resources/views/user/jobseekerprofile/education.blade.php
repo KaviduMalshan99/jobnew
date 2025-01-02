@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 
 <head>
 @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/education.css'])
@@ -10,6 +11,17 @@
     {{-- Display existing education entries --}}
     @foreach (auth()->user()->jobEducations ?? [] as $education)
         <form method="POST" action="{{ route('education.update', $education->id) }}" class="mb-4">
+=======
+<head>
+@vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/education.css'])
+</head>
+
+<body>
+@include('user.jobseekerprofile.mainview.profilelayout')
+    <div class="container">
+        <h2 class="section-header">School Education</h2>
+        <form method="POST" action="{{ route('education.store-or-update') }}" enctype="multipart/form-data">
+>>>>>>> Stashed changes
             @csrf
             @method('PUT')
             <div class="education-entry">

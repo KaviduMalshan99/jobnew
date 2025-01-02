@@ -94,6 +94,7 @@
 
             //my Jobs
 
+<<<<<<< Updated upstream
             $('#myapplication').on('click', function() {
                 console.log('My Applications clicked');
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
@@ -110,6 +111,8 @@
             $('#recent').on('click', function() {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.myapplication') }}');
                 window.scrollTo(0, 0);
+=======
+>>>>>>> Stashed changes
             $('#myapplication').on('click', function () {
                 $('#componentContainer').load('{{ route('user.jobseekerprofile.myjobs.application') }}');
                 window.scrollTo(0, 0); 

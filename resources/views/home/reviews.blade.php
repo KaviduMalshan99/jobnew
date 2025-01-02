@@ -80,6 +80,9 @@
        
         <!-- Repeat similar cards for each feedback -->
     </div>
+<<<<<<< Updated upstream
    
+=======
+>>>>>>> Stashed changes
 </body>
 </html>

@@ -7,7 +7,7 @@
   <style>
   /* General Styles */
 body {
-  font-family: 'Arial', sans-serif;
+  font-family: Bahnschrift;
   background-color: #f7f7f7;
   color: #333;
   line-height: 1.8;

@@ -60,7 +60,7 @@
 <div class ="post-container">
 <div class="payment-info">
         <div class="payment-header">
-       payment Methods
+       Payment Methods
         </div>
         <p>We accept cash/cheque deposits, bank transfer, credit card payment (visa/mastercard) and other convenient methods</p>
         

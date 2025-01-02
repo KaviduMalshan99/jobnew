@@ -1,16 +1,17 @@
-/* Header Styles */
-/* Unique Header Styles */
+ /* Unique Header Styles */
 .unique-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     padding: 10px 20px;
-    background-color: #2596be;
-    border-bottom: 1px solid #ddd;
+    background-color: #f1f4f6;
+    border-bottom: 3px solid #cccbcb;
     position: sticky;
     top: 0;
     z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
+
 
 /* Unique Logo Styles */
 .unique-header .logo img {
@@ -22,12 +23,12 @@
 .unique-nav-links a {
     margin-right: 15px;
     text-decoration: none;
-    color: #fcfcfc;
+    color: #2305cb;
     font-size: 16px;
 }
 
 .unique-nav-links a:hover {
-    color: #fff;
+    color: #e10707;
     text-decoration: none;
 }
 
@@ -35,11 +36,27 @@
 .unique-search-bar {
     display: flex;
     align-items: center;
+    justify-content: center;
+    gap: 10px;
 }
 
 .unique-search-bar input {
     padding: 5px;
-    border: 1px solid #ddd;
+    border: 1px solid #069533;
+    border-radius: 3px;
+    margin-right: 5px;
+    width: 150px; /* Initial width */
+    transition: width 0.3s ease-in-out; /* Smooth transition for width change */
+}
+
+.unique-search-bar input:focus {
+    width: 250px; /* Expanded width on focus */
+    border-color: #0a5d04;
+    box-shadow: 0 0 8px rgba(10, 93, 4, 0.3); /* Optional: Add a glow effect on focus */
+}
+
+.unique-search-bar input:hover {
+    border: 1px solid #0a5d04;
     border-radius: 3px;
     margin-right: 5px;
 }
@@ -77,6 +94,45 @@
     opacity: 0.8;
 }
 
+/* Profile Dropdown Styles */
+.profile-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.profile-dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    border-radius: 5px;
+    z-index: 1;
+    width: 200px;
+    right: 0; /* Align dropdown to the right */
+}
+
+.profile-dropdown-content a {
+    color: black;
+    padding: 10px 15px;
+    text-decoration: none;
+    display: block;
+    border-bottom: 1px solid #ddd;
+}
+
+.profile-dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.profile-dropdown:hover .profile-dropdown-content {
+    display: block;
+}
 
 /* Popup Box Styles */
 .popup-box {
@@ -126,153 +182,103 @@
 
 /* Responsive Layout */
 @media (max-width: 768px) {
-    header {
+    .unique-header {
         flex-direction: column;
         align-items: flex-start;
+        padding: 10px 15px; /* Adjust padding for smaller screens */
     }
 
-    .search-bar {
-        width: 100%;
+    .unique-nav-links {
+        flex-direction: column;
+        align-items: flex-start;
         margin-top: 10px;
     }
 
-    .auth-buttons {
+    .unique-nav-links a {
+        margin: 5px 0;
+    }
+
+    .unique-search-bar {
+        width: 100%;
+        margin-top: 10px;
+        justify-content: space-between;
+    }
+
+    .unique-search-bar input {
+        width: 100%; /* Full width for smaller screens */
+        margin-right: 0;
+    }
+
+    .unique-auth-buttons {
         display: flex;
         flex-direction: column;
         margin-top: 10px;
     }
 
-    .auth-buttons button {
+    .unique-auth-buttons button {
         margin-top: 5px;
+    }
+
+    .profile-dropdown-content {
+        width: 100%; /* Make profile dropdown full width */
     }
 
     .popup-content {
         max-width: 90%;
         padding: 15px;
     }
+
+    .popup-box {
+        justify-content: flex-start;
+        padding-top: 10%;
+    }
 }
-  /* Profile Dropdown Styles */
-        .profile-dropdown {
-            position: relative;
-            display: inline-block;
-        }
 
-        .profile-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+/* Search Bar Button Hover Effect */
+.animated-button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 55px;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
+}
 
-        .profile-dropdown-content {
-            display: none;
-            position: absolute;
-            background-color: white;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-            z-index: 1;
-            width: 200px;
-            right: 0; /* Align dropdown to the right */
-        }
+.animated-button:hover {
+    transform: scale(1.1);
+    background-color: #d80606;
+}
 
-        .profile-dropdown-content a {
-            color: black;
-            padding: 10px 15px;
-            text-decoration: none;
-            display: block;
-            border-bottom: 1px solid #ddd;
-        }
+/* Menu and Button Styles */
+.menu a {
+    margin: 0 10px;
+    text-decoration: none;
+}
 
-        .profile-dropdown-content a:hover {
-            background-color: #f1f1f1;
-        }
+.signup-btn {
+    padding: 8px 15px;
+    background-color: #007bff;
+    color: black;
+    border-radius: 5px;
+    text-decoration: none;
+}
 
-        .profile-dropdown:hover .profile-dropdown-content {
-            display: block;
-        }
+.signup-btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
 
-        /* .search-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            position: relative;
-            
-        }
-        
-        .animated-input {
-            width: 200px;
-            padding: 10px;
-            border: 10px solid #ddd;
-            border-radius: 5px;
-            transition: all 0.3s ease-in-out;
-            
-        }
-        
-        .animated-input:focus {
-            width: 300px;
-            border-color: #4caf50;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-            outline: none;
-            
-        }
-        
-        .animated-button {
-            background-color: #11047a;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 15px;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
-        }
-        
-        .animated-button:hover {
-            transform: scale(1.1);
-            background-color: #de0d0d;
-        }
-         */
+.login-btn {
+    padding: 8px 15px;
+    background-color: green;
+    color: black;
+    border-radius: 5px;
+    text-decoration: none;
+}
 
-         .search-bar {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            position: relative;
-            overflow: hidden; /* Prevent overflow during animation */
-        }
-        
-        .animated-input {
-            width: 0;
-            opacity: 0;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 25px;
-            transition: all 0.5s ease-in-out;
-        }
-        
-        .animated-input.visible {
-            width: 200px;
-            opacity: 1;
-            border-color: #4caf50;
-            box-shadow: 0 0 10px rgba(76, 175, 80, 0.5);
-            outline: none;
-        }
-       
-        
-        .animated-button {
-            background-color: #4caf50;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 55px;
-            cursor: pointer;
-            transition: transform 0.2s ease-in-out, background-color 0.3s ease-in-out;
-        }
-        
-        .animated-button:hover {
-            transform: scale(1.1);
-            background-color: #d80606;
-        }
-        
-        
+.login-btn:hover {
+    background-color: #185203;
+    color: white;
+}
+ 

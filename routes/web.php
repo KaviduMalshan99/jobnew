@@ -656,6 +656,27 @@ Route::get('/mainprofileview/expirience', function () {
 
 //my jobs
 
+
+// Route::get('/mainprofileview/myapplication', function () {
+//     return view('user.jobseekerprofile.myjobs.myapplication');
+// })->name('user.jobseekerprofile.myjobs.myapplication');
+
+Route::get('/mainprofileview/application', function () {
+    return view('user.jobseekerprofile.myjobs.application');
+})->name('user.jobseekerprofile.myjobs.application');
+
+Route::get('/mainprofileview/flaggedjob', function () {
+    return view('user.jobseekerprofile.myjobs.flaggedjob');
+})->name('user.jobseekerprofile.myjobs.flaggedjob');
+
+Route::get('/mainprofileview/preferredcompany', function () {
+    return view('user.jobseekerprofile.myjobs.preferredcompany');
+})->name('user.jobseekerprofile.myjobs.preferredcompany');
+
+Route::get('/mainprofileview/recentjob', function () {
+    return view('user.jobseekerprofile.myjobs.recentjob');
+})->name('user.jobseekerprofile.myjobs.recentjob');
+
 // job alerts
 
 Route::get('/mainprofileview/alerts', function () {
@@ -689,3 +710,84 @@ Route::get('/alerts', function () {
 // top Employees
 
 // routes/web.php
+// routes/web.php
+
+Route::get('/profilelayout', function () {
+    return view('user/jobseekerprofile/mainview/profilelayout');
+
+});
+
+
+// reviews 
+
+Route::get('/reviews', function () {
+    return view('home/reviews');
+
+});
+
+
+//review example 
+
+Route::get('/reviewtest', function () {
+    return view('home/jobs/reviewexample');
+
+});
+
+
+// About Us
+
+Route::get('/aboutus', function () {
+    return view('user/SideComponent/aboutus');
+
+});
+
+//topemployees
+
+Route::get('/withopenjobs', function () {
+    return view('user/withopen');
+
+});
+
+Route::get('/byindrustry', function () {
+    return view('user/byindustry');
+
+});
+Route::get('/topemployees/all', function () {
+    return view('user.all');
+})->name('user.all');
+
+Route::get('/topemployees/withopenjobs', function () {
+    return view('user.withopen');
+})->name('user.withopen');
+
+Route::get('/topemployees/byindustry', function () {
+    return view('user.byindustry');
+})->name('user.byindustry');
+
+Route::get('/topemployees/alphabetical', function () {
+    return view('user.alphabetical');
+})->name('user.alphabetical');
+
+
+Route::get('/profilelayout', function () {
+    return view('user/jobseekerprofile/mainview/profilelayout');
+
+});
+
+
+// reviews 
+
+Route::get('/reviews', function () {
+    return view('home/reviews');
+
+});
+
+
+//review example 
+
+Route::get('/reviewtest', function () {
+    return view('home/jobs/reviewexample');
+
+});
+
+

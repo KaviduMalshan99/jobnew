@@ -7,6 +7,7 @@
     <title>Contact Us Popup</title>
     @vite(['resources/css/header.css']) <!-- Laravel Vite for including CSS -->
 
+
 </head>
 
 <body>
@@ -30,16 +31,24 @@
 
 
         </div>
-        <div class="auth-buttons unique-auth-buttons">
-            <button id="login-button" class="login-btn unique-login-btn">LOG IN</button>
-            <button id="signup-button" class="signup-btn unique-signup-btn">SIGN UP</button>
-        </div>
+        <div class="menu">
+        @auth
+            <!-- For authenticated users -->
+            <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->
+        @endauth
+
+        @guest
+            <!-- For guests -->
+            <a href="{{ route('login') }}"class="login-btn">Login</a>
+            <a href="{{ route('register') }}" class="signup-btn">Sign Up</a>
+        @endguest
+    </div>
         <!-- Profile Dropdown -->
         <div class="profile-dropdown">
             <!-- Replace Button with Image -->
             <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
             <div class="profile-dropdown-content">
-                <a href="/mainprofileview">My Profile</a>
+                <a href="/mainprofileview/common">My Profile</a>
                 <a href="/logout">Logout</a>
             </div>
         </div>
@@ -64,10 +73,7 @@
         }
 
         // Event listeners for the search button
-        searchButton.addEventListener('mouseover', () => {
-            showInputBar();
-            hideInputBar(); // Start hide timer
-        });
+       
 
         searchButton.addEventListener('mouseout', () => {
             hideInputBar();

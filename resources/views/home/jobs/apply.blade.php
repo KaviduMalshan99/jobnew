@@ -120,6 +120,7 @@
 
         <form action="{{ route('apply.submit') }}" method="POST" enctype="multipart/form-data">
             @csrf
+
             <div class="note">
                 Your CV is sent to the employer directly and they will contact you directly on the selection process.
             </div>

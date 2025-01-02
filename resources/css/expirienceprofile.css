@@ -98,3 +98,52 @@ background-color: #f5f5f5;
 font-weight: bold;
 }
 
+/* Mobile Responsive CSS */
+@media (max-width: 768px) {
+    /* Adjust container width and padding */
+    .container {
+        max-width: 100%;
+        padding: 15px;
+        margin: 10px;
+    }
+
+    /* Section header adjustments */
+    .section-header {
+        font-size: 18px;
+        text-align: center;
+    }
+
+    /* Adjust form group margins */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    /* Adjust label and form control sizes */
+    label {
+        font-size: 14px;
+    }
+
+    .form-control {
+        padding: 6px;
+        font-size: 14px;
+    }
+
+    /* Buttons responsive */
+    .btn {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px;
+        margin-top: 10px;
+    }
+
+    /* Table adjustments for mobile */
+    .table {
+        font-size: 12px;
+        overflow-x: auto;
+        display: block;
+    }
+
+    .table th, .table td {
+        padding: 6px;
+    }
+}

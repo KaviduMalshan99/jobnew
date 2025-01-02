@@ -1,5 +1,11 @@
+<<<<<<< Updated upstream
 .profileview-container {
     font-family: Arial, sans-serif;
+}
+=======
+>>>>>>> Stashed changes
+.profileview-container{
+    font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
     border: 1px solid #409cf1;
@@ -26,6 +32,11 @@
     justify-content: center; /* Align buttons horizontally in the center */
     gap: 10px; /* Add spacing between buttons */
     margin-bottom: 20px; /* Space below the button group */
+    text-decoration: none;
+}
+
+.btn-group a{
+    text-decoration: none; 
 }
 
 .btn {

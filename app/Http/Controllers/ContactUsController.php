@@ -15,6 +15,12 @@ class ContactUsController extends Controller
         return view('contactus.contactus', compact('contacts'));
     }
 
+    public function showlogo()
+    {
+        $contact = ContactUs::first(); // Get the first record
+        return view('components.application-logo', compact('contact'));
+    }
+
     public function create()
     {
         $contact = ContactUs::first();

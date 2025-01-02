@@ -19,10 +19,7 @@
                     <div>
                         <div class="text-center">
                             <a class="logo" href="{{ route('index') }}">
-                                <img class="img-fluid for-light" src="{{ asset('assets/images/logo/login.png') }}"
-                                    alt="logo">
-                                <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_dark.png') }}"
-                                    alt="logo">
+                                <x-application-logo />
                             </a>
                         </div>
                         <div class="login-main">
@@ -83,25 +80,12 @@
                                     <button type="submit" class="btn btn-primary btn-block">Register</button>
                                 </div>
 
-                                <!-- Social Login -->
-                                <h6 class="text-muted mt-4 or">Or sign up with</h6>
-                                <div class="social mt-4">
-                                    <div class="btn-showcase">
-                                        <a href="https://www.linkedin.com/login" target="_blank" class="btn btn-light">
-                                            <i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn
-                                        </a>
-                                        <a href="https://twitter.com/login?lang=en" target="_blank" class="btn btn-light">
-                                            <i class="txt-twitter" data-feather="twitter"></i> Twitter
-                                        </a>
-                                        <a href="https://www.facebook.com/" target="_blank" class="btn btn-light">
-                                            <i class="txt-fb" data-feather="facebook"></i> Facebook
-                                        </a>
-                                    </div>
-                                </div>
+
 
                                 <!-- Sign-in Link -->
                                 <p class="mt-4 mb-0">
-                                    Already have an account? <a href="{{ route('login') }}" class="ms-2">Sign in</a>
+                                    Already have an account? <a href="{{ route('employer.login') }}" class="ms-2">Sign
+                                        in</a>
                                 </p>
                             </form>
                         </div>

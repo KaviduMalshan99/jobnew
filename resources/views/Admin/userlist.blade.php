@@ -10,17 +10,17 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>User List</h3>
+    <h3>Job Seeker List</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">User List</li>
+    <li class="breadcrumb-item active">Job Seeker List</li>
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="my-4">User List</h1>
+
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -33,6 +33,7 @@
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone Number</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -43,6 +44,7 @@
                         <td>{{ $user->name }}</td>
                         <td>{{ $user->email }}</td>
                         <td>{{ $user->phone_number ?? 'N/A' }}</td>
+                        <td>{{ $user->is_active ? 'Active' : 'Inactive' }}</td>
 
                         <td>
                             <form action="{{ route('user.toggleStatus', $user->id) }}" method="POST">

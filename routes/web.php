@@ -187,7 +187,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminAuthController::class, 'login']);
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
+    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.signup');
     Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register');
 
     Route::middleware('admin')->group(function () {

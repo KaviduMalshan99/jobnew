@@ -39,8 +39,18 @@
             <!-- Replace Button with Image -->
             <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
             <div class="profile-dropdown-content">
-                <a href="/mainprofileview">My Profile</a>
-                <a href="/logout">Logout</a>
+                <x-dropdown-link :href="route('profile.edit')">
+                    {{ __('Profile') }}
+                </x-dropdown-link>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
             </div>
         </div>
     </header>

@@ -5,7 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Feedback</title>
-<<<<<<< Updated upstream
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/header.css'])
     <style>
         .feedback-container {
@@ -153,8 +152,6 @@
             color: #fff;
         }
     </style>
-=======
->>>>>>> Stashed changes
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/header.css', 'resources/css/feedback.css'])
     
 </head>

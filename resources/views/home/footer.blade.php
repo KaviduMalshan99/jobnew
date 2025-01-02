@@ -14,11 +14,7 @@
                 <li><a href="faq">FAQ</a></li>
                 <li><a href="privacy">Privacy policy</a></li>
                 <li><a href="terms">T & C</a></li>
-<<<<<<< Updated upstream
                 <li><a href="feedback">Feedback</a></li>
-=======
-                <li><a href="{{ route('feedback') }}">Jobs Feedback</a></li>
->>>>>>> Stashed changes
                 <li><a href="reviews">Reviews</a></li>
             </ul>
         </div>

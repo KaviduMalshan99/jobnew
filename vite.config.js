@@ -25,10 +25,7 @@ export default defineConfig({
                 'resources/css/topemployees.css',
                 'resources/css/reviews.css',
                 'resources/css/feedback.css',
-<<<<<<< Updated upstream
                 'resources/css/aboutus.css',
-=======
->>>>>>> Stashed changes
             ],
             refresh: true,
         }),

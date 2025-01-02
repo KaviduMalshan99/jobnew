@@ -320,6 +320,9 @@
 </head>
 
 <body>
+<button class="back-button" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
 
     <main>
         <!-- Job Card -->
@@ -391,9 +394,7 @@
                 <button class="btn btn-back" id="back">Back to Home</button>
                 </div> -->
 
-                <div class="backbutton">
-                    <button class="btn btn-back" id="back">Back to Home</button>
-                </div>
+               
 
             </div>
             <div class="btn-group mb-4">

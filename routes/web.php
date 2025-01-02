@@ -675,3 +675,7 @@ Route::get('/alerts', function () {
 // top Employees
 
 // routes/web.php
+Route::get('/aboutus', function () {
+    return view('User/SideComponent/aboutus');
+
+});

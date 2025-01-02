@@ -1,3 +1,5 @@
+
+
 <footer class="main-footer">
     <div class="footer-content">
         <div class="footer-section">
@@ -113,54 +115,93 @@
     });
 </script>
 <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const categoryLinks = document.querySelectorAll('.category-link');
-        const jobListingsContainer = document.getElementById(
-        'job-listings'); // Ensure this ID exists in your HTML
+document.addEventListener('DOMContentLoaded', function () {
+    const categoryLinks = document.querySelectorAll('.category-link');
+    const jobListingsContainer = document.getElementById('job-listings');
 
-        categoryLinks.forEach(link => {
-            link.addEventListener('click', function() {
-                const categoryId = this.getAttribute('data-category-id');
+    categoryLinks.forEach((link) => {
+        link.addEventListener('click', function () {
+            const categoryId = this.getAttribute('data-category-id');
 
-                // Show loading message
-                jobListingsContainer.innerHTML = '<p>Loading jobs...</p>';
+            // Show loading message
+            jobListingsContainer.innerHTML = '<p>Loading jobs...</p>';
 
-                // Fetch jobs for the selected category
-                fetch(`/jobs/category/${categoryId}`) // Correct fetch URL syntax
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Network response was not ok');
-                        }
-                        return response.json();
-                    })
-                    .then(jobs => {
-                        // Clear the loading message
-                        jobListingsContainer.innerHTML = '';
+            // Fetch jobs for the selected category
+            fetch(`/jobs/category/${categoryId}`)
+                .then((response) => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then((jobs) => {
+    // Clear the loading message
+    jobListingsContainer.innerHTML = '';
 
-                        if (jobs.length > 0) {
-                            // Populate the job listings
-                            jobs.forEach(job => {
-                                const jobCard = `
-                                <div class="job-card">
-                                    <a href="/jobs/${job.id}" class="job-title font-bold text-lg text-blue-600 hover:underline">
-                                        ${job.title}
-                                    </a>
-                                    <p class="text-gray-600">${job.employer.company_name}</p>
-                                </div>
-                            `;
-                                jobListingsContainer.innerHTML += jobCard;
-                            });
-                        } else {
-                            jobListingsContainer.innerHTML =
-                                '<p>No jobs found for this category.</p>';
-                        }
-                    })
-                    .catch(error => {
-                        console.error('Error fetching jobs:', error);
-                        jobListingsContainer.innerHTML =
-                            '<p>Failed to load jobs. Please try again later.</p>';
-                    });
-            });
+    if (jobs.length > 0) {
+        // Display the job count above the table
+        const jobCountTitle = `<h3>Available Jobs (${jobs.length})</h3>`;
+
+        // Create a table structure
+        const table = `
+            <div class="table-container"> <!-- Scrollable container -->
+                <table class="job-table">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Reference Number</th>
+                            <th>Job Title</th>
+                            <th>Description</th>
+                            <th>Employer</th>
+                            <th>Location</th>
+                            <th>Posted Date</th>
+                            <th>Closing Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${jobs
+                            .map(
+                                (job, index) => `
+                                <tr>
+                                    <td>${index + 1}</td> <!-- Row Number -->
+                                    <td>${job.job_id || 'N/A'}</td> <!-- Reference Number -->
+                                    <td>
+                                        <a href="/jobs/${job.id}" class="job-title">
+                                            ${job.title}
+                                        </a>
+                                    </td>
+                                    <td>${job.description || 'No description provided'}</td>
+                                    <td>${job.employer.company_name}</td>
+                                    <td>${job.location || 'Not specified'}</td>
+                                    <td>
+                                        ${job.created_at 
+                                            ? `${new Date(job.created_at).toISOString().split('T')[0]}`
+                                            : 'N/A'}
+                                    </td>
+                                    <td>${job.closing_date || 'N/A'}</td>
+                                </tr>
+                            `
+                            )
+                            .join('')}
+                    </tbody>
+                </table>
+            </div>
+        `;
+        jobListingsContainer.innerHTML = jobCountTitle + table;
+    } else {
+        jobListingsContainer.innerHTML =
+            '<p>No jobs found for this category.</p>';
+    }
+})
+                .catch((error) => {
+                    console.error('Error fetching jobs:', error);
+                    jobListingsContainer.innerHTML =
+                        '<p>Failed to load jobs. Please try again later.</p>';
+                });
         });
     });
+});
+
+
+
 </script>

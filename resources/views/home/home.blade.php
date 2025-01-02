@@ -31,9 +31,7 @@
 
     <!-- Filters Section -->
     <section class="filters">
-        <h3 class="jobtitle">
-            Available Jobs : {{ $jobs->count() }} new hot jobs
-        </h3>
+        
         <form method="GET" action="{{ route('home') }}">
             <input class="text-input" type="text" name="search"
                 placeholder="Enter Vacancy Name/Company/Job Reference" value="{{ request('search') }}">
@@ -47,7 +45,9 @@
 
     <!-- Job Listings Section -->
     <section id="job-listings" class="job-listings-container">
-        <h3 class="job-listings-title">Available Jobs</h3>
+    <h3 class="jobtitle">
+            Available Jobs : {{ $jobs->count() }} new hot jobs
+        </h3>
         <div class="job-grid">
             @if ($jobs->isEmpty())
                 <p>No jobs found matching your criteria.</p>

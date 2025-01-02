@@ -20,7 +20,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="my-4">Employer List</h1>
+
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
@@ -34,6 +34,7 @@
                     <th>Email</th>
                     <th>Contact Details</th>
                     <th>Business Info</th>
+                    <th>Status</th>
                     <th>Action</th>
                 </tr>
             </thead>
@@ -45,6 +46,7 @@
                         <td>{{ $employer->email }}</td>
                         <td>{{ $employer->contact_details ?? 'N/A' }}</td>
                         <td>{{ Str::limit($employer->business_info, 50) }}</td>
+                        <td>{{ $employer->is_active ? 'Active' : 'Inactive' }}</td>
                         <td>
                             <form action="{{ route('employer.toggleStatus', $employer->id) }}" method="POST"
                                 style="display:inline;">

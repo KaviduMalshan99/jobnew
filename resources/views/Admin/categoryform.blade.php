@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header">
-                <h5>Add New Category</h5>
+
             </div>
             <div class="card-body">
                 @if ($errors->any())
@@ -61,7 +61,9 @@
                         + Add Subcategory
                     </button>
 
-                    <button type="submit" class="btn btn-primary">Save Category</button>
+                    <div class="button-group">
+                        <button type="submit" class="btn btn-primary">Save Category</button>
+                    </div>
                 </form>
             </div>
         </div>

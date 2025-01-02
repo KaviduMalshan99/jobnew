@@ -10,8 +10,6 @@ body {
     padding: 20px;
 }
 
-
-
 .about-section {
     display: flex;
     justify-content: space-between;
@@ -54,7 +52,7 @@ body {
 
 .illustration img {
     width: 500px;
-    height:auto;
+    height: auto;
     border-radius: 8px;
 }
 

@@ -1,20 +1,16 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
-        <div class="logo-wrapper"><a href="{{ route('index') }}"><img class="img-fluid for-light"
-                    src="{{ asset('assets/images/logo/logo.png') }}" alt=""><img class="img-fluid for-dark"
-                    src="{{ asset('assets/images/logo/logo_dark.png') }}" alt=""></a>
+        <div class="logo-wrapper"><a href="{{ route('home') }}"><x-application-logo /></a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
         </div>
-        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
-                    src="{{ asset('assets/images/logo/logo-icon.png') }}" alt=""></a>
+        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"><x-application-logo /></a>
         </div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
             <div id="sidebar-menu">
                 <ul class="sidebar-links" id="simple-bar">
-                    <li class="back-btn"><a href="{{ route('index') }}"><img class="img-fluid"
-                                src="{{ asset('assets/images/logo/logo-icon.png') }}" alt=""></a>
+                    <li class="back-btn"><a href="{{ route('home') }}"><x-application-logo /></a>
                         <div class="mobile-back text-end"><span>Back</span><i class="fa fa-angle-right ps-2"
                                 aria-hidden="true"></i></div>
                     </li>
@@ -30,32 +26,16 @@
                     </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
                         <label class="badge badge-light-primary">5</label><a class="sidebar-link sidebar-title"
-                            href="#">
+                            href="{{ route('employer.dashboard') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-home') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-home') }}"></use>
                             </svg><span class="lan-3">Dashboard</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a class="lan-4" href="{{ route('index') }}">Default</a></li>
-                            <li><a class="lan-5" href="{{ route('dashboard-02') }}">Ecommerce</a></li>
 
-                        </ul>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
-                            href="#">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-widget') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-widget') }}"></use>
-                            </svg><span class="lan-6">Widgets</span></a>
-                        <ul class="sidebar-submenu">
-                            <li><a href="{{ route('general-widget') }}">General</a></li>
-                            <li><a href="{{ route('chart-widget') }}">Chart</a></li>
-                        </ul>
-                    </li>
+
 
                     <li class="sidebar-main-title">
                         <div>
@@ -70,11 +50,11 @@
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-ecommerce') }}"></use>
-                            </svg><span>Ecommerce</span></a>
+                            </svg><span>Post Your Job</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('product') }}">Product</a></li>
-                            <li><a href="{{ route('product-page') }}">Product page</a></li>
-                            <li><a href="{{ route('list-products') }}">Product list</a></li>
+                            <li><a href="{{ route('employer.job_postings.post.create') }}">Create Job </a></li>
+                            <li><a href="{{ route('employer.job_postings.employer.jobs') }}">View Job</a></li>
+
 
                         </ul>
                     </li>
@@ -89,36 +69,17 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
                             </svg><span>Users</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('employer.job_postings.post.create') }}">Create Job </a></li>
-                            <li><a href="{{ route('employer.job_postings.employer.jobs') }}">View Job</a></li>
+                            <li><a href="{{ route('employer.profile') }}">profile</a></li>
+                            <li> <a href="{{ route('employer.logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('employer-logout-form').submit();">
+                                    <i data-feather="log-out"></i>
+                                    <span>Log out</span>
+                                </a></li>
 
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('bookmark') }}">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-bookmark') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
-                            </svg><span>Bookmarks</span></a></li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('contacts') }}">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-contact') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-contact') }}"> </use>
-                            </svg><span>Contacts</span></a>
-                    </li>
 
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('calendar-basic') }}">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
-                            </svg><span>Calendar</span></a></li>
+
+
 
 
 

@@ -12,6 +12,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
@@ -186,7 +187,7 @@ Route::prefix('admin')->group(function () {
     Route::post('login', [AdminAuthController::class, 'login']);
     Route::post('logout', [AdminAuthController::class, 'logout'])->name('admin.logout');
 
-    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.register');
+    Route::get('register', [AdminAuthController::class, 'showRegisterForm'])->name('admin.signup');
     Route::post('/admin/register', [AdminAuthController::class, 'register'])->name('admin.register');
 
     Route::middleware('admin')->group(function () {
@@ -219,6 +220,7 @@ Route::middleware('admin')->group(function () {
 
 });
 
+Route::get('/contactus', [ContactUsController::class, 'index'])->name('contactus.index');
 Route::middleware('admin')->prefix('admin')->group(function () {
     // List all categories
     Route::get('/categories', [CategoryController::class, 'index'])->name('admin.categories.index');
@@ -241,6 +243,23 @@ Route::middleware('admin')->prefix('admin')->group(function () {
     // Job Posting admin side route
     Route::get('job_postings', [JobPostingController::class, 'index'])->name('job_postings.index');
     Route::patch('job_postings/{id}/status', [JobPostingController::class, 'updateStatus'])->name('job_postings.updateStatus');
+
+    //
+
+    // Show form to create new contact details
+    Route::get('/contactus/create', [ContactUsController::class, 'create'])->name('contactus.create');
+
+    // Store new contact details
+    Route::post('/contactus', [ContactUsController::class, 'store'])->name('contactus.store');
+
+    // Show form to edit specific contact details
+    Route::get('/contactus/{contactus}/edit', [ContactUsController::class, 'edit'])->name('contactus.edit');
+
+    // Update specific contact details
+    Route::put('/contactus/{contactus}', [ContactUsController::class, 'update'])->name('contactus.update');
+
+    // Delete specific contact details
+    Route::delete('/contactus/{contactus}', [ContactUsController::class, 'destroy'])->name('contactus.destroy');
 });
 
 //Employee Routes
@@ -581,11 +600,6 @@ Route::get('/clear-cache', function () {
 
 //////////////////////////////////////////////////////////////////////////
 
-Route::get('/contactus', function () {
-    return view('contactus/contactus');
-
-});
-
 Route::get('/terms', function () {
     return view('user/SideComponent/terms');
 
@@ -656,27 +670,6 @@ Route::get('/mainprofileview/expirience', function () {
 
 //my jobs
 
-
-// Route::get('/mainprofileview/myapplication', function () {
-//     return view('user.jobseekerprofile.myjobs.myapplication');
-// })->name('user.jobseekerprofile.myjobs.myapplication');
-
-Route::get('/mainprofileview/application', function () {
-    return view('user.jobseekerprofile.myjobs.application');
-})->name('user.jobseekerprofile.myjobs.application');
-
-Route::get('/mainprofileview/flaggedjob', function () {
-    return view('user.jobseekerprofile.myjobs.flaggedjob');
-})->name('user.jobseekerprofile.myjobs.flaggedjob');
-
-Route::get('/mainprofileview/preferredcompany', function () {
-    return view('user.jobseekerprofile.myjobs.preferredcompany');
-})->name('user.jobseekerprofile.myjobs.preferredcompany');
-
-Route::get('/mainprofileview/recentjob', function () {
-    return view('user.jobseekerprofile.myjobs.recentjob');
-})->name('user.jobseekerprofile.myjobs.recentjob');
-
 // job alerts
 
 Route::get('/mainprofileview/alerts', function () {
@@ -710,84 +703,3 @@ Route::get('/alerts', function () {
 // top Employees
 
 // routes/web.php
-// routes/web.php
-
-Route::get('/profilelayout', function () {
-    return view('user/jobseekerprofile/mainview/profilelayout');
-
-});
-
-
-// reviews 
-
-Route::get('/reviews', function () {
-    return view('home/reviews');
-
-});
-
-
-//review example 
-
-Route::get('/reviewtest', function () {
-    return view('home/jobs/reviewexample');
-
-});
-
-
-// About Us
-
-Route::get('/aboutus', function () {
-    return view('user/SideComponent/aboutus');
-
-});
-
-//topemployees
-
-Route::get('/withopenjobs', function () {
-    return view('user/withopen');
-
-});
-
-Route::get('/byindrustry', function () {
-    return view('user/byindustry');
-
-});
-Route::get('/topemployees/all', function () {
-    return view('user.all');
-})->name('user.all');
-
-Route::get('/topemployees/withopenjobs', function () {
-    return view('user.withopen');
-})->name('user.withopen');
-
-Route::get('/topemployees/byindustry', function () {
-    return view('user.byindustry');
-})->name('user.byindustry');
-
-Route::get('/topemployees/alphabetical', function () {
-    return view('user.alphabetical');
-})->name('user.alphabetical');
-
-
-Route::get('/profilelayout', function () {
-    return view('user/jobseekerprofile/mainview/profilelayout');
-
-});
-
-
-// reviews 
-
-Route::get('/reviews', function () {
-    return view('home/reviews');
-
-});
-
-
-//review example 
-
-Route::get('/reviewtest', function () {
-    return view('home/jobs/reviewexample');
-
-});
-
-

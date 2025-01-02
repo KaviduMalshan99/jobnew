@@ -1,6 +1,6 @@
 @extends('layouts.employer.master')
 
-@section('title', 'Default')
+@section('title', 'Job')
 
 @section('css')
 
@@ -11,12 +11,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Default</h3>
+    <h3>Jobs</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Default</li>
+    <li class="breadcrumb-item active">Create Job</li>
 @endsection
 
 @section('content')
@@ -53,9 +53,9 @@
             <div class="mb-3">
                 <label for="category_id" class="form-label">Category</label>
                 <select name="category_id" id="category_id" class="form-control" required>
-                
-                    
-                  @foreach ($categories as $category)
+
+
+                    @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
@@ -68,7 +68,7 @@
                 <label for="subcategory_id" class="form-label">Subcategory</label>
                 <select name="subcategory_id" id="subcategory_id" class="form-control" required>
                     <option value="">Select a subcategory</option>
-                
+
                 </select>
                 @error('subcategory_id')
                     <div class="text-danger">{{ $message }}</div>

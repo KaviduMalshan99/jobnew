@@ -15,7 +15,7 @@
     <div class="container-fluid">
         <div class="card">
             <div class="card-header d-flex justify-content-between align-items-center">
-                <h5>Categories</h5>
+
                 <a href="{{ route('admin.categories.create') }}" class="btn btn-primary">Add New Category</a>
             </div>
             <div class="card-body">

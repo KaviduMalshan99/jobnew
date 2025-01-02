@@ -1,6 +1,6 @@
 @extends('layouts.employer.master')
 
-@section('title', 'Default')
+@section('title', 'Dashboard')
 
 @section('css')
 
@@ -11,12 +11,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Default</h3>
+    <h3>Dashboard</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Default</li>
+
 @endsection
 
 @section('content')

@@ -1,6 +1,6 @@
 @extends('layouts.admin.master')
 
-@section('title', 'Default')
+@section('title', 'Admin List')
 
 @section('css')
 
@@ -11,17 +11,17 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Default</h3>
+    <h3>Admin List</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Default</li>
+
 @endsection
 
 @section('content')
     <div class="container-fluid">
-        <h1 class="my-4">Admin List</h1>
+
 
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>

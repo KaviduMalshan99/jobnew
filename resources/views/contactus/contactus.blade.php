@@ -2,14 +2,21 @@
 <div id="popup-box" class="popup-box">
     <div class="popup-content">
         <span id="close-popup" class="close-btn">&times;</span>
-        <h2 class= "contactTopic">Contact Us</h2>
-        <!-- Add an image -->
-        <img src="/images/jobss.png" alt="Contact Us" class="popup-image">
-        <p>Email: contact@jobportal.com</p>
-        <p>Phone: +123 235 7890</p>
-        <p>Address: 123 Job Street, Employment City</p>
+        <h2 class="contactTopic">Contact Us</h2>
+        @if ($contacts->isEmpty())
+            <p>No contact information available.</p>
+        @else
+            @foreach ($contacts as $contact)
+                <img src="{{ asset('storage/' . $contact->logo_img) }}" alt="Contact Us" class="popup-image">
+                <p>Email: {{ $contact->email }}</p>
+                <p>Phone: {{ $contact->phone }}</p>
+                <p>Address: {{ $contact->address }}</p>
+            @endforeach
+        @endif
     </div>
 </div>
+
+
 
 
 <script>

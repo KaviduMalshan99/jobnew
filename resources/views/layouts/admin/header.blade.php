@@ -14,12 +14,15 @@
             </div>
         </form>
         <div class="header-logo-wrapper col-auto p-0">
-            <div class="logo-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
-                        src="{{ asset('assets/images/logo/logo.png') }}" alt=""></a></div>
+            <div class="logo-wrapper">
+                <a href="{{ route('index') }}">
+                    <x-application-logo />
+                </a>
+            </div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="align-center"></i>
             </div>
         </div>
-        <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
+        {{-- <div class="left-header col-xxl-5 col-xl-6 col-lg-5 col-md-4 col-sm-3 p-0">
             <div class="notification-slider">
                 <div class="d-flex h-100"> <img src="{{ asset('assets/images/giftools.gif') }}" alt="gif">
                     <h6 class="mb-0 f-w-400"><span class="font-primary">Don't Miss Out! </span><span class="f-light">Out
@@ -30,10 +33,10 @@
                         class="ms-1" href="https://1.envato.market/3GVzd" target="_blank">Buy now !</a>
                 </div>
             </div>
-        </div>
+        </div> --}}
         <div class="nav-right col-xxl-7 col-xl-6 col-md-7 col-8 pull-right right-header p-0 ms-auto">
             <ul class="nav-menus">
-                <li class="language-nav">
+                {{-- <li class="language-nav">
                     <div class="translate_wrapper">
                         <div class="current_lang">
                             <div class="lang"><i class="flag-icon flag-icon-us"></i><span class="lang-txt">EN </span>
@@ -56,62 +59,12 @@
                                     class="lang-txt">لعربية <span> (ae)</span></span></div>
                         </div>
                     </div>
-                </li>
+                </li> --}}
                 <li> <span class="header-search">
                         <svg>
                             <use href="{{ asset('assets/svg/icon-sprite.svg#search') }}"></use>
                         </svg></span></li>
-                <li class="onhover-dropdown">
-                    <svg>
-                        <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
-                    </svg>
-                    <div class="onhover-show-div bookmark-flip">
-                        <div class="flip-card">
-                            <div class="flip-card-inner">
-                                <div class="front">
-                                    <h6 class="f-18 mb-0 dropdown-title">Bookmark</h6>
-                                    <ul class="bookmark-dropdown">
-                                        <li>
-                                            <div class="row">
-                                                <div class="col-4 text-center">
-                                                    <div class="bookmark-content">
-                                                        <div class="bookmark-icon"><i data-feather="file-text"></i>
-                                                        </div><span>Forms</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <div class="bookmark-content">
-                                                        <div class="bookmark-icon"><i data-feather="user"></i></div>
-                                                        <span>Profile</span>
-                                                    </div>
-                                                </div>
-                                                <div class="col-4 text-center">
-                                                    <div class="bookmark-content">
-                                                        <div class="bookmark-icon"><i data-feather="server"></i></div>
-                                                        <span>Tables</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li class="text-center"><a class="flip-btn f-w-700" id="flip-btn"
-                                                href="javascript:void(0)">Add New Bookmark</a></li>
-                                    </ul>
-                                </div>
-                                <div class="back">
-                                    <ul>
-                                        <li>
-                                            <div class="bookmark-dropdown flip-back-content">
-                                                <input type="text" placeholder="search...">
-                                            </div>
-                                        </li>
-                                        <li><a class="f-w-700 d-block flip-back" id="flip-back"
-                                                href="javascript:void(0)">Back</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </li>
+
                 <li>
                     <div class="mode">
                         <svg>
@@ -119,66 +72,8 @@
                         </svg>
                     </div>
                 </li>
-                <li class="cart-nav onhover-dropdown">
-                    <div class="cart-box">
-                        <svg>
-                            <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-ecommerce') }}"></use>
-                        </svg><span class="badge rounded-pill badge-success">2</span>
-                    </div>
-                    <div class="cart-dropdown onhover-show-div">
-                        <h6 class="f-18 mb-0 dropdown-title">Cart</h6>
-                        <ul>
-                            <li>
-                                <div class="media"><img class="img-fluid b-r-5 me-3 img-60"
-                                        src="{{ asset('assets/images/other-images/cart-img.jpg') }}" alt="">
-                                    <div class="media-body"><span>Furniture Chair for Home</span>
-                                        <div class="qty-box">
-                                            <div class="input-group"><span class="input-group-prepend">
-                                                    <button class="btn quantity-left-minus" type="button"
-                                                        data-type="minus" data-field="">-</button></span>
-                                                <input class="form-control input-number" type="text"
-                                                    name="quantity" value="1"><span class="input-group-prepend">
-                                                    <button class="btn quantity-right-plus" type="button"
-                                                        data-type="plus" data-field="">+</button></span>
-                                            </div>
-                                        </div>
-                                        <h6 class="font-primary">$500</h6>
-                                    </div>
-                                    <div class="close-circle"><a class="bg-danger" href="#"><i
-                                                data-feather="x"></i></a></div>
-                                </div>
-                            </li>
-                            <li>
-                                <div class="media"><img class="img-fluid b-r-5 me-3 img-60"
-                                        src="{{ asset('assets/images/other-images/cart-img.jpg') }}" alt="">
-                                    <div class="media-body"><span>Furniture Chair for Home</span>
-                                        <div class="qty-box">
-                                            <div class="input-group"><span class="input-group-prepend">
-                                                    <button class="btn quantity-left-minus" type="button"
-                                                        data-type="minus" data-field="">-</button></span>
-                                                <input class="form-control input-number" type="text"
-                                                    name="quantity" value="1"><span class="input-group-prepend">
-                                                    <button class="btn quantity-right-plus" type="button"
-                                                        data-type="plus" data-field="">+</button></span>
-                                            </div>
-                                        </div>
-                                        <h6 class="font-primary">$500.00</h6>
-                                    </div>
-                                    <div class="close-circle"><a class="bg-danger" href="#"><i
-                                                data-feather="x"></i></a></div>
-                                </div>
-                            </li>
-                            <li class="total">
-                                <h6 class="mb-0">Order Total : <span class="f-right">$1000.00</span></h6>
-                            </li>
-                            <li class="text-center"><a class="d-block mb-3 view-cart f-w-700"
-                                    href="{{ route('cart') }}">Go to your cart</a><a
-                                    class="btn btn-primary view-checkout" href="{{ route('checkout') }}">Checkout</a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-                <li class="onhover-dropdown">
+
+                {{-- <li class="onhover-dropdown">
                     <div class="notification-box">
                         <svg>
                             <use href="{{ asset('assets/svg/icon-sprite.svg#notification') }}"></use>
@@ -202,20 +97,30 @@
                             <li><a class="f-w-700" href="#">Check all</a></li>
                         </ul>
                     </div>
-                </li>
+                </li> --}}
                 <li class="profile-nav onhover-dropdown pe-0 py-0">
                     <div class="media profile-media"><img class="b-r-10"
-                            src="{{ asset('assets/images/dashboard/profile.png') }}" alt="">
-                        <div class="media-body"><span>Emay Walter</span>
+                            src="{{ asset('assets/images/dashboard/profile.jpg') }}" alt="">
+                        <div class="media-body"><span>{{ Auth::guard('admin')->user()->name }}</span>
                             <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
                         </div>
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
-                        <li><a href="#"><i data-feather="user"></i><span>Account </span></a></li>
-                        <li><a href="#"><i data-feather="mail"></i><span>Inbox</span></a></li>
-                        <li><a href="#"><i data-feather="file-text"></i><span>Taskboard</span></a></li>
-                        <li><a href="#"><i data-feather="settings"></i><span>Settings</span></a></li>
-                        <li><a href="#"><i data-feather="log-in"> </i><span>Log in</span></a></li>
+                        <li><a href="{{ route('admin.profile') }}"><i data-feather="user"></i><span>Account
+                                </span></a></li>
+
+
+                        <li>
+                            <a href="{{ route('admin.logout') }}"
+                                onclick="event.preventDefault(); document.getElementById('admin-logout-form').submit();">
+                                <i data-feather="log-out"></i>
+                                <span>Log out</span>
+                            </a>
+                            <form id="admin-logout-form" action="{{ route('admin.logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                        </li>
                     </ul>
                 </li>
             </ul>

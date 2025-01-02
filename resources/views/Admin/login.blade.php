@@ -15,10 +15,7 @@
                     <div>
                         <div>
                             <a class="logo" href="{{ route('index') }}">
-                                <img class="img-fluid for-light" src="{{ asset('assets/images/logo/login.png') }}"
-                                    alt="loginpage">
-                                <img class="img-fluid for-dark" src="{{ asset('assets/images/logo/logo_dark.png') }}"
-                                    alt="loginpage">
+                                <x-application-logo />
                             </a>
                         </div>
                         <div class="login-main">
@@ -54,21 +51,8 @@
                                     <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                                 </div>
 
-                                <!-- Social Login -->
-                                <h6 class="text-muted mt-4 or">Or Sign in with</h6>
-                                <div class="social mt-4">
-                                    <div class="btn-showcase">
-                                        <a class="btn btn-light" href="https://www.linkedin.com/login" target="_blank">
-                                            <i class="txt-linkedin" data-feather="linkedin"></i> LinkedIn
-                                        </a>
-                                        <a class="btn btn-light" href="https://twitter.com/login?lang=en" target="_blank">
-                                            <i class="txt-twitter" data-feather="twitter"></i> Twitter
-                                        </a>
-                                        <a class="btn btn-light" href="https://www.facebook.com/" target="_blank">
-                                            <i class="txt-fb" data-feather="facebook"></i> Facebook
-                                        </a>
-                                    </div>
-                                </div>
+
+
 
                                 <!-- Create Account Link -->
                                 <p class="mt-4 mb-0">

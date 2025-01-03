@@ -18,6 +18,8 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->string('contact', 20);
+            $table->boolean('is_active')->default(false); // Default inactive
+            $table->enum('role', ['super_admin', 'admin'])->default('admin'); // Role column
             $table->rememberToken();
             $table->timestamps();
         });

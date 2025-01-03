@@ -18,8 +18,9 @@ class Admin extends Authenticatable
         'email',
         'password',
         'contact',
+        'is_active', // Add this if you want to update the active status
+        'role', // Add this if you want to update the role
     ];
-
     protected $hidden = [
         'password',
         'remember_token',

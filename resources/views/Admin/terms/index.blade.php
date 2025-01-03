@@ -45,7 +45,7 @@
                     <tr>
                         <td>{{ $loop->iteration }}</td>
                         <td>{{ $term->title }}</td>
-                        <td>{{ $term->description }}</td>
+                        <td>{{ $term->content }}</td>
                         <td>
                             <a href="{{ route('admin.terms.edit', $term->id) }}" class="btn btn-warning btn-sm">Edit</a>
                             <form action="{{ route('admin.terms.destroy', $term->id) }}" method="POST"

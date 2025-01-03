@@ -1,57 +1,52 @@
+.topads-container {
+    border: 1px solid #409cf1;
+    border-radius: 5px;
+    background-color: #ffffff;
+    padding: 15px;
+    max-width: 600px;
+    margin: 0 auto;
+    margin-left: 20px;
+    margin-top: 10px;
+}
 
-      
-     
+.topads-header {
+    background-color: #e0f0ff; /* Light blue background */
+    color: #000;
+    font-weight: bold;
+    padding: 10px 15px;
+    font-size: 1.1em;
+    border-radius: 5px 5px 0 0;
+}
 
-        .topads-container {
-            border: 1px solid #409cf1;
-            border-radius: 5px;
-            background-color: #ffffff;
-            padding: 15px;
-            max-width: 600px;
-            margin: 0 auto;
-            margin-left: 20px;
-            margin-top: 10px;
-            
-        }
+.topads-content {
+    padding: 15px;
+}
 
-        .topads-header {
-            background-color: #e0f0ff; /* Light blue background */
-            color: #000;
-            font-weight: bold;
-            padding: 10px 15px;
-            font-size: 1.1em;
-            border-radius: 5px 5px 0 0;
-        }
+ul {
+    list-style-type: disc; /* Bullet points */
+    padding-left: 20px;
+}
 
-        .topads-content {
-            padding: 15px;
-        }
+ul li {
+    margin-bottom: 15px;
+    font-size: 1em;
+    color: #333;
+}
 
-        ul {
-            list-style-type: disc; /* Bullet points */
-            padding-left: 20px;
-        }
+a {
+    text-decoration: none;
+    color: #007bff; /* Link color */
+}
 
-        ul li {
-            margin-bottom: 15px;
-            font-size: 1em;
-            color: #333;
-        }
+a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* Darker link color on hover */
+}
 
-        a {
-            text-decoration: none;
-            color: #007bff; /* Link color */
-        }
+strong {
+    color: #000; /* Strong tags for emphasis */
+}
 
-        a:hover {
-            text-decoration: underline;
-            color: #0056b3; /* Darker link color on hover */
-        }
-
-        strong {
-            color: #000; /* Strong tags for emphasis */
-        }
-    
 /* contact css */
 
 .contact-info {
@@ -95,11 +90,21 @@
     font-size: 14px;
 }
 
-.contact-info li:nth-child(1) { background-color: #e91e63; } /* Nirthika - Pink */
-.contact-info li:nth-child(2) { background-color: #b71c1c; } /* Silmiya - Dark Red */
-.contact-info li:nth-child(3) { background-color: #ff5722; } /* Madushani - Orange */
-.contact-info li:nth-child(4) { background-color: #1e88e5; } /* Danushka - Blue */
-.contact-info li:nth-child(5) { background-color: #43a047; } /* Saranya - Green */
+.contact-info li:nth-child(1) {
+    background-color: #e91e63;
+} /* Nirthika - Pink */
+.contact-info li:nth-child(2) {
+    background-color: #b71c1c;
+} /* Silmiya - Dark Red */
+.contact-info li:nth-child(3) {
+    background-color: #ff5722;
+} /* Madushani - Orange */
+.contact-info li:nth-child(4) {
+    background-color: #1e88e5;
+} /* Danushka - Blue */
+.contact-info li:nth-child(5) {
+    background-color: #43a047;
+} /* Saranya - Green */
 
 .contact-header {
     background-color: #e0f0ff; /* Light blue background */
@@ -112,7 +117,7 @@
 
 /*  how to post vacancy */
 
-.post-info{
+.post-info {
     font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
@@ -121,7 +126,6 @@
     background-color: #f9f9f9;
     max-width: 600px;
     margin-left: 670px;
-    
 }
 .post-header {
     background-color: #e0f0ff; /* Light blue background */
@@ -132,7 +136,7 @@
     border-radius: 5px 5px 0 0;
 }
 /*payment methods*/
-.payment-info{
+.payment-info {
     font-family: Bahnschrift;
     margin-top: 20px;
     padding: 20px;
@@ -141,7 +145,6 @@
     background-color: #f9f9f9;
     max-width: 600px;
     margin-left: 670px;
-    
 }
 .payment-header {
     background-color: #e0f0ff; /* Light blue background */
@@ -151,8 +154,7 @@
     font-size: 1.1em;
     border-radius: 5px 5px 0 0;
 }
-.payment-info p{
-  
+.payment-info p {
     color: #036d07;
 }
 /* ipg page css*/
@@ -177,11 +179,21 @@
 }
 
 /* Background colors for each paymentmethod */
-.paymentmethod-info li:nth-child(1) { background-color: #e91e63; } /* Nirthika - Pink */
-.paymentmethod-info li:nth-child(2) { background-color: #b71c1c; } /* Silmiya - Dark Red */
-.paymentmethod-info li:nth-child(3) { background-color: #ff5722; } /* Madushani - Orange */
-.paymentmethod-info li:nth-child(4) { background-color: #1e88e5; } /* Danushka - Blue */
-.paymentmethod-info li:nth-child(5) { background-color: #43a047; } /* Saranya - Green */
+.paymentmethod-info li:nth-child(1) {
+    background-color: #e91e63;
+} /* Nirthika - Pink */
+.paymentmethod-info li:nth-child(2) {
+    background-color: #b71c1c;
+} /* Silmiya - Dark Red */
+.paymentmethod-info li:nth-child(3) {
+    background-color: #ff5722;
+} /* Madushani - Orange */
+.paymentmethod-info li:nth-child(4) {
+    background-color: #1e88e5;
+} /* Danushka - Blue */
+.paymentmethod-info li:nth-child(5) {
+    background-color: #43a047;
+} /* Saranya - Green */
 
 /* paymentmethod Header Styling */
 .paymentmethod-header {
@@ -193,9 +205,8 @@
     border-radius: 5px 5px 0 0;
 }
 /* Bank Information Styling */
-.fundtransfer-container{
+.fundtransfer-container {
     display: flex;
-    
 }
 
 .bank-info h2 {
@@ -212,7 +223,8 @@
     margin-top: 10px;
 }
 
-.bank-info th, .bank-info td {
+.bank-info th,
+.bank-info td {
     border: 1px solid #ddd;
     padding: 10px;
     text-align: left;
@@ -252,7 +264,8 @@ table {
     margin-top: -350px;
 }
 
-th, td {
+th,
+td {
     border: 1px solid #ddd;
     padding: 10px 15px;
     text-align: center;
@@ -278,12 +291,8 @@ td {
     color: #555;
 }
 
-
-
-
 /* Global Styles for Mobile */
 @media (max-width: 768px) {
-
     /* Header Styles */
     .unique-header {
         flex-direction: column;
@@ -390,7 +399,8 @@ td {
         margin: 0;
     }
 
-    .bank-info th, .bank-info td {
+    .bank-info th,
+    .bank-info td {
         padding: 8px;
     }
 
@@ -403,7 +413,8 @@ td {
         margin: 0;
     }
 
-    th, td {
+    th,
+    td {
         padding: 8px;
         font-size: 12px;
     }
@@ -414,7 +425,8 @@ td {
         font-size: 14px;
     }
 
-    .signup-btn, .login-btn {
+    .signup-btn,
+    .login-btn {
         padding: 10px 20px;
         font-size: 14px;
     }

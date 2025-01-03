@@ -1,12 +1,11 @@
 /* Footer Styling */
 .main-footer {
-    background-color: #022d4a;
+    background-color: #106482;
     color: #fff;
     padding: 20px;
     text-align: center;
     font-size: 14px;
     border-radius: 50px 0 0 0;
-   
 }
 
 .footer-content {
@@ -25,8 +24,6 @@
 .footer-section h3 {
     margin-bottom: 10px;
     font-size: 16px;
-   
-    
 }
 
 .footer-section p,
@@ -36,7 +33,6 @@
     list-style: none;
 }
 
-
 .footer-section a {
     position: relative;
     color: #f4f4f4;
@@ -45,7 +41,7 @@
 }
 
 .footer-section a::after {
-    content: '';
+    content: "";
     position: absolute;
     left: 0;
     bottom: -2px; /* Adjust the distance of the underline */
@@ -63,8 +59,104 @@
     width: 100%;
 }
 
-
 .footer-bottom {
     border-top: 1px solid #555;
     padding-top: 10px;
+}
+
+.table-container {
+    max-height: 300px; /* Adjust height as needed for 5 rows */
+    overflow-y: auto; /* Enables vertical scrolling */
+    border: 1px solid #ddd; /* Optional: Adds a border to the table container */
+    margin-top: 10px; /* Adds spacing above the table */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Optional: Adds a slight shadow */
+}
+
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0; /* Remove margin inside scrollable container */
+    font-size: 16px;
+    text-align: left;
+}
+
+.job-table th,
+.job-table td {
+    padding: 12px 15px;
+    border: none;
+}
+
+.job-table th {
+    background-color: #2596be;
+    font-weight: bold;
+    color: white;
+    position: sticky; /* Make header sticky */
+    top: 0; /* Keep the header at the top */
+    z-index: 1; /* Ensure the header stays above the table rows */
+}
+
+.job-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Hover effect to highlight the entire row */
+.job-table tr:hover {
+    background-color: rgba(0, 123, 255, 0.2); /* Light blue highlight */
+}
+
+.job-title {
+    color: #2596be;
+    text-decoration: none;
+}
+
+.job-title:hover {
+    text-decoration: underline;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 768px) {
+    /* Footer adjustments */
+    .footer-content {
+        flex-direction: column; /* Stack sections vertically */
+        align-items: center; /* Center align content */
+    }
+
+    .footer-section {
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    /* Job table adjustments */
+    .job-table {
+        font-size: 14px; /* Reduce font size for smaller screens */
+    }
+
+    .job-table th,
+    .job-table td {
+        padding: 10px; /* Adjust padding for smaller screens */
+    }
+
+    .table-container {
+        max-height: 200px; /* Reduce height for smaller screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .footer-section {
+        min-width: 100%; /* Expand to full width */
+    }
+
+    .job-table {
+        font-size: 12px; /* Further reduce font size */
+    }
+
+    .job-table th,
+    .job-table td {
+        padding: 8px; /* Smaller padding */
+    }
+
+    .table-container {
+        max-height: 150px; /* Further reduce table container height */
+    }
 }

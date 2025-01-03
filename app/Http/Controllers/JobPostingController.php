@@ -241,6 +241,6 @@ class JobPostingController extends Controller
     public function destroy(JobPosting $jobPosting)
     {
         $jobPosting->delete();
-        return redirect()->route('job_postings.index')->with('success', 'Job Posting deleted successfully.');
+        return redirect()->route('employer.jobview')->with('success', 'Job Posting deleted successfully.');
     }
 }

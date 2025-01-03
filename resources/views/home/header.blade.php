@@ -19,7 +19,7 @@
         </div>
         <nav class="nav-links unique-nav-links">
             <a href="{{ route('employer.login') }}">Post Your Vacancy</a>
-            <a href="{{ route('feedback.home') }}">Happy Customers</a>
+            <a href="{{ route('feedback.home') }}">Feedback</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>
         </nav>
@@ -35,6 +35,22 @@
             @auth
                 <!-- For authenticated users -->
                 <!-- <a href="{{ route('dashboard') }}">Dashboard</a> -->
+                <div class="profile-dropdown">
+                    <!-- Replace Button with Image -->
+                    <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
+                    <div class="profile-dropdown-content">
+                        <a href="/profile">My Profile</a>
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+
+                            <x-dropdown-link :href="route('logout')"
+                                onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                {{ __('Log Out') }}
+                            </x-dropdown-link>
+                        </form>
+                    </div>
+                </div>
             @endauth
 
             @guest
@@ -44,22 +60,7 @@
             @endguest
         </div>
         <!-- Profile Dropdown -->
-        <div class="profile-dropdown">
-            <!-- Replace Button with Image -->
-            <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
-            <div class="profile-dropdown-content">
-                <a href="/profile">My Profile</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
 
-                    <x-dropdown-link :href="route('logout')"
-                        onclick="event.preventDefault();
-                                        this.closest('form').submit();">
-                        {{ __('Log Out') }}
-                    </x-dropdown-link>
-                </form>
-            </div>
-        </div>
     </header>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
     <script>

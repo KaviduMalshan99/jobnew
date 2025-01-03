@@ -2,8 +2,7 @@
 body {
     margin: 0;
     font-family: Bahnschrift;
-    color: #333;
-    background-color: rgb(245, 249, 253);
+    background-color: rgb(255, 255, 255);
 }
 
 .feedback-section {
@@ -87,7 +86,7 @@ body {
     width: 120px; /* Set a smaller fixed width for the button */
     padding: 10px 15px;
     border: none;
-    background-color: #007bff;
+    background-color: #2596be;
     color: white;
     border-radius: 4px;
     font-size: 16px;
@@ -324,7 +323,7 @@ body {
     margin-bottom: 15px;
     text-align: center;
     color: rgb(255, 255, 255); /* Blue color */
-    background-color: #0d45c7;
+    background-color: #2596be;
 }
 
 .categories-list {
@@ -340,7 +339,7 @@ body {
     font-size: 16px;
     font-weight: bold;
     text-decoration: none; /* Remove underline */
-    color: #0d45c7; /* Dark text */
+    color: #2596be; /* Dark text */
     padding: 8px;
     text-align: left; /* Center-align text */
     border-radius: 5px;

@@ -35,7 +35,7 @@
 
         .job-card .header img {
             width: 100%;
-            height: 200px;
+            height: auto;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
@@ -329,7 +329,7 @@
         <div class="job-card">
             <!-- Header Section -->
             <div class="header">
-                @if ($job->image)
+                @if (!empty($job->image))
                     <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
                     <div class="overlay"></div>
                 @endif
@@ -345,25 +345,25 @@
 
                 <!-- Key Details -->
                 <div class="details">
-                    @if ($job->location)
+                    @if (!empty($job->location))
                         <div class="detail">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>{{ $job->location }}</span>
                         </div>
                     @endif
-                    @if ($job->created_at)
+                    @if (!empty($job->created_at))
                         <div class="detail">
                             <i class="fas fa-calendar"></i>
                             <span>Posted: {{ $job->created_at->format('M d, Y') }}</span>
                         </div>
                     @endif
-                    @if ($job->salary_range)
+                    @if (!empty($job->salary_range))
                         <div class="detail">
                             <i class="fas fa-money-bill-wave"></i>
                             <span>Salary: {{ number_format($job->salary_range, 2) }}</span>
                         </div>
                     @endif
-                    @if ($job->closing_date)
+                    @if (!empty($job->closing_date))
                         <div class="detail">
                             <i class="fas fa-hourglass-end"></i>
                             <span>Closes: {{ $job->closing_date }}</span>
@@ -372,7 +372,7 @@
                 </div>
 
                 <!-- Description -->
-                @if ($job->description)
+                @if (!empty($job->description))
                     <div class="description">
                         <h2>Job Description</h2>
                         <p>{{ $job->description }}</p>
@@ -380,7 +380,7 @@
                 @endif
 
                 <!-- Requirements -->
-                @if ($job->requirements)
+                @if (!empty($job->requirements))
                     <div class="requirements">
                         <h2>Requirements</h2>
                         <p>{{ $job->requirements }}</p>

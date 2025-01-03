@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('location');
             $table->decimal('salary_range', 10, 2)->nullable();
             $table->string('image')->nullable();
-            $table->text('requirements');
+            $table->text('requirements')->nullable();
             $table->unsignedBigInteger('employer_id');
             $table->unsignedBigInteger('admin_id')->nullable(); // Admin ID column
             $table->date('closing_date');

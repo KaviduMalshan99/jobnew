@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AdminAuthController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -16,11 +17,13 @@ use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
+use App\Http\Controllers\FaqController;
 use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FlaggedJobController;
 use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TermsAndConditionController;
 use App\Models\Category;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -186,6 +189,70 @@ Route::prefix('admin')->group(function () {
         Route::get('dashboard', [AdminAuthController::class, 'dashboard'])->name('admin.dashboard');
     });
 
+});
+Route::get('terms-and-conditions', [TermsAndConditionController::class, 'indexhome'])->name('terms.index');
+Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+    // Show the list of terms and conditions
+    Route::get('terms-and-conditions', [TermsAndConditionController::class, 'index'])->name('terms.index');
+
+    // Show the form for creating a new terms and condition
+    Route::get('terms-and-conditions/create', [TermsAndConditionController::class, 'create'])->name('terms.create');
+
+    // Store a new terms and condition
+    Route::post('terms-and-conditions', [TermsAndConditionController::class, 'store'])->name('terms.store');
+
+    // Show the form for editing an existing terms and condition
+    Route::get('terms-and-conditions/{termsAndCondition}/edit', [TermsAndConditionController::class, 'edit'])->name('terms.edit');
+
+    // Update an existing terms and condition
+    Route::put('terms-and-conditions/{termsAndCondition}', [TermsAndConditionController::class, 'update'])->name('terms.update');
+
+    // Delete an existing terms and condition
+    Route::delete('terms-and-conditions/{termsAndCondition}', [TermsAndConditionController::class, 'destroy'])->name('terms.destroy');
+});
+
+Route::get('/about-us', [AboutUsController::class, 'indexhome'])->name('about-us.index');
+Route::prefix('admin')->name('admin.')->middleware('admin')->group(function () {
+    // Show the About Us section
+    Route::get('/about-us', [AboutUsController::class, 'index'])->name('about-us.index');
+
+    // Show the form to create a new About Us section
+    Route::get('about-us/create', [AboutUsController::class, 'create'])->name('about-us.create');
+
+    // Store the new About Us section
+    Route::post('about-us', [AboutUsController::class, 'store'])->name('about-us.store');
+
+    // Show the form to edit an existing About Us section
+    Route::get('about-us/{aboutUs}/edit', [AboutUsController::class, 'edit'])->name('about-us.edit');
+
+    // Update the existing About Us section
+    Route::put('about-us/{aboutUs}', [AboutUsController::class, 'update'])->name('about-us.update');
+
+    // Delete the About Us section
+    Route::delete('about-us/{aboutUs}', [AboutUsController::class, 'destroy'])->name('about-us.destroy');
+});
+Route::get('faqs', [FaqController::class, 'faqshow'])->name('faqs.home');
+Route::middleware('admin')->group(function () {
+    // Display all FAQs
+    Route::get('admin/faqs', [FaqController::class, 'index'])->name('faqs.index');
+
+    // Show the form to create a new FAQ
+    Route::get('/faqs/create', [FaqController::class, 'create'])->name('faqs.create');
+
+    // Store a new FAQ
+    Route::post('/faqs', [FaqController::class, 'store'])->name('faqs.store');
+
+    // Display a specific FAQ
+    Route::get('/faqs/{faq}', [FaqController::class, 'show'])->name('faqs.show');
+
+    // Show the form to edit a specific FAQ
+    Route::get('/faqs/{faq}/edit', [FaqController::class, 'edit'])->name('faqs.edit');
+
+    // Update a specific FAQ
+    Route::put('/faqs/{faq}', [FaqController::class, 'update'])->name('faqs.update');
+
+    // Delete a specific FAQ
+    Route::delete('/faqs/{faq}', [FaqController::class, 'destroy'])->name('faqs.destroy');
 });
 
 Route::get('/jobs/{id}', [JobPostingController::class, 'showjob'])->name('job.details');
@@ -657,6 +724,7 @@ Route::get('/apply/{job}', [ApplicationController::class, 'showApplyForm'])->nam
 Route::post('/apply', [ApplicationController::class, 'submitForm'])->name('apply.submit');
 
 // feedback
+Route::get('/reviews', [FeedbackController::class, 'index'])->name('feedback.home');
 Route::middleware(['auth'])->group(function () {
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');

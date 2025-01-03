@@ -162,13 +162,24 @@
                 @enderror
             </div>
             <div class="form-group">
-                <label for="cv_path">Attach Your CV: <span class="text-danger"></span></label>
+                <label for="cv_option">CV Option:</label>
+                <div>
+                    <input type="radio" id="upload_cv" name="cv_option" value="upload" checked>
+                    <label for="upload_cv">Upload CV</label>
+                    <input type="radio" id="create_cv" name="cv_option" value="create">
+                    <label for="create_cv">Create CV</label>
+                </div>
+            </div>
+
+            <div id="upload_cv_section" class="form-group">
+                <label for="cv_path">Attach Your CV: <span class="text-danger">*</span></label>
                 <input type="file" name="cv_path" id="cv_path"
-                    accept=".doc,.docx,.pdf,.odt,.rtf,.jpg,.jpeg,.gif,.png" required>
+                    accept=".doc,.docx,.pdf,.odt,.rtf,.jpg,.jpeg,.gif,.png">
                 <small>Allowed types: .doc, .docx, .odt, .pdf, .rtf, .jpg, .jpeg, .gif, .png. Max size: 2.0MB</small>
-                @error('cv')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+            </div>
+
+            <div id="create_cv_section" class="form-group" style="display: none;">
+                <button type="button" class="btn btn-clear" id="create_cv_button">Create CV</button>
             </div>
             <div class="form-group">
 
@@ -196,6 +207,24 @@
 
         </form>
     </div>
+    <script>
+        $(document).ready(function() {
+            $('input[name="cv_option"]').on('change', function() {
+                if ($(this).val() === 'upload') {
+                    $('#upload_cv_section').show();
+                    $('#create_cv_section').hide();
+                } else if ($(this).val() === 'create') {
+                    $('#upload_cv_section').hide();
+                    $('#create_cv_section').show();
+                }
+            });
+
+            $('#create_cv_button').on('click', function() {
+                window.location.href =
+                    "/profile/cv"; // Replace with the actual route to your CV creation page
+            });
+        });
+    </script>
 </body>
 
 </html>

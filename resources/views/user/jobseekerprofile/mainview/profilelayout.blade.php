@@ -40,7 +40,7 @@
             <a href="{{ route('user.jobseekerprofile.myjobs.application') }}" class="btn btn-common"
                 id="myapplication">My Applications</a>
             <a href="{{ route('user.flagged_jobs') }}" class="btn btn-common" id="flagged">Flagged Jobs</a>
-            <a href="/mainprofileview/preferredcompany" class="btn btn-common" id="preferred">Preferred Companies</a>
+            <a href="{{ route('generate.index') }}" class="btn btn-common" id="preferred">Create Cv</a>
             <a href="/mainprofileview/recentjob" class="btn btn-common" id="recent">Recent Jobs</a>
         </div>
     </div>

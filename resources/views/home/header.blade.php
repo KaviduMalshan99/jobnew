@@ -14,12 +14,12 @@
     <header class="unique-header">
         <div class="logo">
             <a href="/">
-                <img src="/images/jobss.png" alt="LOGO" width="120px" height="auto">
+                <x-application-logo />
             </a>
         </div>
         <nav class="nav-links unique-nav-links">
-            <a href="/postjob">Post Your Vacancy</a>
-            <a href="#">Happy Customers</a>
+            <a href="{{ route('employer.login') }}">Post Your Vacancy</a>
+            <a href="{{ route('feedback.home') }}">Happy Customers</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>
         </nav>
@@ -48,8 +48,16 @@
             <!-- Replace Button with Image -->
             <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
             <div class="profile-dropdown-content">
-                <a href="/mainprofileview/common">My Profile</a>
-                <a href="/logout">Logout</a>
+                <a href="/profile">My Profile</a>
+                <form method="POST" action="{{ route('logout') }}">
+                    @csrf
+
+                    <x-dropdown-link :href="route('logout')"
+                        onclick="event.preventDefault();
+                                        this.closest('form').submit();">
+                        {{ __('Log Out') }}
+                    </x-dropdown-link>
+                </form>
             </div>
         </div>
     </header>

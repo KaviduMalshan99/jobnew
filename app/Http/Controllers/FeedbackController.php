@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ContactUs;
 use App\Models\Feedback;
 use Illuminate\Http\Request;
 
@@ -9,8 +10,9 @@ class FeedbackController extends Controller
 {
     public function index()
     {
-        $feedback = Feedback::where('status', 'approve')->get();
-        return view('home', compact('feedback'));
+        $feedback = Feedback::with('user')->where('status', 'approve')->get();
+        $contacts = ContactUs::all();
+        return view('home.reviews', compact('feedback', 'contacts'));
     }
 
     public function userHistory($userId)
@@ -21,7 +23,8 @@ class FeedbackController extends Controller
 
     public function create()
     {
-        return view('home.feedback');
+        $contacts = ContactUs::all();
+        return view('home.feedback', compact('contacts'));
     }
 
     public function store(Request $request)

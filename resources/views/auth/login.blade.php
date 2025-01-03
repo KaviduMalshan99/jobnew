@@ -43,6 +43,8 @@
                 <span class="ms-2 text-sm text-gray-600 dark:text-gray-400">{{ __('Remember me') }}</span>
             </label>
         </div>
+        <a href="/register" style="text-decoration: none ; color: blue  ">create account
+        </a>
 
         <div class="flex items-center justify-end mt-4">
             @if (Route::has('password.request'))
@@ -51,6 +53,7 @@
                     {{ __('Forgot your password?') }}
                 </a>
             @endif
+
 
             <x-primary-button class="ms-3">
                 {{ __('Log in') }}

@@ -11,11 +11,11 @@
             <h3>Quick Links</h3>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="faq">FAQ</a></li>
+                <li><a href="{{ route('faqs.home') }}">FAQ</a></li>
                 <li><a href="privacy">Privacy policy</a></li>
-                <li><a href="terms">T & C</a></li>
+                <li><a href="{{ route('terms.index') }}">T & C</a></li>
                 <li><a href="feedback">Feedback</a></li>
-                <li><a href="reviews">Reviews</a></li>
+                <li><a href="{{ route('about-us.index') }}">About Us</a></li>
             </ul>
         </div>
         <div class="footer-section">
@@ -116,7 +116,7 @@
     document.addEventListener('DOMContentLoaded', function() {
         const categoryLinks = document.querySelectorAll('.category-link');
         const jobListingsContainer = document.getElementById(
-        'job-listings'); // Ensure this ID exists in your HTML
+            'job-listings'); // Ensure this ID exists in your HTML
 
         categoryLinks.forEach(link => {
             link.addEventListener('click', function() {

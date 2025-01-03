@@ -320,6 +320,9 @@
 </head>
 
 <body>
+    <button class="back-button" onclick="window.history.back()">
+        <i class="fas fa-arrow-left"></i>
+    </button>
 
     <main>
         <!-- Job Card -->
@@ -328,7 +331,6 @@
             <div class="header">
                 @if ($job->image)
                     <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
-
                     <div class="overlay"></div>
                 @endif
             </div>

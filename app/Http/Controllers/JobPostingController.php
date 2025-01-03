@@ -8,7 +8,6 @@ use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Subcategory;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str;
 
 class JobPostingController extends Controller
 {
@@ -36,8 +35,10 @@ class JobPostingController extends Controller
 
     public function topEmployers()
     {
-        // Fetch top 28 employers based on job postings count
+        // Fetch top 28 employers based on job postings count and filter those with a logo
         $topEmployers = Employer::withCount('jobPostings') // Assuming 'jobPostings' is the relationship
+            ->whereNotNull('logo') // Filter employers with a non-null logo
+            ->where('logo', '!=', '') // Ensure the logo is not an empty string
             ->orderBy('job_postings_count', 'desc') // Sort by the number of job postings
             ->take(28) // Limit to top 28
             ->get();
@@ -173,7 +174,7 @@ class JobPostingController extends Controller
 
         // Generate a unique job_id (ensure it's unique by checking the database)
         do {
-            $jobId = 'J' . Str::random(8); // Generates a random string of 8 characters
+            $jobId = 'J' . rand(10000, 99999); // Generates a random number between 10000 and 99999
         } while (JobPosting::where('job_id', $jobId)->exists()); // Check for uniqueness
 
         $validated['job_id'] = $jobId;

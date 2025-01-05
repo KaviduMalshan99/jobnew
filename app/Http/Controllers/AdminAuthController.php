@@ -36,12 +36,21 @@ class AdminAuthController extends Controller
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
+        $admin = Admin::where('email', $credentials['email'])->first();
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            return redirect()->route('admin.dashboard');
+        if (!$admin || !Auth::guard('admin')->validate($credentials)) {
+            return back()->withErrors(['email' => 'Invalid credentials']);
         }
 
-        return back()->withErrors(['email' => 'Invalid credentials']);
+        // Check if the account is active or the role is 'super_admin'
+        if (!$admin->is_active && $admin->role !== 'super_admin') {
+            return back()->withErrors(['email' => 'Your account is inactive. Please contact the super admin.']);
+        }
+
+        // Log in the admin
+        Auth::guard('admin')->login($admin);
+
+        return redirect()->route('admin.dashboard');
     }
 
     // Handle logout
@@ -72,9 +81,11 @@ class AdminAuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             'contact' => $request->contact,
+            'is_active' => false, // Default inactive
+            'role' => 'admin', // Default role
         ]);
 
-        return redirect()->route('admin.login')->with('success', 'Admin registered successfully. You can now log in.');
+        return redirect()->route('admin.login')->with('success', 'Admin registered successfully. Please wait for activation by the super admin.');
     }
 
     // Dashboard (example)

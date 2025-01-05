@@ -101,9 +101,16 @@
                 <li class="profile-nav onhover-dropdown pe-0 py-0">
                     <div class="media profile-media"><img class="b-r-10"
                             src="{{ asset('assets/images/dashboard/profile.jpg') }}" alt="">
-                        <div class="media-body"><span>{{ Auth::guard('admin')->user()->name }}</span>
-                            <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                        <div class="media-body">
+                            @if (Auth::guard('admin')->check())
+                                <span>{{ Auth::guard('admin')->user()->name }}</span>
+                                <p class="mb-0 font-roboto">Admin <i class="middle fa fa-angle-down"></i></p>
+                            @else
+                                <span>Guest</span>
+                                <p class="mb-0 font-roboto">Please log in <i class="middle fa fa-angle-down"></i></p>
+                            @endif
                         </div>
+
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
                         <li><a href="{{ route('admin.profile') }}"><i data-feather="user"></i><span>Account

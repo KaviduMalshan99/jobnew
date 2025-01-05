@@ -16,18 +16,21 @@ class JobPostingController extends Controller
         // Fetch all published jobs
         $jobPostings = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'approved')
+            ->where('is_active', true)
             ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->paginate(10);
 
         // Fetch all pending jobs
         $pendingJobs = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'pending')
+            ->where('is_active', true)
             ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->paginate(10);
 
         // Fetch all rejected jobs
         $rejectedJobs = JobPosting::with(['category', 'subcategory', 'employer'])
             ->where('status', 'reject')
+            ->where('is_active', true)
             ->paginate(10); // Rejected jobs are displayed regardless of closing date
 
         return view('admin.jobview', compact('jobPostings', 'pendingJobs', 'rejectedJobs'));
@@ -54,6 +57,7 @@ class JobPostingController extends Controller
 
         $jobs = JobPosting::with(['category', 'subcategory'])
             ->where('status', 'approved') // Only approved jobs
+            ->where('is_active', true)
             ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
             ->when($search, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
@@ -74,6 +78,23 @@ class JobPostingController extends Controller
 
         return view('home.home', compact('categories', 'jobs', 'contacts'));
     }
+
+    public function toggleActiveStatus($id)
+    {
+        // Find the job posting by ID and ensure it belongs to the authenticated employer
+        $job = JobPosting::where('id', $id)
+            ->where('employer_id', auth('employer')->id()) // Ensure the job belongs to the current employer
+            ->firstOrFail();
+
+        // Toggle the is_active status
+        $job->is_active = !$job->is_active;
+        $job->save();
+
+        $status = $job->is_active ? 'active' : 'inactive';
+
+        return redirect()->back()->with('success', "Job posting has been marked as $status.");
+    }
+
     public function show($id)
     {
         $job = JobPosting::with(['category', 'employer'])->findOrFail($id);

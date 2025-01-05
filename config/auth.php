@@ -109,6 +109,14 @@ return [
             'throttle' => 60,
         ],
     ],
+    'passwords' => [
+        'admins' => [
+            'provider' => 'admins',
+            'table' => 'password_resets',
+            'expire' => 60, // Reset link expiration in minutes
+            'throttle' => 60, // Prevent frequent reset attempts
+        ],
+    ],
 
     /*
     |--------------------------------------------------------------------------

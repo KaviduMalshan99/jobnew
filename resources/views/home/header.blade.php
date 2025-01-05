@@ -39,7 +39,7 @@
                     <!-- Replace Button with Image -->
                     <img src="/images/profileimage.png" alt="Profile Image" class="profile-image">
                     <div class="profile-dropdown-content">
-                        <a href="/profile">My Profile</a>
+                        <a href="{{ route('profile.edit') }}">My Profile</a>
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 

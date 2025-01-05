@@ -47,7 +47,7 @@
                                         <input id="checkbox1" type="checkbox" name="remember">
                                         <label class="text-muted" for="checkbox1">Remember password</label>
                                     </div>
-                                    <a class="link" href="{{ route('forget-password') }}">Forgot password?</a>
+                                    <a class="link" href="{{ route('admin.password.request') }}">Forgot password?</a>
                                     <button class="btn btn-primary btn-block" type="submit">Sign in</button>
                                 </div>
 

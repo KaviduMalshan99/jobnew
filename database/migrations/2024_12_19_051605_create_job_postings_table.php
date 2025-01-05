@@ -29,6 +29,7 @@ return new class extends Migration
             $table->string('status')->default('pending'); // Status column
             $table->string('rejection_reason')->nullable(); // Rejection reason column
             $table->string('job_id')->index(); // Job ID column (required)
+            $table->boolean('is_active')->default(true);
             $table->timestamps();
 
             $table->foreign('category_id')->references('id')->on('categories');

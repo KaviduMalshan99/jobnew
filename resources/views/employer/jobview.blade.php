@@ -25,63 +25,93 @@
         <h2>Your Job Postings</h2>
 
         @if ($jobPostings->count() > 0)
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Job ID</th>
-                        <th>Title</th>
-                        <th>Category</th>
-                        <th>Subcategory</th>
-                        <th>Reviewed By</th>
-                        <th>Status</th>
-                        <th>Reviewed Date</th>
-                        <th>Review Reason</th>
-                        <th>Acttion</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach ($jobPostings as $job)
+            <div class="overflow-x-auto shadow-sm rounded-lg">
+                <table class="min-w-full divide-y divide-gray-200 bg-white">
+                    <thead class="bg-gray-50">
                         <tr>
-                            <td>{{ $job->job_id }}</td>
-                            <td>{{ $job->title }}</td>
-                            <td>{{ $job->category->name }}</td>
-                            <td>{{ $job->subcategory->name }}</td>
-                            <td>{{ $job->admin->name ?? 'N/A' }}</td>
-                            <td>{{ ucfirst($job->status) }}</td>
-                            <td>
-                                @if ($job->status === 'approved')
-                                    {{ $job->approved_date ? \Carbon\Carbon::parse($job->approved_date)->format('Y-m-d') : 'N/A' }}
-                                @elseif ($job->status === 'rejected')
-                                    {{ $job->rejected_date ? \Carbon\Carbon::parse($job->rejected_date)->format('Y-m-d') : 'N/A' }}
-                                @else
-                                    N/A
-                                @endif
-                            </td>
-
-
-                            <td>{{ $job->review_reason ?? 'N/A' }}</td>
-                            <td>
-                                <!-- Edit button -->
-                                <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
-                                    class="btn btn-primary btn-sm">Edit</a>
-
-                                <!-- Delete button -->
-                                <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}" method="POST"
-                                    style="display: inline;">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="submit" class="btn mt-3 btn-danger btn-sm"
-                                        onclick="return confirm('Are you sure you want to delete this job posting?');">
-                                        Delete
-                                    </button>
-                                </form>
-                            </td>
-
-
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job ID
+                            </th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title
+                            </th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Category</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Subcategory</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Reviewed By</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Status</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Reviewed Date</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Review Reason</th>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Action</th>
                         </tr>
-                    @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @foreach ($jobPostings as $job)
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->job_id }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->title }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->category->name }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->subcategory->name }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->admin->name ?? 'N/A' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <span
+                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
+                                    {{ ($job->status === 'approved'
+                                            ? 'bg-green-100 text-green-800'
+                                            : $job->status === 'rejected')
+                                        ? 'bg-red-100 text-red-800'
+                                        : 'bg-yellow-100 text-yellow-800' }}">
+                                        {{ ucfirst($job->status) }}
+                                    </span>
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    @if ($job->status === 'approved')
+                                        {{ $job->approved_date ? \Carbon\Carbon::parse($job->approved_date)->format('Y-m-d') : 'N/A' }}
+                                    @elseif ($job->status === 'rejected')
+                                        {{ $job->rejected_date ? \Carbon\Carbon::parse($job->rejected_date)->format('Y-m-d') : 'N/A' }}
+                                    @else
+                                        N/A
+                                    @endif
+                                </td>
+                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->review_reason ?? 'N/A' }}</td>
+                                <td class="px-4 py-3 whitespace-nowrap space-x-2">
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
+                                        class="btn btn-primary btn-sm">
+                                        Edit
+                                    </a>
+
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
+                                        method="POST" class="d-inline">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                            onclick="return confirm('Are you sure you want to delete this job posting?');">
+                                            Delete
+                                        </button>
+                                    </form>
+
+                                    <!-- Toggle Active/Inactive Button -->
+                                    <form action="{{ route('job_postings.toggle_active', $job->id) }}" method="POST"
+                                        class="d-inline">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                            class="btn btn-sm {{ $job->is_active ? 'btn-warning' : 'btn-success' }}">
+                                            {{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
             <!-- Pagination Links -->
             {{ $jobPostings->links() }}

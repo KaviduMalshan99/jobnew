@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AboutUsController;
 use App\Http\Controllers\AdminAuthController;
+use App\Http\Controllers\AdminForgotPasswordController;
+use App\Http\Controllers\AdminResetPasswordController;
 use App\Http\Controllers\ApplicationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\ConfirmablePasswordController;
@@ -740,6 +742,20 @@ Route::get('/alerts', function () {
 
 });
 
+Route::middleware(['admin', 'superadmin'])->group(function () {
+    Route::get('/admin/list', [AdminAuthController::class, 'adminList'])->name('admin.list');
+    Route::post('/admin/toggle-status/{id}', [AdminAuthController::class, 'toggleStatus'])->name('admin.toggleStatus');
+});
+
+Route::patch('/job-postings/{id}/toggle-active', [JobPostingController::class, 'toggleActiveStatus'])
+    ->name('job_postings.toggle_active')
+    ->middleware('employer'); // Ensure only authenticated employers can access this route
+
+//admin reset password
+Route::get('/admin/password/reset', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
+Route::post('/admin/password/email', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
+Route::get('/admin/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
+Route::post('/admin/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
 // top Employees
 
 // routes/web.php

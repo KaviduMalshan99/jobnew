@@ -72,7 +72,26 @@ class EmployerAuthController extends Controller
 
         return redirect()->route('employer.login')->with('success', 'Employer registered successfully. You can now log in.');
     }
+    public function extraregister(Request $request)
+    {
+        $request->validate([
+            'company_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:employers,email',
+            'password' => 'required|string|min:8|confirmed',
+            'contact_details' => 'nullable|string|max:255',
+            'business_info' => 'nullable|string',
+        ]);
 
+        Employer::create([
+            'company_name' => $request->company_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'contact_details' => $request->contact_details,
+            'business_info' => $request->business_info,
+        ]);
+
+        return redirect('/employer-register')->with('success', 'Employer registered successfully. You can now log in.');
+    }
     // Dashboard
     public function dashboard()
     {
@@ -83,6 +102,12 @@ class EmployerAuthController extends Controller
     {
         $employer = Auth::guard('employer')->user();
         return view('employer.profile', compact('employer')); // Ensure you have a view at resources/views/employer/profile.blade.php
+    }
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $employers = Employer::where('company_name', 'LIKE', "%{$query}%")->get(['id', 'company_name']);
+        return response()->json($employers);
     }
 
 // Handle Employer Profile Update

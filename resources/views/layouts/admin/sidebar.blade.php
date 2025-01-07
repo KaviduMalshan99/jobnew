@@ -72,49 +72,69 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-bookmark') }}"> </use>
                             </svg><span>Categories</span></a></li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('job_postings.index') }}">
+
+
+
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                             </svg><span>Jobs</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('job_postings.index') }}">Create Job </a></li>
+                            <li><a href="{{ route('admin.job_postings.create') }}">Post Job</a></li>
+
+
+                        </ul>
                     </li>
-
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('contactus.create') }}">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-contact') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-contact') }}"> </use>
-                            </svg><span>Contact Details</span></a></li>
-
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.about-us.index') }}">
-                            <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-user') }}"></use>
-                            </svg>
-                            <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-user') }}"></use>
-                            </svg><span>About Details</span></a></li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.terms.index') }}">
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
-                            </svg><span>Terms Details</span></a></li>
+                            </svg><span>Site Settings</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('contactus.create') }}">Contact Details </a></li>
+                            <li><a href="{{ route('admin.about-us.index') }}">About Details</a></li>
+                            <li><a href="{{ route('admin.terms.index') }}">Terms Details </a></li>
+                            <li><a href="{{ route('faqs.index') }}">FAQ</a></li>
+
+
+                        </ul>
+                    </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('faqs.index') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('register.adminemployer') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-contact') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-contact') }}"> </use>
+                            </svg><span>Employer create</span></a></li>
+
+
+
+
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('package-contacts.create') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
-                            </svg><span>FAQ</span></a></li>
+                            </svg><span>Package Contact</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.feedback.manage') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
+                            </svg><span>FeedBack</span></a></li>
 
 
 

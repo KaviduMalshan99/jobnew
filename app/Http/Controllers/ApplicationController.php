@@ -6,6 +6,7 @@ use App\Models\Application;
 use App\Models\ContactUs;
 use App\Models\JobPosting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class ApplicationController extends Controller
@@ -29,6 +30,21 @@ class ApplicationController extends Controller
 
         return view('User.jobseekerprofile.myJobs.application', compact('applications', 'contacts'));
     }
+    public function viewApplicationsForJob(JobPosting $job)
+    {
+        // Ensure the authenticated employer owns this job posting
+        $employer = Auth::guard('employer')->user();
+
+        if ($job->employer_id !== $employer->id) {
+            abort(403, 'Unauthorized access');
+        }
+
+        // Get applications for the job
+        $applications = Application::where('job_posting_id', $job->id)->get();
+
+        return view('employer.jobapplication', compact('job', 'applications'));
+    }
+
     public function viewApplicationDetails($id)
     {
         // Fetch the application along with the associated job and employer

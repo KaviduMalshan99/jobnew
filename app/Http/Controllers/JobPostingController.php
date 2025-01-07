@@ -212,6 +212,44 @@ class JobPostingController extends Controller
         return redirect()->route('employer.job_postings.post.create')->with('success', 'Job posting created successfully!');
     }
 
+    public function storeForAdmin(Request $request)
+    {
+        // Validate the incoming request data
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'description' => 'required|string',
+            'category_id' => 'required|exists:categories,id',
+            'subcategory_id' => 'required|exists:subcategories,id',
+            'location' => 'required|string|max:255',
+            'salary_range' => 'nullable|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
+            'requirements' => 'required|string',
+            'closing_date' => 'required|date',
+            'employer_id' => 'required|exists:employers,id', // Ensure the employer ID exists
+        ]);
+
+        // Assign the admin's ID as the creator
+        $validated['creator_id'] = auth('admin')->id();
+
+        // Generate a unique job_id (ensure it's unique by checking the database)
+        do {
+            $jobId = 'J' . rand(10000, 99999); // Generates a random number between 10000 and 99999
+        } while (JobPosting::where('job_id', $jobId)->exists()); // Check for uniqueness
+
+        $validated['job_id'] = $jobId;
+
+        // Handle image upload if a file is provided
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('job_images', 'public');
+        }
+
+        // Create and save the job posting
+        $jobPosting = JobPosting::create($validated);
+
+        // Redirect with a success message
+        return redirect()->route('admin.job_postings.index')->with('success', 'Job posting created successfully!');
+    }
+
     public function getSubcategories($categoryId)
     {
         $subcategories = Subcategory::where('category_id', $categoryId)->get();
@@ -223,6 +261,14 @@ class JobPostingController extends Controller
         $categories = Category::all(); // Assuming you have a Category model
         $subcategories = Subcategory::where('category_id', $jobPosting->category_id)->get(); // Assuming you have a Subcategory model
         return view('employer.jobupdate', compact('jobPosting', 'categories', 'subcategories'));
+    }
+    public function createForAdmin()
+    {
+        $categories = Category::all(); // Fetch all categories
+        $subcategories = Subcategory::all(); // Fetch all subcategories
+        $employers = Employer::all(); // Fetch all employers
+
+        return view('Admin.jobcreate', compact('categories', 'subcategories', 'employers'));
     }
 
     public function update(Request $request, JobPosting $jobPosting)

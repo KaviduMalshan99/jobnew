@@ -3,7 +3,97 @@
 @section('title', 'Jobs')
 
 @section('css')
+    <style>
+        /* Custom Button Styles */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            gap: 8px;
+            cursor: pointer;
+        }
 
+        .btn i {
+            font-size: 16px;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #4f46e5;
+            color: white;
+            border: none;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+        }
+
+        .btn-danger {
+            background-color: #ef4444;
+            color: white;
+            border: none;
+        }
+
+        .btn-danger:hover {
+            background-color: #dc2626;
+        }
+
+        .btn-warning {
+            background-color: #f59e0b;
+            color: white;
+            border: none;
+        }
+
+        .btn-warning:hover {
+            background-color: #d97706;
+        }
+
+        .btn-success {
+            background-color: #10b981;
+            color: white;
+            border: none;
+        }
+
+        .btn-success:hover {
+            background-color: #059669;
+        }
+
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 13px;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .action-buttons form {
+            margin: 0;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .action-buttons {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
 @endsection
 
 @section('style')
@@ -52,8 +142,14 @@
                     <tbody class="divide-y divide-gray-200">
                         @foreach ($jobPostings as $job)
                             <tr class="hover:bg-gray-50">
+
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->job_id }}</td>
+
+
+
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->title }}</td>
+
+
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->category->name }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->subcategory->name }}</td>
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->admin->name ?? 'N/A' }}</td>
@@ -78,34 +174,43 @@
                                     @endif
                                 </td>
                                 <td class="px-4 py-3 whitespace-nowrap">{{ $job->review_reason ?? 'N/A' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap space-x-2">
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
-                                        class="btn btn-primary btn-sm">
-                                        Edit
-                                    </a>
+                                <td class="px-4 py-3 whitespace-nowrap">
+                                    <div class="action-buttons">
+                                        <a href="{{ route('employer.jobs.applications', ['job' => $job->id]) }}"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="fa fa-users" aria-hidden="true"></i>
+                                            view
+                                        </a>
 
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
-                                        method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm"
-                                            onclick="return confirm('Are you sure you want to delete this job posting?');">
-                                            Delete
-                                        </button>
-                                    </form>
+                                        <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
+                                            class="btn btn-primary btn-sm">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
 
-                                    <!-- Toggle Active/Inactive Button -->
-                                    <form action="{{ route('job_postings.toggle_active', $job->id) }}" method="POST"
-                                        class="d-inline">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit"
-                                            class="btn btn-sm {{ $job->is_active ? 'btn-warning' : 'btn-success' }}">
-                                            {{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}
-                                        </button>
-                                    </form>
+                                        </a>
+
+                                        <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
+                                            method="POST" class="d-inline">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm"
+                                                onclick="return confirm('Are you sure you want to delete this job posting?');">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+
+                                            </button>
+                                        </form>
+
+                                        <form action="{{ route('job_postings.toggle_active', $job->id) }}" method="POST"
+                                            class="d-inline">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit"
+                                                class="btn btn-sm {{ $job->is_active ? 'btn-warning' : 'btn-success' }}">
+                                                <i class="fa {{ $job->is_active ? 'fa-pause' : 'fa-play' }}"
+                                                    aria-hidden="true"></i>
+                                                {{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}
+                                            </button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -125,6 +230,7 @@
 @endsection
 
 @section('script')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <script src="{{ asset('assets/js/clock.js') }}"></script>
     <script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>

@@ -24,6 +24,8 @@ use App\Http\Controllers\FeedbackController;
 use App\Http\Controllers\FlaggedJobController;
 use App\Http\Controllers\JobExperienceController;
 use App\Http\Controllers\JobPostingController;
+use App\Http\Controllers\PackageContactController;
+use App\Http\Controllers\PackageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TermsAndConditionController;
 use App\Models\Category;
@@ -351,6 +353,8 @@ Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
     Route::put('/employer/profile', [EmployerAuthController::class, 'updateProfile'])->name('employer.updateProfile');
     Route::post('/employer/logo/update', [EmployerAuthController::class, 'updateLogo'])->name('employer.update.logo');
+    Route::get('/employer/jobs/{job}/applications', [ApplicationController::class, 'viewApplicationsForJob'])
+        ->name('employer.jobs.applications');
 });
 
 Route::prefix('ecommerce')->group(function () {
@@ -751,11 +755,37 @@ Route::patch('/job-postings/{id}/toggle-active', [JobPostingController::class, '
     ->name('job_postings.toggle_active')
     ->middleware('employer'); // Ensure only authenticated employers can access this route
 
+Route::get('/employer-register', function () {
+    return view('Admin.employerregister');
+})->middleware('admin')->name('register.adminemployer');
+Route::post('/register-employer', [EmployerAuthController::class, 'extraregister'])->name('register.extraemployer')->middleware('admin');
+
 //admin reset password
 Route::get('/admin/password/reset', [AdminForgotPasswordController::class, 'showLinkRequestForm'])->name('admin.password.request');
 Route::post('/admin/password/email', [AdminForgotPasswordController::class, 'sendResetLinkEmail'])->name('admin.password.email');
 Route::get('/admin/password/reset/{token}', [AdminResetPasswordController::class, 'showResetForm'])->name('admin.password.reset');
 Route::post('/admin/password/reset', [AdminResetPasswordController::class, 'reset'])->name('admin.password.update');
-// top Employees
+// admin
+Route::get('/admin/job-postings/create', [JobPostingController::class, 'createForAdmin'])
+    ->name('admin.job_postings.create')
+    ->middleware('auth:admin'); // Ensure only admins can access
+Route::post('/admin/job-postings/create', [JobPostingController::class, 'storeForAdmin'])
+    ->name('admin.job_postings.store')
+    ->middleware('auth:admin');
+Route::get('/employers/search', [EmployerAuthController::class, 'search']);
+
+Route::get('/package-contacts', [PackageContactController::class, 'index'])->name('package-contacts.index'); // Fetch all
+Route::get('/package-contacts/create', [PackageContactController::class, 'create'])->name('package-contacts.create')->middleware('auth:admin');
+Route::post('/package-contacts', [PackageContactController::class, 'store'])->name('package-contacts.store'); // Create
+Route::put('/package-contacts/{id}', [PackageContactController::class, 'update'])->name('package-contacts.update'); // Update
+Route::delete('/package-contacts/{id}', [PackageContactController::class, 'destroy'])->name('package-contacts.destroy'); // Delete
+
+Route::get('admin/packages', [PackageController::class, 'index'])->name('admin.packages.index');
+Route::get('admin/packages/create', [PackageController::class, 'create'])->name('admin.packages.create');
+Route::post('admin/packages', [PackageController::class, 'store'])->name('admin.packages.store');
+Route::get('admin/packages/{package}', [PackageController::class, 'show'])->name('admin.packages.show');
+Route::get('admin/packages/{package}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
+Route::put('admin/packages/{package}', [PackageController::class, 'update'])->name('admin.packages.update');
+Route::delete('admin/packages/{package}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
 
 // routes/web.php

@@ -13,7 +13,7 @@ class PackageController extends Controller
     public function index()
     {
         $packages = Package::all();
-        return view('packages.index', compact('packages'));
+        return view('Admin.packages.Details.show', compact('packages'));
     }
 
     /**
@@ -38,7 +38,7 @@ class PackageController extends Controller
 
         Package::create($request->all());
 
-        return redirect()->route('packages.index')->with('success', 'Package created successfully.');
+        return redirect()->route('admin.packages.index')->with('success', 'Package created successfully.');
     }
 
     /**
@@ -56,7 +56,7 @@ class PackageController extends Controller
     public function edit($id)
     {
         $package = Package::findOrFail($id);
-        return view('packages.edit', compact('package'));
+        return view('Admin.packages.Details.edit', compact('package'));
     }
 
     /**
@@ -74,7 +74,7 @@ class PackageController extends Controller
         $package = Package::findOrFail($id);
         $package->update($request->all());
 
-        return redirect()->route('packages.index')->with('success', 'Package updated successfully.');
+        return redirect()->route('admin.packages.index')->with('success', 'Package updated successfully.');
     }
 
     /**
@@ -85,6 +85,6 @@ class PackageController extends Controller
         $package = Package::findOrFail($id);
         $package->delete();
 
-        return redirect()->route('packages.index')->with('success', 'Package deleted successfully.');
+        return redirect()->route('admin.packages.index')->with('success', 'Package deleted successfully.');
     }
 }

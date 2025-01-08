@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Contact;
+use App\Models\ContactUs;
+use App\Models\Package;
 use App\Models\PackageContact;
 use Illuminate\Http\Request;
 
@@ -25,7 +28,10 @@ class PackageContactController extends Controller
     public function index()
     {
         $posts = PackageContact::all();
-        return view('Admin', compact('posts'));
+        $contacts = ContactUs::all();
+        $contactsLists = Contact::all();
+        $packages = Package::all();
+        return view('User.postvacancy.postvacancy', compact('posts', 'contacts', 'contactsLists', 'packages'));
     }
     public function create()
     {

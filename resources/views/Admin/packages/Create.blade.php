@@ -43,7 +43,7 @@
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="contact">Contact</label>
+                                <label for="contact">Main Contact</label>
                                 <input type="text" name="contact" class="form-control" required>
                             </div>
 

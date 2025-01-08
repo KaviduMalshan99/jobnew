@@ -39,7 +39,6 @@
             background-color: #e9ecef;
         }
 
-        /* Scrollbar Styling */
         .custom-select-dropdown::-webkit-scrollbar {
             width: 6px;
         }
@@ -58,12 +57,23 @@
             background: #a8a8a8;
         }
 
-        /* Active state for dropdown */
         .custom-select-dropdown.show {
             display: block;
         }
-    </style>
 
+        .contact-item {
+            border: 1px solid #dee2e6;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+
+        .remove-contact {
+            float: right;
+            color: red;
+            cursor: pointer;
+        }
+    </style>
 @endsection
 
 @section('style')
@@ -80,7 +90,6 @@
 @endsection
 
 @section('content')
-
     <div class="container">
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
@@ -88,146 +97,289 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
+
         <h1>Create Job Posting</h1>
         <form action="{{ route('admin.job_postings.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            <div id="contacts-container">
+                <div class="mb-3">
+                    <label for="package_id" class="form-label">Package</label>
+                    <select name="package_id" id="package_id" class="form-control" required>
+                        <option value="">Select a package</option>
+                        @foreach ($packages as $package)
+                            <option value="{{ $package->id }}">
+                                {{ $package->package_size }}ads - Rs. {{ $package->lkr_price }}/{{ $package->usd_price }}USD
+                                ({{ $package->duration_days }} days)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
+                <div class="contact-item">
+                    <div class="form-group position-relative">
+                        <label for="employer_id_0" class="form-label">Employer</label>
+                        <select name="job_postings[0][employer_id]" id="employer_id_0" class="form-control" required>
+                            <option value="">Select an employer</option>
+                            @foreach ($employers as $employer)
+                                <option value="{{ $employer->id }}">{{ $employer->company_name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="title_0" class="form-label">Job Title</label>
+                        <input type="text" name="job_postings[0][title]" id="title_0" class="form-control" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description_0" class="form-label">Description</label>
+                        <textarea name="job_postings[0][description]" id="description_0" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="category_id_0" class="form-label">Category</label>
+                        <select name="job_postings[0][category_id]" id="category_id_0" class="form-control category-select"
+                            required>
+                            <option value="">Select a category</option>
+                            @foreach ($categories as $category)
+                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="subcategory_id_0" class="form-label">Subcategory</label>
+                        <select name="job_postings[0][subcategory_id]" id="subcategory_id_0" class="form-control" required>
+                            <option value="">Select a subcategory</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="location_0" class="form-label">Location</label>
+                        <input type="text" name="job_postings[0][location]" id="location_0" class="form-control"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="salary_range_0" class="form-label">Salary Range</label>
+                        <input type="number" name="job_postings[0][salary_range]" id="salary_range_0" class="form-control">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="image_0" class="form-label">Image</label>
+                        <input type="file" name="job_postings[0][image]" id="image_0" class="form-control image-input"
+                            accept="image/*">
+                        <div class="image-preview-container mt-3">
+                            <img class="image-preview" src="" alt="Image Preview"
+                                style="max-width: 100%; display: none;">
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="requirements_0" class="form-label">Requirements</label>
+                        <textarea name="job_postings[0][requirements]" id="requirements_0" class="form-control" rows="4" required></textarea>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="closing_date_0" class="form-label">Closing Date</label>
+                        <input type="date" name="job_postings[0][closing_date]" id="closing_date_0"
+                            class="form-control" required>
+                    </div>
+
+                    <input type="hidden" name="job_postings[0][status]" value="pending">
+                </div>
+            </div>
+
+            <button type="button" id="addContact" class="btn btn-success mb-3">Add Another Job</button>
+            <button type="submit" class="btn btn-primary">Create Jobs</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let contactIndex = 1;
+
+            // Handle category change for initial form
+            setupCategoryListener(document.querySelector('.category-select'));
+
+            // Add new job form
+            document.getElementById('addContact').addEventListener('click', function() {
+                const container = document.getElementById('contacts-container');
+                const newContact = document.createElement('div');
+                newContact.className = 'contact-item';
+
+                newContact.innerHTML = `
+            <span class="remove-contact">&times;</span>
             <div class="form-group position-relative">
-                <label for="employer_id" class="form-label">Employer</label>
-
-                <!-- Hidden select -->
-                <select name="employer_id" id="employer_id" class="d-none" required>
+                <label for="employer_id_${contactIndex}" class="form-label">Employer</label>
+                <select name="job_postings[${contactIndex}][employer_id]" id="employer_id_${contactIndex}" class="form-control" required>
+                    <option value="">Select an employer</option>
                     @foreach ($employers as $employer)
                         <option value="{{ $employer->id }}">{{ $employer->company_name }}</option>
                     @endforeach
                 </select>
-
-                <!-- Custom dropdown -->
-                <div class="custom-select-wrapper">
-                    <input type="text" id="employerSearch" class="form-control" placeholder="Search employer...">
-
-                    <div id="employerList" class="custom-select-dropdown">
-                        @foreach ($employers as $employer)
-                            <div class="custom-select-option" data-value="{{ $employer->id }}">
-                                {{ $employer->company_name }}
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
             </div>
 
             <div class="mb-3">
-                <label for="title" class="form-label">Job Title</label>
-                <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}"
-                    required>
-                @error('title')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label for="title_${contactIndex}" class="form-label">Job Title</label>
+                <input type="text" name="job_postings[${contactIndex}][title]" id="title_${contactIndex}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="description" class="form-label">Description</label>
-                <textarea name="description" id="description" class="form-control" rows="4" required>{{ old('description') }}</textarea>
-                @error('description')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label for="description_${contactIndex}" class="form-label">Description</label>
+                <textarea name="job_postings[${contactIndex}][description]" id="description_${contactIndex}" class="form-control" rows="4" required></textarea>
             </div>
 
             <div class="mb-3">
-                <label for="category_id" class="form-label">Category</label>
-                <select name="category_id" id="category_id" class="form-control" required>
-
-
+                <label for="category_id_${contactIndex}" class="form-label">Category</label>
+                <select name="job_postings[${contactIndex}][category_id]" id="category_id_${contactIndex}" class="form-control category-select" required>
+                    <option value="">Select a category</option>
                     @foreach ($categories as $category)
                         <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
-                @error('category_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
             </div>
 
             <div class="mb-3">
-                <label for="subcategory_id" class="form-label">Subcategory</label>
-                <select name="subcategory_id" id="subcategory_id" class="form-control" required>
+                <label for="subcategory_id_${contactIndex}" class="form-label">Subcategory</label>
+                <select name="job_postings[${contactIndex}][subcategory_id]" id="subcategory_id_${contactIndex}" class="form-control" required>
                     <option value="">Select a subcategory</option>
-
                 </select>
-                @error('subcategory_id')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
             </div>
 
             <div class="mb-3">
-                <label for="location" class="form-label">Location</label>
-                <input type="text" name="location" id="location" class="form-control" value="{{ old('location') }}"
-                    required>
-                @error('location')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label for="location_${contactIndex}" class="form-label">Location</label>
+                <input type="text" name="job_postings[${contactIndex}][location]" id="location_${contactIndex}" class="form-control" required>
             </div>
 
             <div class="mb-3">
-                <label for="salary_range" class="form-label">Salary Range</label>
-                <input type="number" name="salary_range" id="salary_range" class="form-control"
-                    value="{{ old('salary_range') }}">
-                @error('salary_range')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
+                <label for="salary_range_${contactIndex}" class="form-label">Salary Range</label>
+                <input type="number" name="job_postings[${contactIndex}][salary_range]" id="salary_range_${contactIndex}" class="form-control">
             </div>
 
-
             <div class="mb-3">
-                <label for="image" class="form-label">Image</label>
-                <input type="file" name="image" id="image" class="form-control" accept="image/*">
-                <div id="imagePreviewContainer" class="mt-3">
-                    <img id="imagePreview" src="" alt="Image Preview" style="max-width: 100%; display: none;">
+                <label for="image_${contactIndex}" class="form-label">Image</label>
+                <input type="file" name="job_postings[${contactIndex}][image]" id="image_${contactIndex}" class="form-control image-input" accept="image/*">
+                <div class="image-preview-container mt-3">
+                    <img class="image-preview" src="" alt="Image Preview" style="max-width: 100%; display: none;">
                 </div>
-                @error('image')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-            <div class="mb-3">
-                <label for="requirements" class="form-label">Requirements</label>
-                <textarea name="requirements" id="requirements" class="form-control" rows="4" required>{{ old('requirements') }}</textarea>
-                @error('requirements')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div>
-
-
-
-
-            <div class="mb-3">
-                <label for="closing_date" class="form-label">Closing Date</label>
-                <input type="date" name="closing_date" id="closing_date" class="form-control"
-                    value="{{ old('closing_date') }}" required>
-                @error('closing_date')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
             </div>
 
             <div class="mb-3">
-                <input type="hidden" name="status" value="pending">
+                <label for="requirements_${contactIndex}" class="form-label">Requirements</label>
+                <textarea name="job_postings[${contactIndex}][requirements]" id="requirements_${contactIndex}" class="form-control" rows="4" required></textarea>
             </div>
 
-            {{-- <div class="mb-3">
-                <label for="status" class="form-label">Status</label>
-                <select name="status" id="status" class="form-control" required>
-                    <option value="pending">Pending</option>
-                    <option value="reject">Reject</option>
-                    <option value="approved">Approved</option>
-                </select>
-                @error('status')
-                    <div class="text-danger">{{ $message }}</div>
-                @enderror
-            </div> --}}
+            <div class="mb-3">
+                <label for="closing_date_${contactIndex}" class="form-label">Closing Date</label>
+                <input type="date" name="job_postings[${contactIndex}][closing_date]" id="closing_date_${contactIndex}" class="form-control" required>
+            </div>
 
-            <button type="submit" class="btn btn-primary">Create Job</button>
-        </form>
-    </div>
-    <script type="text/javascript">
-        var session_layout = '{{ session()->get('layout') }}';
+            <input type="hidden" name="job_postings[${contactIndex}][status]" value="pending">
+        `;
+
+                container.appendChild(newContact);
+
+                // Setup listeners for the new form
+                setupCategoryListener(newContact.querySelector('.category-select'));
+                setupImagePreview(newContact.querySelector('.image-input'));
+
+                contactIndex++;
+            });
+
+            // Remove contact form
+            document.getElementById('contacts-container').addEventListener('click', function(e) {
+                if (e.target.classList.contains('remove-contact')) {
+                    e.target.closest('.contact-item').remove();
+                }
+            });
+
+            // Setup category change listener
+            // Fixed setupCategoryListener function
+            function setupCategoryListener(categorySelect) {
+                categorySelect.addEventListener('change', function() {
+                    const categoryId = this.value;
+                    const contactItem = this.closest('.contact-item');
+                    // Fixed selector to match the correct name format with job_postings array
+                    const subcategorySelect = contactItem.querySelector('select[id^="subcategory_id_"]');
+
+                    // Clear existing options
+                    subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
+
+                    if (categoryId) {
+                        fetch(`/subcategories/${categoryId}`)
+                            .then(response => response.json())
+                            .then(data => {
+                                data.forEach(subcategory => {
+                                    const option = document.createElement('option');
+                                    option.value = subcategory.id;
+                                    option.textContent = subcategory.name;
+                                    subcategorySelect.appendChild(option);
+                                });
+                            })
+                            .catch(error => console.error('Error fetching subcategories:', error));
+                    }
+                });
+            }
+            // Setup image preview
+            function setupImagePreview(input) {
+                input.addEventListener('change', function(event) {
+                    const preview = this.nextElementSibling.querySelector('.image-preview');
+                    const file = event.target.files[0];
+
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = function(e) {
+                            preview.src = e.target.result;
+                            preview.style.display = 'block';
+                        };
+                        reader.readAsDataURL(file);
+                    } else {
+                        preview.style.display = 'none';
+                    }
+                });
+            }
+
+            // Setup initial image preview
+            document.querySelectorAll('.image-input').forEach(setupImagePreview);
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const packageSelect = document.getElementById("package_id");
+            const addJobButton = document.getElementById("addContact");
+            const contactsContainer = document.getElementById("contacts-container");
+            let maxJobs = 0;
+
+            packageSelect.addEventListener("change", function() {
+                const selectedOption = packageSelect.options[packageSelect.selectedIndex];
+                if (selectedOption.value) {
+                    maxJobs = parseInt(selectedOption.getAttribute("data-max-jobs"), 10);
+                } else {
+                    maxJobs = 0;
+                }
+                validateJobLimit();
+            });
+
+            addJobButton.addEventListener("click", function() {
+                if (contactsContainer.children.length >= maxJobs) {
+                    alert(`You cannot add more than ${maxJobs} jobs for this package.`);
+                    return;
+                }
+
+                // Add job logic here
+            });
+
+            function validateJobLimit() {
+                const currentJobs = contactsContainer.children.length;
+                if (currentJobs >= maxJobs) {
+                    addJobButton.disabled = true;
+                    alert(`You have reached the maximum job limit (${maxJobs}) for this package.`);
+                } else {
+                    addJobButton.disabled = false;
+                }
+            }
+        });
     </script>
 @endsection
 
@@ -244,211 +396,4 @@
     <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
     <script src="{{ asset('assets/js/height-equal.js') }}"></script>
     <script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
-    <script>
-        document.getElementById('category_id').addEventListener('change', function() {
-            const categoryId = this.value;
-            const subcategorySelect = document.getElementById('subcategory_id');
-
-            // Clear existing subcategory options
-            subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
-
-            if (categoryId) {
-                fetch(`/subcategories/${categoryId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(subcategory => {
-                            const option = document.createElement('option');
-                            option.value = subcategory.id;
-                            option.textContent = subcategory.name;
-                            subcategorySelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching subcategories:', error));
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('image').addEventListener('change', function(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.style.display = 'none';
-            }
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('employerSearch');
-            const employerList = document.getElementById('employerList');
-            const selectElement = document.getElementById('employer_id');
-            const options = document.querySelectorAll('.employer-option');
-
-            // Show dropdown on input focus
-            searchInput.addEventListener('focus', () => {
-                employerList.classList.remove('hidden');
-            });
-
-            // Hide dropdown when clicking outside
-            document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !employerList.contains(e.target)) {
-                    employerList.classList.add('hidden');
-                }
-            });
-
-            // Filter options based on search input
-            searchInput.addEventListener('input', (e) => {
-                const searchText = e.target.value.toLowerCase();
-
-                options.forEach(option => {
-                    const text = option.textContent.toLowerCase();
-                    option.style.display = text.includes(searchText) ? 'block' : 'none';
-                });
-
-                employerList.classList.remove('hidden');
-            });
-
-            // Handle option selection
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    const value = option.getAttribute('data-value');
-                    const text = option.textContent.trim();
-
-                    searchInput.value = text;
-                    selectElement.value = value;
-                    employerList.classList.add('hidden');
-
-                    // Trigger change event on the original select
-                    const event = new Event('change');
-                    selectElement.dispatchEvent(event);
-                });
-            });
-        });
-    </script>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const searchInput = document.getElementById('employerSearch');
-            const employerList = document.getElementById('employerList');
-            const selectElement = document.getElementById('employer_id');
-            const options = document.querySelectorAll('.custom-select-option');
-            let selectedIndex = -1;
-
-            // Initial value setup
-            if (selectElement.value) {
-                const selectedOption = Array.from(options).find(opt =>
-                    opt.getAttribute('data-value') === selectElement.value
-                );
-                if (selectedOption) {
-                    searchInput.value = selectedOption.textContent.trim();
-                    selectedOption.classList.add('selected');
-                }
-            }
-
-            // Show dropdown on focus
-            searchInput.addEventListener('focus', () => {
-                employerList.classList.add('show');
-            });
-
-            // Handle outside clicks
-            document.addEventListener('click', (e) => {
-                if (!searchInput.contains(e.target) && !employerList.contains(e.target)) {
-                    employerList.classList.remove('show');
-                }
-            });
-
-            // Filter options
-            searchInput.addEventListener('input', (e) => {
-                const searchText = e.target.value.toLowerCase();
-                let visibleOptions = 0;
-
-                options.forEach(option => {
-                    const text = option.textContent.toLowerCase();
-                    const isVisible = text.includes(searchText);
-                    option.style.display = isVisible ? 'block' : 'none';
-                    if (isVisible) visibleOptions++;
-                });
-
-                employerList.classList.toggle('show', visibleOptions > 0);
-                selectedIndex = -1;
-                updateHighlight();
-            });
-
-            // Keyboard navigation
-            searchInput.addEventListener('keydown', (e) => {
-                const visibleOptions = Array.from(options).filter(
-                    opt => opt.style.display !== 'none'
-                );
-
-                switch (e.key) {
-                    case 'ArrowDown':
-                        e.preventDefault();
-                        selectedIndex = Math.min(selectedIndex + 1, visibleOptions.length - 1);
-                        updateHighlight(visibleOptions);
-                        break;
-
-                    case 'ArrowUp':
-                        e.preventDefault();
-                        selectedIndex = Math.max(selectedIndex - 1, -1);
-                        updateHighlight(visibleOptions);
-                        break;
-
-                    case 'Enter':
-                        e.preventDefault();
-                        if (selectedIndex >= 0 && visibleOptions[selectedIndex]) {
-                            selectOption(visibleOptions[selectedIndex]);
-                        }
-                        break;
-
-                    case 'Escape':
-                        employerList.classList.remove('show');
-                        break;
-                }
-            });
-
-            // Option selection
-            options.forEach(option => {
-                option.addEventListener('click', () => {
-                    selectOption(option);
-                });
-
-                option.addEventListener('mouseover', () => {
-                    selectedIndex = Array.from(options).indexOf(option);
-                    updateHighlight();
-                });
-            });
-
-            function selectOption(option) {
-                options.forEach(opt => opt.classList.remove('selected'));
-                option.classList.add('selected');
-
-                searchInput.value = option.textContent.trim();
-                selectElement.value = option.getAttribute('data-value');
-                employerList.classList.remove('show');
-
-                selectElement.dispatchEvent(new Event('change'));
-            }
-
-            function updateHighlight(visibleOptions = Array.from(options).filter(
-                opt => opt.style.display !== 'none'
-            )) {
-                options.forEach(opt => opt.classList.remove('highlighted'));
-                if (selectedIndex >= 0 && visibleOptions[selectedIndex]) {
-                    visibleOptions[selectedIndex].classList.add('highlighted');
-                    visibleOptions[selectedIndex].scrollIntoView({
-                        block: 'nearest',
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-    </script>
-
-
 @endsection

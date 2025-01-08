@@ -1,9 +1,8 @@
 @extends('layouts.admin.master')
 
-@section('title', 'Create Package')
+@section('title', 'Create Terms and Conditions')
 
 @section('css')
-    <!-- Add any CSS files related to the page here -->
 @endsection
 
 @section('style')
@@ -11,12 +10,12 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Create Package</h3>
+    <h3>Create Contact List</h3>
 @endsection
 
 @section('breadcrumb-items')
     <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Create Package</li>
+    <li class="breadcrumb-item active">Create Contact List</li>
 @endsection
 
 @section('content')
@@ -25,33 +24,26 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h5>Create New Package</h5>
+                        <h5>Edit Contact</h5>
                     </div>
                     <div class="card-body">
-                        <form action="{{ route('admin.packages.store') }}" method="POST">
+                        <form action="{{ route('contacts.update', $contact->id) }}" method="POST">
                             @csrf
+                            @method('PUT')
 
                             <div class="form-group mb-3">
-                                <label for="package_size">Package Size (Number of Posts):</label>
-                                <input type="number" name="package_size" id="package_size" class="form-control" required>
+                                <label for="name">Name</label>
+                                <input type="text" name="name" class="form-control" value="{{ $contact->name }}"
+                                    required>
                             </div>
 
                             <div class="form-group mb-3">
-                                <label for="duration_days">Duration (Days):</label>
-                                <input type="number" name="duration_days" id="duration_days" class="form-control" required>
+                                <label for="phone">Phone</label>
+                                <input type="text" name="phone" class="form-control" value="{{ $contact->phone }}"
+                                    required>
                             </div>
 
-                            <div class="form-group mb-3">
-                                <label for="lkr_price">LKR Price (VAT Inclusive):</label>
-                                <input type="text" name="lkr_price" id="lkr_price" class="form-control" required>
-                            </div>
-
-                            <div class="form-group mb-3">
-                                <label for="usd_price">USD Price:</label>
-                                <input type="text" name="usd_price" id="usd_price" class="form-control" required>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Create Package</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </form>
                     </div>
                 </div>

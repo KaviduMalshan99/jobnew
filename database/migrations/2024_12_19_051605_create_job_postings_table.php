@@ -21,9 +21,9 @@ return new class extends Migration
             $table->decimal('salary_range', 10, 2)->nullable();
             $table->string('image')->nullable();
             $table->text('requirements')->nullable();
-            $table->unsignedBigInteger('employer_id')->nullable(); // Employer ID can be null
-            $table->unsignedBigInteger('admin_id')->nullable(); // Admin ID can be null
-            $table->unsignedBigInteger('creator_id'); // Creator ID (Admin who created the posting)
+            $table->unsignedBigInteger('employer_id')->nullable(); // Nullable for external jobs
+            $table->unsignedBigInteger('admin_id')->nullable(); // Nullable for non-admin edits
+            $table->unsignedBigInteger('creator_id'); // Admin who created the posting
             $table->date('closing_date');
             $table->dateTime('approved_date')->nullable();
             $table->dateTime('rejected_date')->nullable();
@@ -33,11 +33,11 @@ return new class extends Migration
             $table->boolean('is_active')->default(true);
             $table->timestamps();
 
-            $table->foreign('category_id')->references('id')->on('categories');
-            $table->foreign('subcategory_id')->references('id')->on('subcategories');
-            $table->foreign('employer_id')->references('id')->on('employers');
-            $table->foreign('admin_id')->references('id')->on('admins');
-            $table->foreign('creator_id')->references('id')->on('admins'); // Foreign key for creator_id
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreign('subcategory_id')->references('id')->on('subcategories')->onDelete('cascade');
+            $table->foreign('employer_id')->references('id')->on('employers')->onDelete('set null');
+            $table->foreign('admin_id')->references('id')->on('admins')->onDelete('set null');
+            $table->foreign('creator_id')->references('id')->on('admins')->onDelete('cascade');
         });
     }
 

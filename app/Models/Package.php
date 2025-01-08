@@ -19,4 +19,9 @@ class Package extends Model
         'lkr_price',
         'usd_price',
     ];
+
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
+    }
 }

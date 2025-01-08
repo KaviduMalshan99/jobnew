@@ -29,6 +29,7 @@ class JobPosting extends Model
         'rejection_reason',
         'job_id',
         'is_active',
+        'creator_id',
     ];
 
     // Relationships

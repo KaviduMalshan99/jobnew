@@ -84,7 +84,7 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
                             </svg><span>Jobs</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('job_postings.index') }}">Create Job </a></li>
+                            <li><a href="{{ route('job_postings.index') }}">View Jobs </a></li>
                             <li><a href="{{ route('admin.job_postings.create') }}">Post Job</a></li>
 
 
@@ -127,6 +127,14 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
                             </svg><span>Package Contact</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.packages.index') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
+                            </svg><span>Package Details</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('admin.feedback.manage') }}">
                             <svg class="stroke-icon">

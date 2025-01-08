@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ContactListController;
 use App\Http\Controllers\ContactUsController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
@@ -684,6 +685,7 @@ Route::get('/privacy', function () {
 Route::get('/postjob', function () {
     return view('user.postvacancy.postvacancy');
 })->name('user.postvacancy');
+Route::get('/postjob', [PackageContactController::class, 'index'])->name('user.postvacancy');
 
 Route::get('/postjob/topads', function () {
     return view('user.postvacancy.topads');
@@ -780,12 +782,19 @@ Route::post('/package-contacts', [PackageContactController::class, 'store'])->na
 Route::put('/package-contacts/{id}', [PackageContactController::class, 'update'])->name('package-contacts.update'); // Update
 Route::delete('/package-contacts/{id}', [PackageContactController::class, 'destroy'])->name('package-contacts.destroy'); // Delete
 
-Route::get('admin/packages', [PackageController::class, 'index'])->name('admin.packages.index');
-Route::get('admin/packages/create', [PackageController::class, 'create'])->name('admin.packages.create');
-Route::post('admin/packages', [PackageController::class, 'store'])->name('admin.packages.store');
-Route::get('admin/packages/{package}', [PackageController::class, 'show'])->name('admin.packages.show');
-Route::get('admin/packages/{package}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit');
-Route::put('admin/packages/{package}', [PackageController::class, 'update'])->name('admin.packages.update');
-Route::delete('admin/packages/{package}', [PackageController::class, 'destroy'])->name('admin.packages.destroy');
+Route::get('admin/packages', [PackageController::class, 'index'])->name('admin.packages.index')->middleware('auth:admin');
+Route::get('admin/packages/create', [PackageController::class, 'create'])->name('admin.packages.create')->middleware('auth:admin');
+Route::post('admin/packages', [PackageController::class, 'store'])->name('admin.packages.store')->middleware('auth:admin');
+Route::get('admin/packages/{package}', [PackageController::class, 'show'])->name('admin.packages.show')->middleware('auth:admin');
+Route::get('admin/packages/{package}/edit', [PackageController::class, 'edit'])->name('admin.packages.edit')->middleware('auth:admin');
+Route::put('admin/packages/{package}', [PackageController::class, 'update'])->name('admin.packages.update')->middleware('auth:admin');
+Route::delete('admin/packages/{package}', [PackageController::class, 'destroy'])->name('admin.packages.destroy')->middleware('auth:admin');
 
+Route::get('/contacts/list', [ContactListController::class, 'index'])->name('contacts.index')->middleware('auth:admin');
+Route::get('/contacts/create', [ContactListController::class, 'create'])->name('contacts.create')->middleware('auth:admin');
+Route::get('/contacts', [ContactListController::class, 'show'])->name('contacts.show');
+Route::post('/contacts', [ContactListController::class, 'store'])->name('contacts.store')->middleware('auth:admin');
+Route::put('/contacts/{id}', [ContactListController::class, 'update'])->name('contacts.update')->middleware('auth:admin');
+Route::delete('/contacts/{id}', [ContactListController::class, 'destroy'])->name('contacts.destroy')->middleware('auth:admin');
+Route::post('contacts/store-multiple', [ContactListController::class, 'storeMultiple'])->name('contacts.store-multiple')->middleware('auth:admin');
 // routes/web.php

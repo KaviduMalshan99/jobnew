@@ -18,33 +18,51 @@
 @endsection
 
 @section('content')
-    <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card">
-                    <div class="card-header">About Us Information</div>
 
+    <div class="container mt-5">
+
+        <div class="row justify-content-center">
+
+            <div class="col-md-8">
+
+                <div class="card">
+
+                    <div class="card-header">About Us Information</div>
+                    <a href="{{ route('admin.about-us.create') }}" class="btn btn-success">Create New About Us</a>
                     <div class="card-body">
+
                         @if (session('success'))
                             <div class="alert alert-success">
                                 {{ session('success') }}
                             </div>
                         @endif
 
-                        <div class="mb-4">
-                            <h4 class="text-primary mb-3">{{ $aboutUs->title }}</h4>
-                            <p class="text-muted">{{ $aboutUs->description }}</p>
-                        </div>
+                        @if ($aboutUs)
+                            <div class="mb-4">
+                                <h4 class="text-primary mb-3">{{ $aboutUs->title }}</h4>
+                                <p class="text-muted">{{ $aboutUs->description }}</p>
+                            </div>
 
-                        <div class="form-group">
-                            <a href="{{ route('admin.about-us.edit', $aboutUs->id) }}" class="btn btn-primary">Edit
-                                Content</a>
-                        </div>
+                            <div class="form-group">
+                                <a href="{{ route('admin.about-us.edit', $aboutUs->id) }}" class="btn btn-primary">Edit
+                                    Content</a>
+                            </div>
+                        @else
+                            <div class="alert alert-danger">
+                                No About Us information available.
+                            </div>
+                        @endif
+
                     </div>
+
                 </div>
+
             </div>
+
         </div>
+
     </div>
+
 @endsection
 
 @section('script')

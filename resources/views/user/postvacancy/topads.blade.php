@@ -22,7 +22,7 @@
                 <div class="topads-content">
                     <ul>
 
-                        {{ $post->description_two }}
+                        {!! $post->description_two !!}
 
                     </ul>
                 </div>

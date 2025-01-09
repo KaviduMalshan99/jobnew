@@ -23,7 +23,8 @@ return new class extends Migration
             $table->text('requirements')->nullable();
             $table->unsignedBigInteger('employer_id')->nullable(); // Nullable for external jobs
             $table->unsignedBigInteger('admin_id')->nullable(); // Nullable for non-admin edits
-            $table->unsignedBigInteger('creator_id'); // Admin who created the posting
+            $table->unsignedBigInteger('creator_id')->nullable(); // Admin who created the posting
+
             $table->date('closing_date');
             $table->dateTime('approved_date')->nullable();
             $table->dateTime('rejected_date')->nullable();
@@ -38,6 +39,7 @@ return new class extends Migration
             $table->foreign('employer_id')->references('id')->on('employers')->onDelete('set null');
             $table->foreign('admin_id')->references('id')->on('admins')->onDelete('set null');
             $table->foreign('creator_id')->references('id')->on('admins')->onDelete('cascade');
+
         });
     }
 

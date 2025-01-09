@@ -161,8 +161,9 @@ class JobPostingController extends Controller
         $categories = Category::all(); // Fetch all categories
         $subcategories = Subcategory::all(); // Fetch all subcategories
         $employerId = auth('employer')->user()->id; // Fetch all employers
+        $packages = Package::all();
 
-        return view('employer.jobcreate', compact('categories', 'subcategories', 'employerId'));
+        return view('employer.jobcreate', compact('categories', 'subcategories', 'employerId', 'packages'));
     }
     public function employerJobs()
     {

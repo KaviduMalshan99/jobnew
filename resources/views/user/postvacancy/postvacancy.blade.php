@@ -20,7 +20,7 @@
             <div class="postcontent">
                 <ul>
 
-                    {{ $post->description_one }}
+                    {!! $post->description_one !!}
 
                 </ul>
             </div>

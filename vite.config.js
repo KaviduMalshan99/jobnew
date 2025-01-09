@@ -26,6 +26,7 @@ export default defineConfig({
                 'resources/css/reviews.css',
                 'resources/css/feedback.css',
                 'resources/css/aboutus.css',
+                'resources/css/home.css'
             ],
             refresh: true,
         }),

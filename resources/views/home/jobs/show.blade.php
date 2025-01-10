@@ -6,8 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>{{ $job->title }} - Job Details</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+    @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/header.css'])
 
     <style>
         body {
@@ -400,7 +404,14 @@
             </div>
             <div class="btn-group mb-4">
                 <button class="btn btn-apply" id="apply">Apply Now</button>
+                @auth
+                    <button class="flag-btn" data-job-id="{{ $job->id }}">
+                        <i
+                            class="fa-solid {{ auth()->user()->flaggedJobs->contains($job->id)? 'fa-flag': 'fa-regular fa-flag' }}"></i>
+                    </button>
+                @endauth
             </div>
+
 
         </div>
         </div>
@@ -423,6 +434,28 @@
 
 
 
+        });
+    </script>
+    <script>
+        $(document).on('click', '.flag-btn', function() {
+            let jobId = $(this).data('job-id');
+            let button = $(this);
+
+            $.ajax({
+                url: `/jobs/${jobId}/flag`,
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                success: function(response) {
+                    if (response.status === 'flagged') {
+                        button.find('i').removeClass('fa-flag-o').addClass('fa-flag');
+                    } else {
+                        button.find('i').removeClass('fa-flag').addClass('fa-flag-o');
+                    }
+                    alert(response.message);
+                }
+            });
         });
     </script>
 </body>

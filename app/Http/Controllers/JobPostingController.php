@@ -8,8 +8,8 @@ use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Package;
 use App\Models\Subcategory;
-use GuzzleHttp\Psr7\UploadedFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class JobPostingController extends Controller
 {
@@ -179,7 +179,108 @@ class JobPostingController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the incoming request data
+        try {
+            // First validate the package selection
+            $request->validate([
+                'package_id' => 'required|exists:packages,id',
+            ]);
+
+            $employerId = auth('employer')->id();
+            $packageId = $request->input('package_id');
+            $jobPostings = $request->input('job_postings', []);
+
+            // Check if job postings exist
+            if (!is_array($jobPostings) || empty($jobPostings)) {
+                return redirect()->back()
+                    ->withErrors(['job_postings' => 'No job postings provided.'])
+                    ->withInput();
+            }
+
+            // Validate all job postings first
+            foreach ($jobPostings as $index => $posting) {
+                $request->validate([
+                    "job_postings.{$index}.title" => 'required|string|max:255',
+                    "job_postings.{$index}.description" => 'required|string',
+                    "job_postings.{$index}.category_id" => 'required|exists:categories,id',
+                    "job_postings.{$index}.subcategory_id" => 'required|exists:subcategories,id',
+                    "job_postings.{$index}.location" => 'required|string|max:255',
+                    "job_postings.{$index}.salary_range" => 'nullable|numeric',
+                    "job_postings.{$index}.image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
+                    "job_postings.{$index}.requirements" => 'required|string',
+                    "job_postings.{$index}.closing_date" => 'required|date',
+                    "job_postings.{$index}.status" => 'required|in:pending,reject,approved',
+                ]);
+            }
+
+            // Check package limits
+            $package = Package::findOrFail($packageId);
+            $existingJobCount = JobPosting::where('employer_id', $employerId)
+                ->where('package_id', $packageId)
+                ->count();
+
+            if ($existingJobCount + count($jobPostings) > $package->package_size) {
+                return redirect()->back()
+                    ->withErrors(['package_id' => 'Exceeded maximum allowed job postings for this package.'])
+                    ->withInput();
+            }
+
+            // Process each job posting
+            DB::beginTransaction();
+            try {
+                foreach ($jobPostings as $index => $jobData) {
+                    // Generate unique job ID
+                    do {
+                        $jobId = 'J' . rand(10000, 99999);
+                    } while (JobPosting::where('job_id', $jobId)->exists());
+
+                    // Create job posting data
+                    $jobPostingData = [
+                        'job_id' => $jobId,
+                        'employer_id' => $employerId,
+                        'package_id' => $packageId,
+                        'title' => $jobData['title'],
+                        'description' => $jobData['description'],
+                        'category_id' => $jobData['category_id'],
+                        'subcategory_id' => $jobData['subcategory_id'],
+                        'location' => $jobData['location'],
+                        'salary_range' => $jobData['salary_range'] ?? null,
+                        'requirements' => $jobData['requirements'],
+                        'closing_date' => $jobData['closing_date'],
+                        'status' => $jobData['status'],
+                    ];
+
+                    // Create the job posting
+                    $posting = JobPosting::create($jobPostingData);
+
+                    // Handle image upload if present
+                    if ($request->hasFile("job_postings.{$index}.image")) {
+                        $imagePath = $request->file("job_postings.{$index}.image")
+                            ->store('job_images', 'public');
+                        $posting->image = $imagePath;
+                        $posting->save();
+                    }
+                }
+
+                DB::commit();
+                return redirect()->route('employer.job_postings.post.create')
+                    ->with('success', 'Job postings created successfully!');
+
+            } catch (\Exception $e) {
+                DB::rollBack();
+                return redirect()->back()
+                    ->withErrors(['error' => 'Failed to create job postings. Please try again.'])
+                    ->withInput();
+            }
+
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->withErrors(['error' => 'An error occurred. Please try again.'])
+                ->withInput();
+        }
+    }
+    public function storeForAdmin(Request $request)
+    {
+        // Validate package selection and job postings
         $validatedData = $request->validate([
             'package_id' => 'required|exists:packages,id',
             'job_postings.*.title' => 'required|string|max:255',
@@ -188,104 +289,52 @@ class JobPostingController extends Controller
             'job_postings.*.subcategory_id' => 'required|exists:subcategories,id',
             'job_postings.*.location' => 'required|string|max:255',
             'job_postings.*.salary_range' => 'nullable|numeric',
-            'job_postings.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
+            'job_postings.*.image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:4048',
             'job_postings.*.requirements' => 'required|string',
             'job_postings.*.closing_date' => 'required|date',
             'job_postings.*.status' => 'required|in:pending,reject,approved',
         ]);
 
-        $employerId = auth('employer')->id();
-        $packageId = $request->input('package_id');
-        $jobPostings = $request->input('job_postings', []); // Ensure it's an array or default to an empty array
-
-        if (!is_array($jobPostings) || empty($jobPostings)) {
-            return redirect()->back()->withErrors(['job_postings' => 'No job postings provided.']);
-        }
-
-        // Fetch the selected package
-        $package = Package::find($packageId);
-        if (!$package) {
-            return redirect()->back()->withErrors(['package_id' => 'Invalid package selected.']);
-        }
-
-        // Check if the employer has exceeded the package's job limit
-        $existingJobCount = JobPosting::where('employer_id', $employerId)
-            ->where('package_id', $packageId)
-            ->count();
-
-        if ($existingJobCount + count($jobPostings) > $package->package_size) {
-            return redirect()->back()->withErrors(['package_id' => 'You have exceeded the maximum number of job postings allowed for this package.']);
-        }
-
-        $storedPostings = [];
-
-        foreach ($jobPostings as $jobData) {
-            // Generate a unique job_id
-            do {
-                $jobId = 'J' . rand(10000, 99999);
-            } while (JobPosting::where('job_id', $jobId)->exists());
-
-            $jobData['job_id'] = $jobId;
-            $jobData['employer_id'] = $employerId;
-            $jobData['package_id'] = $packageId;
-
-            // Handle image upload if provided
-            if (isset($jobData['image']) && $jobData['image'] instanceof UploadedFile) {
-                $jobData['image'] = $jobData['image']->store('job_images', 'public');
-            }
-
-            // Create and save the job posting
-            $storedPostings[] = JobPosting::create($jobData);
-        }
-
-        // Redirect with a success message
-        return redirect()->route('employer.job_postings.post.create')->with('success', 'Job postings created successfully!');
-    }
-
-    public function storeForAdmin(Request $request)
-    {
-        // Validate the incoming request data
-        $validatedData = $request->validate([
-            'job_postings.*.title' => 'required|string|max:255',
-            'job_postings.*.description' => 'required|string',
-            'job_postings.*.category_id' => 'required|exists:categories,id',
-            'job_postings.*.subcategory_id' => 'required|exists:subcategories,id',
-            'job_postings.*.location' => 'required|string|max:255',
-            'job_postings.*.salary_range' => 'nullable|numeric',
-            'job_postings.*.image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
-            'job_postings.*.requirements' => 'required|string',
-            'job_postings.*.closing_date' => 'required|date',
-            'job_postings.*.employer_id' => 'required|exists:employers,id',
-        ]);
-
         $adminId = auth('admin')->id();
-        $jobPostings = $request->input('job_postings', []); // Default to an empty array if null
+        $packageId = $request->input('package_id');
+        $jobPostings = $request->input('job_postings', []);
 
         if (empty($jobPostings)) {
             return redirect()->back()->withErrors(['job_postings' => 'No job postings provided.']);
         }
 
-        $storedPostings = [];
+        // Check package limitations
+        $package = Package::find($packageId);
+        $existingJobCount = JobPosting::where('creator_id', $adminId)
+            ->where('package_id', $packageId)
+            ->count();
 
-        foreach ($jobPostings as $jobData) {
-            // Generate a unique job_id
+        if ($existingJobCount + count($jobPostings) > $package->package_size) {
+            return redirect()->back()
+                ->withErrors(['package_id' => 'Exceeded maximum allowed job postings for this package.'])
+                ->withInput();
+        }
+
+        $storedPostings = [];
+        foreach ($jobPostings as $index => $jobData) {
+            // Generate unique job ID
             do {
                 $jobId = 'J' . rand(10000, 99999);
             } while (JobPosting::where('job_id', $jobId)->exists());
 
             $jobData['job_id'] = $jobId;
             $jobData['creator_id'] = $adminId;
+            $jobData['package_id'] = $packageId;
 
-            // Handle image upload if provided
-            if (isset($jobData['image']) && $jobData['image'] instanceof UploadedFile) {
-                $jobData['image'] = $jobData['image']->store('job_images', 'public');
+            // Handle image upload
+            if ($request->hasFile("job_postings.$index.image")) {
+                $jobData['image'] = $request->file("job_postings.$index.image")
+                    ->store('job_images', 'public');
             }
 
-            // Create and save the job posting
             $storedPostings[] = JobPosting::create($jobData);
         }
 
-        // Redirect with a success message
         return redirect()->route('job_postings.index')->with('success', 'Job postings created successfully!');
     }
 

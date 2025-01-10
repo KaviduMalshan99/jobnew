@@ -124,8 +124,6 @@ Route::middleware(['auth'])->group(function () {
 // Experience Management Routes
 Route::middleware(['auth'])->group(function () {
     // Show experience form
-    Route::get('/experience', [JobExperienceController::class, 'showExperience'])
-        ->name('experience.show');
 
     // Store new experience
     Route::post('/experience/store', [JobExperienceController::class, 'store'])
@@ -139,9 +137,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/experience/delete/{id}', [JobExperienceController::class, 'destroy'])
         ->name('experience.delete');
 
-    // Store or update experience (alternative route for your existing storeOrUpdate method)
-    Route::post('/experience/store-or-update', [JobExperienceController::class, 'storeOrUpdate'])
-        ->name('experience.store-or-update');
 });
 
 Route::middleware('auth')->group(function () {
@@ -270,7 +265,7 @@ Route::middleware('admin')->group(function () {
     Route::put('/admin/profile', [AdminAuthController::class, 'updateProfile'])
         ->name('admin.profile.update');
     Route::get('/admin/list', [AdminAuthController::class, 'adminList'])->name('admin.list');
-    Route::patch('/admin/toggle-status/{id}', [AdminAuthController::class, 'toggleStatus'])->name('admin.toggleStatus');
+
     Route::get('/admin/employer-list', [EmployerAuthController::class, 'list'])->name('employer.list');
     Route::delete('/employer/delete/{id}', function ($id) {
         $employer = \App\Models\Employer::findOrFail($id);
@@ -341,11 +336,12 @@ Route::prefix('employer')->name('employer.')->group(function () {
         Route::prefix('job-postings')->name('job_postings.')->group(function () {
             Route::get('/jobs', [JobPostingController::class, 'employerJobs'])->name('employer.jobs');
             Route::get('/create', [JobPostingController::class, 'create'])->name('post.create');
-            Route::post('/', [JobPostingController::class, 'store'])->name('post.store');
+            Route::post('/create', [JobPostingController::class, 'store'])->name('job.store');
             Route::get('/{jobPosting}/edit', [JobPostingController::class, 'edit'])->name('post.edit');
             Route::patch('/{jobPosting}', [JobPostingController::class, 'update'])->name('post.update');
             Route::delete('/{jobPosting}', [JobPostingController::class, 'destroy'])->name('post.destroy');
         });
+
     });
 });
 Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');

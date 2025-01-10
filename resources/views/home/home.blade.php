@@ -17,7 +17,11 @@
 
     <!-- Categories Section -->
     <section class="categories-container">
-        <h3 class="categories-title"> Scroll for more Job Categories</h3>
+        <div class="categories-header">
+            <a href="/login" class="btn jobseeker-btn">JOBSEEKER LOGIN</a>
+            <a href="{{ route('feedback.home') }}" class=" feedback-btn2">Feedback</a>
+        </div>
+
         <div class="scroll-wrapper">
             <div class="categories-list">
                 @foreach ($categories as $category)
@@ -31,9 +35,9 @@
 
     <!-- Filters Section -->
     <section class="filters">
-        <h3 class="jobtitle">
+        <p class="jobtitle">
             Available Jobs : {{ $jobs->count() }} new hot jobs
-        </h3>
+        </p>
         <form method="GET" action="{{ route('home') }}">
             <input class="text-input" type="text" name="search"
                 placeholder="Enter Vacancy Name/Company/Job Reference" value="{{ request('search') }}">
@@ -41,6 +45,7 @@
                 value="{{ request('location') }}">
             <button class="view-btn" type="submit">Search</button>
         </form>
+        <hr>
     </section>
 
 
@@ -54,17 +59,13 @@
             @else
                 @foreach ($jobs as $job)
                     <div class="job-card">
-                        @auth
-                            <button class="flag-btn" data-job-id="{{ $job->id }}">
-                                <i
-                                    class="fa {{ auth()->user()->flaggedJobs->contains($job->id)? 'fa-flag': 'fa-flag-o' }}"></i>
-                            </button>
-                        @endauth
+
                         <a href="{{ route('job.details', $job->id) }}" class="job-title">
                             {{ $job->title }}
                         </a>
-                        <p><strong>{{ $job->employer->company_name }}</strong></p>
-                        <p>{{ $job->location }}</p>
+                        <p><strong class="company-name">{{ $job->employer->company_name }}</strong></p>
+                        <p class="location">{{ $job->location }}</p>
+                        <p class="closing-date">{{ $job->closing_date }}</p>
                     </div>
                 @endforeach
             @endif
@@ -78,6 +79,21 @@
     </main><br /><br /><br /><br />
 
     @include('home.footer')
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const categoryLinks = document.querySelectorAll('.category-link');
+
+            categoryLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    // Remove the 'visited' class from all links
+                    categoryLinks.forEach(l => l.classList.remove('visited'));
+
+                    // Add the 'visited' class to the clicked link
+                    this.classList.add('visited');
+                });
+            });
+        });
+    </script>
     <script>
         $(document).on('click', '.flag-btn', function() {
             let jobId = $(this).data('job-id');

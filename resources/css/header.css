@@ -1,7 +1,7 @@
- /* Unique Header Styles */
+/* Unique Header Styles */
 .unique-header {
     display: flex;
-    justify-content: space-between;
+
     align-items: center;
     padding: 10px 20px;
     background-color: #f1f4f6;
@@ -12,25 +12,63 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-
 /* Unique Logo Styles */
 .unique-header .logo img {
-    max-width: 120px;
+    max-width: 150px;
     height: auto;
 }
 
 /* Unique Navigation Links */
-.unique-nav-links a {
-    margin-right: 15px;
+.unique-nav-links {
+    margin-left: 15px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.post-vacancy {
+    background-color: #069533;
+    color: #fff;
+    padding: 7px; /* Increased padding for better click area */
+    border-radius: 5px; /* Slightly more rounded corners */
+    font-size: 16px; /* Increased font size for better readability */
     text-decoration: none;
-    color: #2305cb;
-    font-size: 16px;
+    margin-left: 10px;
+    transition: background-color 0.3s ease, transform 0.2s ease,
+        box-shadow 0.2s ease;
+    display: inline-block; /* Ensures proper block-level behavior for a button */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Adds a subtle shadow */
 }
 
-.unique-nav-links a:hover {
-    color: #e10707;
+.post-vacancy:hover {
+    background-color: #048c2d; /* Slightly darker green on hover */
+    transform: translateY(-2px); /* Adds a lift effect */
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15); /* Enhances the shadow on hover */
+}
+
+.post-vacancy:active {
+    transform: translateY(0); /* Removes the lift effect */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Returns to normal shadow */
+    background-color: #037b28; /* Slightly darker green for active state */
+}
+
+.feedback-btn {
+    background-color: #f6fa08;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 14px;
+    text-decoration: none;
+    margin-left: 10px;
+    transition: background-color 0.3s ease-in-out;
+}
+.unique-nav-links a {
     text-decoration: none;
 }
+
+/* .unique-nav-links a:hover {
+    color: #e10707;
+    text-decoration: none;
+} */
 
 /* Unique Search Bar Styles */
 .unique-search-bar {
@@ -255,7 +293,12 @@
     margin: 0 10px;
     text-decoration: none;
 }
-
+.menu {
+    margin-left: auto; /* Push menu to the left */
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Space between items */
+}
 .signup-btn {
     padding: 8px 15px;
     background-color: #007bff;
@@ -281,4 +324,3 @@
     background-color: #185203;
     color: white;
 }
- 

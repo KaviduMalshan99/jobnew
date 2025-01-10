@@ -3,11 +3,51 @@
 @section('title', 'Job')
 
 @section('css')
+    <style>
+        .payment-methods .form-check {
+            padding: 15px;
+            border: 1px solid #dee2e6;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
 
+        .payment-methods .form-check:hover {
+            background-color: #f8f9fa;
+            border-color: #0d6efd;
+        }
+
+        .payment-methods .form-check-input:checked+.form-check-label {
+            font-weight: bold;
+        }
+
+        #adminContactInfo {
+            margin-top: 20px;
+        }
+
+        #jobIdDisplay {
+            font-weight: bold;
+            color: #0d6efd;
+            font-size: 1.1em;
+        }
+
+        .modal-header {
+            background-color: #f8f9fa;
+            border-bottom: 2px solid #dee2e6;
+        }
+
+        .modal-footer {
+            background-color: #f8f9fa;
+            border-top: 2px solid #dee2e6;
+        }
+    </style>
 @endsection
 
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Your custom scripts should come after -->
 @endsection
 
 @section('breadcrumb-title')
@@ -21,6 +61,7 @@
 
 @section('content')
     <div class="container">
+        {{-- Success Message --}}
         @if (session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 {{ session('success') }}
@@ -28,8 +69,30 @@
             </div>
         @endif
 
+        {{-- Error Messages --}}
+        @if ($errors->any())
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <ul class="mb-0">
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
+        {{-- Form specific error (if needed) --}}
+        @error('job_postings')
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ $message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @enderror
+
+
+
         <h1>Create Job Posting</h1>
-        <form action="{{ route('admin.job_postings.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('employer.job_postings.job.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div id="contacts-container">
                 <div class="mb-3">
@@ -104,8 +167,8 @@
 
                     <div class="mb-3">
                         <label for="closing_date_0" class="form-label">Closing Date</label>
-                        <input type="date" name="job_postings[0][closing_date]" id="closing_date_0" class="form-control"
-                            required>
+                        <input type="date" name="job_postings[0][closing_date]" id="closing_date_0"
+                            class="form-control" required>
                     </div>
 
                     <input type="hidden" name="job_postings[0][status]" value="pending">
@@ -114,9 +177,152 @@
 
             <button type="button" id="addContact" class="btn btn-success mb-3">Add Another Job</button>
             <button type="submit" class="btn btn-primary">Create Jobs</button>
+            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="payment-methods">
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                        id="onlinePayment" value="online">
+                                    <label class="form-check-label" for="onlinePayment">
+                                        Online Payment
+                                    </label>
+                                </div>
+                                <div class="form-check mb-3">
+                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                        id="contactAdmin" value="admin">
+                                    <label class="form-check-label" for="contactAdmin">
+                                        Contact Admin
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div id="adminContactInfo" style="display: none;">
+                                <div class="alert alert-info">
+                                    <h6>Your Job ID: <span id="jobIdDisplay"></span></h6>
+                                    <hr>
+                                    <h6>Admin Contact Details:</h6>
+                                    <p>Phone: +94 XX XXX XXXX</p>
+                                    <p>Email: admin@example.com</p>
+                                    <p>Please quote your Job ID when contacting the admin.</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" id="confirmPayment">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </form>
     </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.querySelector('form');
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
+            const adminContactInfo = document.getElementById('adminContactInfo');
+            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
+            const confirmPaymentBtn = document.getElementById('confirmPayment');
 
+            // Form submission handler
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+
+                    // Show the modal
+                    paymentModal.show();
+                    return false; // Prevent form submission
+                });
+            }
+
+            // Payment method radio button handler
+            paymentMethodRadios.forEach(radio => {
+                radio.addEventListener('change', function() {
+                    if (this.value === 'admin') {
+                        const tempJobId = 'JOB-' + Date.now().toString(36).toUpperCase();
+                        const jobIdDisplay = document.getElementById('jobIdDisplay');
+                        if (jobIdDisplay) {
+                            jobIdDisplay.textContent = tempJobId;
+                        }
+                        adminContactInfo.style.display = 'block';
+                    } else {
+                        adminContactInfo.style.display = 'none';
+                    }
+                });
+            });
+
+            // Confirm payment button handler
+            if (confirmPaymentBtn) {
+                confirmPaymentBtn.addEventListener('click', function() {
+                    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+                    if (!selectedMethod) {
+                        alert('Please select a payment method');
+                        return;
+                    }
+
+                    if (selectedMethod.value === 'admin') {
+                        handleAdminPayment(form, paymentModal);
+                    } else {
+                        handleOnlinePayment(form);
+                    }
+                });
+            }
+        });
+
+        // Make sure these functions are properly defined
+        function handleAdminPayment(form, modal) {
+            const formData = new FormData(form);
+            const packageId = document.getElementById('package_id').value;
+            const jobId = document.getElementById('jobIdDisplay').textContent;
+
+            formData.append('package_id', packageId);
+            formData.append('payment_method', 'admin');
+            formData.append('job_id', jobId);
+
+            fetch(form.action, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) throw new Error('Network response was not ok');
+                    return response.json();
+                })
+                .then(data => {
+                    modal.hide();
+                    localStorage.setItem('lastJobId', jobId);
+                    alert('Your job posting has been submitted. Please contact admin with your Job ID: ' + jobId);
+                    window.location.reload(); // Reload page after successful submission
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('An error occurred. Please try again.');
+                });
+        }
+
+        function handleOnlinePayment(form) {
+            const formData = new FormData(form);
+            const formDataObj = {};
+            formData.forEach((value, key) => {
+                formDataObj[key] = value;
+            });
+
+            sessionStorage.setItem('pendingJobSubmission', JSON.stringify(formDataObj));
+            window.location.href = '/payment-gateway';
+        }
+    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let contactIndex = 1;
@@ -297,6 +503,7 @@
     </script>
 @endsection
 @section('script')
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ asset('assets/js/clock.js') }}"></script>
     <script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>

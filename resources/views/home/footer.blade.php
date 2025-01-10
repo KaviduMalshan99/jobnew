@@ -7,6 +7,9 @@
                 Your career journey starts here.
             </p>
         </div>
+
+
+
         <div class="footer-section">
             <h3>Quick Links</h3>
             <ul>
@@ -18,12 +21,25 @@
                 <li><a href="{{ route('about-us.index') }}">About Us</a></li>
             </ul>
         </div>
-        <div class="footer-section">
-            <h3>Contact</h3>
-            <p>Email: support@jobportal.com</p>
-            <p>Phone: +123 456 7890</p>
-            <p>Address: 123 Job Street, Employment City</p>
-        </div>
+        @foreach ($contacts as $contact)
+            <div class="footer-section">
+                <h3>Contact</h3>
+                <ul>
+                    <p>Phone: {{ $contact->phone }}</p>
+
+                    <li>
+                        <p>Email: <a href="mailto:{{ $contact->email }}">{{ $contact->email }}</a></p>
+                    </li>
+                    <li><a href="tel :{{ $contact->phone }}">
+                            <p>Phone: {{ $contact->phone }}</p>
+                        </a></li>
+                    <li><a href="https://www.google.com/maps/place/{{ $contact->address }}" target="_blank"
+                            rel="noopener noreferrer">
+                            <p>Address: {{ $contact->address }}</p>
+                        </a></li>
+                </ul>
+            </div>
+        @endforeach
     </div>
     <div class="footer-bottom">
         <p>&copy; 2024 Job Portal. All Rights Reserved.</p>

@@ -14,19 +14,15 @@
     <header class="unique-header">
         <div class="logo">
             <a href="/">
-                <x-application-logo />
+                <x-application-logo class="unique-logo" />
             </a>
         </div>
         <nav class="nav-links unique-nav-links">
-            <a href="{{ route('employer.login') }}">Post Your Vacancy</a>
+            <a href="{{ route('employer.login') }} ">Post Your Vacancy</a>
             <a href="{{ route('feedback.home') }}">Feedback</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>
         </nav>
-        <div class="search-bar unique-search-bar">
-            <input type="text" placeholder="Search Job Titles" id="search-input" class="animated-input">
-            <button id="search-button" class="animated-button">Search</button>
-        </div>
 
 
 
@@ -53,11 +49,11 @@
                 </div>
             @endauth
 
-            @guest
+            {{-- @guest
                 <!-- For guests -->
                 <a href="{{ route('login') }}"class="login-btn">Login</a>
                 <a href="{{ route('register') }}" class="signup-btn">Sign Up</a>
-            @endguest
+            @endguest --}}
         </div>
         <!-- Profile Dropdown -->
 

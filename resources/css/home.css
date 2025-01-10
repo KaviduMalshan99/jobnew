@@ -16,17 +16,15 @@ body {
     font-size: 10px !important;
 }
 .feedback-btn2 {
-    position: relative; /* Keep the button on top of the rectangle */
-    z-index: 1; /* Ensure the button is above the rectangle */
     padding: 10px 20px;
-    background: linear-gradient(to bottom, #90c0f4, #0056b3);
+    background: linear-gradient(to bottom, #28adce, #18799c);
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
-    margin-top: -8px;
+
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
     text-decoration: none;
 }
@@ -45,8 +43,7 @@ body {
 }
 
 .feedback-btn {
-    position: relative; /* Keep the button on top of the rectangle */
-    z-index: 1; /* Ensure the button is above the rectangle */
+    /* Ensure the button is above the rectangle */
     padding: 10px 20px;
     background: linear-gradient(to bottom, #90c0f4, #0056b3);
     color: white;
@@ -72,7 +69,7 @@ body {
     margin: 20px 0;
     justify-content: center; /* Center align filters */
     padding: 0 20px;
-    border-bottom: 4px solid #a7cbf4;
+    border-bottom: 4px solid #3a7ecc;
 }
 
 .text-input {
@@ -102,10 +99,10 @@ body {
 }
 
 .view-btn {
-    width: 120px; /* Set a smaller fixed width for the button */
-    padding: 10px 15px;
+    width: 240px; /* Set a smaller fixed width for the button */
+    padding: 8px 15px;
     border: none;
-    background-color: #2596be;
+    background-color: #18799c;
     color: white;
     border-radius: 4px;
     font-size: 16px;
@@ -150,7 +147,7 @@ body {
 }
 .company-name {
     font-size: 12px;
-    color: #167afd;
+    color: #c96602;
 }
 .location {
     font-size: 12px;
@@ -210,14 +207,13 @@ body {
 .jobseeker-btn {
     padding: 10px 15px;
     border: none;
-    background: linear-gradient(to bottom, #90c0f4, #0056b3);
+    background: linear-gradient(to bottom, #28adce, #18799c);
     color: white;
     border-radius: 4px;
     font-size: 14px;
     cursor: pointer;
     text-align: center;
 
-    margin-top: 10px;
     display: inline-block; /* Add this */
     text-decoration: none; /* Add this for link styling */
 }
@@ -368,7 +364,8 @@ body {
     text-decoration: none;
 }
 .category-link.visited {
-    color: #ba0000; /* Custom "visited" color */
+    background-color: #ba0000; /* Custom "visited" color */
+    color: #fff;
     text-decoration: none;
 }
 /* Changed to target every 6th item */

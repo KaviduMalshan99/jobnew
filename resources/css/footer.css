@@ -1,6 +1,6 @@
 /* Footer Styling */
 .main-footer {
-    background-color: #106482;
+    background-color: #18799c;
     color: #fff;
     padding: 20px;
     text-align: center;
@@ -87,7 +87,7 @@
 }
 
 .job-table th {
-    background-color: #2596be;
+    background-color: #18799c;
     font-weight: bold;
     color: white;
     position: sticky; /* Make header sticky */
@@ -159,4 +159,11 @@
     .table-container {
         max-height: 150px; /* Further reduce table container height */
     }
+}
+.table-container a {
+    text-decoration: none;
+    font-size: 12px;
+}
+.table-container td {
+    font-size: 12px;
 }

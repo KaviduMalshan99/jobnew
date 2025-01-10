@@ -167,7 +167,7 @@
                                 <th>Reference Number</th>
                                 <th>Job Title</th>
                                 <th>Description</th>
-                                <th>Employer</th>
+
                                 <th>Location</th>
                                 <th>Posted Date</th>
                                 <th>Closing Date</th>
@@ -184,9 +184,13 @@
                                             <a href="/jobs/${job.id}" class="job-title">
                                                 ${job.title}
                                             </a>
+                                            <br>
+                                            <a href="/jobs/${job.id}" class="company-name">
+                                                ${job.employer.company_name}
+                                            </a>
                                         </td>
                                         <td>${job.description || 'No description provided'}</td>
-                                        <td>${job.employer.company_name}</td>
+
                                         <td>${job.location || 'Not specified'}</td>
                                         <td>
                                             ${job.created_at

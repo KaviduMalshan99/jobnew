@@ -92,7 +92,8 @@
 
 
         <h1>Create Job Posting</h1>
-        <form action="{{ route('employer.job_postings.job.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('employer.job_postings.job.store') }}" method="POST" enctype="multipart/form-data"
+            id="jobPostingForm">
             @csrf
             <div id="contacts-container">
                 <div class="mb-3">
@@ -224,104 +225,77 @@
             </div>
 
         </form>
+        <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="contactContributor"
+                                value="contact_contributor">
+                            <label class="form-check-label" for="contactContributor">
+                                Contact Contributor
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlinePayment"
+                                value="online">
+                            <label class="form-check-label" for="onlinePayment">
+                                Online Payment
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="confirmPaymentMethod">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const form = document.querySelector('form');
-            const paymentModal = new bootstrap.Modal(document.getElementById('paymentModal'));
-            const adminContactInfo = document.getElementById('adminContactInfo');
-            const paymentMethodRadios = document.querySelectorAll('input[name="paymentMethod"]');
-            const confirmPaymentBtn = document.getElementById('confirmPayment');
+            const form = document.getElementById('jobPostingForm');
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
 
-            // Form submission handler
-            if (form) {
-                form.addEventListener('submit', function(e) {
-                    e.preventDefault();
-
-                    // Show the modal
-                    paymentModal.show();
-                    return false; // Prevent form submission
-                });
-            }
-
-            // Payment method radio button handler
-            paymentMethodRadios.forEach(radio => {
-                radio.addEventListener('change', function() {
-                    if (this.value === 'admin') {
-                        const tempJobId = 'JOB-' + Date.now().toString(36).toUpperCase();
-                        const jobIdDisplay = document.getElementById('jobIdDisplay');
-                        if (jobIdDisplay) {
-                            jobIdDisplay.textContent = tempJobId;
-                        }
-                        adminContactInfo.style.display = 'block';
-                    } else {
-                        adminContactInfo.style.display = 'none';
-                    }
-                });
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                paymentModal.show(); // Show payment method modal
             });
 
-            // Confirm payment button handler
-            if (confirmPaymentBtn) {
-                confirmPaymentBtn.addEventListener('click', function() {
-                    const selectedMethod = document.querySelector('input[name="paymentMethod"]:checked');
+            document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
+                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
 
-                    if (!selectedMethod) {
-                        alert('Please select a payment method');
-                        return;
-                    }
+                if (!selectedPaymentMethod) {
+                    alert('Please select a payment method');
+                    return;
+                }
 
-                    if (selectedMethod.value === 'admin') {
-                        handleAdminPayment(form, paymentModal);
-                    } else {
-                        handleOnlinePayment(form);
-                    }
-                });
-            }
+                // Add payment method to form data
+                const paymentMethodInput = document.createElement('input');
+                paymentMethodInput.type = 'hidden';
+                paymentMethodInput.name = 'payment_method';
+                paymentMethodInput.value = selectedPaymentMethod.value;
+                form.appendChild(paymentMethodInput);
+
+                if (selectedPaymentMethod.value === 'contact_contributor') {
+                    // For contact contributor, submit the form directly
+                    paymentModal.hide();
+                    form.submit();
+                } else if (selectedPaymentMethod.value === 'online') {
+                    // For online payment, you can redirect to payment gateway or handle as needed
+                    paymentModal.hide();
+                    // Example: Redirect to payment page
+                    window.location.href = '/payment/checkout?form_data=' + encodeURIComponent(new FormData(
+                        form));
+                    // Note: You'll need to implement the actual payment gateway integration
+                }
+            });
         });
-
-        // Make sure these functions are properly defined
-        function handleAdminPayment(form, modal) {
-            const formData = new FormData(form);
-            const packageId = document.getElementById('package_id').value;
-            const jobId = document.getElementById('jobIdDisplay').textContent;
-
-            formData.append('package_id', packageId);
-            formData.append('payment_method', 'admin');
-            formData.append('job_id', jobId);
-
-            fetch(form.action, {
-                    method: 'POST',
-                    body: formData,
-                    headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
-                    }
-                })
-                .then(response => {
-                    if (!response.ok) throw new Error('Network response was not ok');
-                    return response.json();
-                })
-                .then(data => {
-                    modal.hide();
-                    localStorage.setItem('lastJobId', jobId);
-                    alert('Your job posting has been submitted. Please contact admin with your Job ID: ' + jobId);
-                    window.location.reload(); // Reload page after successful submission
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                    alert('An error occurred. Please try again.');
-                });
-        }
-
-        function handleOnlinePayment(form) {
-            const formData = new FormData(form);
-            const formDataObj = {};
-            formData.forEach((value, key) => {
-                formDataObj[key] = value;
-            });
-
-            sessionStorage.setItem('pendingJobSubmission', JSON.stringify(formDataObj));
-            window.location.href = '/payment-gateway';
-        }
     </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {

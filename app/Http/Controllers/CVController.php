@@ -23,76 +23,68 @@ class CVController extends Controller
     {
         // Validate the request
         $validated = $request->validate([
-            'name' => 'required|string',
-            'email' => 'required|email',
-            'contact_number' => 'required|string',
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|max:255',
+            'contact_number' => 'required|string|max:20',
             'employer_id' => 'required|exists:employers,id',
             'job_posting_id' => 'required|exists:job_postings,id',
-            'message' => 'nullable|string',
+            'message' => 'nullable|string|max:1000',
         ]);
 
         try {
-            // Fetch the authenticated user
             $user = auth()->user();
-
-            // Fetch related experiences and educations
             $experiences = $user->jobExperiences;
             $educations = $user->jobEducations;
 
-            // Generate the PDF using the view
+            // Generate PDF
             $hideButton = true;
-            $pdf = PDF::loadView('User.cv', compact('user', 'experiences', 'educations', 'hideButton'));
+            $pdf = PDF::loadView('User.cv', compact(
+                'user',
+                'experiences',
+                'educations',
+                'hideButton'
+            ));
 
-            // Define the file name and path
+            // Save PDF file
             $fileName = 'cv_' . $user->id . '_' . time() . '.pdf';
             $fileDirectory = 'resumes';
             $filePath = $fileDirectory . '/' . $fileName;
-
-            // Save the PDF file
             Storage::put($filePath, $pdf->output());
 
             // Update user's resume file
             $user->resume_file = $filePath;
             $user->save();
 
-            // Fetch employer details
-            $employer = Employer::findOrFail($validated['employer_id']);
-
-            // Create the application record
-            $application = new Application();
-            $application->user_id = $user->id;
-            $application->employer_id = $validated['employer_id'];
-            $application->company_mail = $employer->email;
-            $application->cv_path = $filePath;
-            $application->job_posting_id = $validated['job_posting_id'];
-            $application->message = $validated['message'];
-            $application->contact_number = $validated['contact_number'];
-            $application->name = $validated['name'];
-            $application->email = $validated['email']; // Add this line to save email
-
-            // For debugging
-            \Log::info('Application data before save:', [
-                'user_id' => $application->user_id,
-                'employer_id' => $application->employer_id,
-                'company_mail' => $application->company_mail,
-                'cv_path' => $application->cv_path,
-                'job_posting_id' => $application->job_posting_id,
-                'message' => $application->message,
-                'contact_number' => $application->contact_number,
-                'name' => $application->name,
-                'email' => $application->email,
+            // Create application
+            $application = Application::create([
+                'user_id' => $user->id,
+                'employer_id' => $validated['employer_id'],
+                'company_mail' => Employer::findOrFail($validated['employer_id'])->email,
+                'cv_path' => $filePath,
+                'job_posting_id' => $validated['job_posting_id'],
+                'message' => $validated['message'],
+                'contact_number' => $validated['contact_number'],
+                'name' => $validated['name'],
+                'email' => $validated['email'],
             ]);
 
-            dd($application);
-            $application->save();
+            // Log successful application creation
+            \Log::info('Application created successfully', [
+                'application_id' => $application->id,
+                'user_id' => $application->user_id,
+            ]);
 
             return redirect()->route('profile.edit')
                 ->with('success', 'CV generated and application submitted successfully!');
 
         } catch (\Exception $e) {
-            \Log::error('CV Generation Error: ' . $e->getMessage());
+            \Log::error('CV Generation Error', [
+                'error' => $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ]);
+
             return redirect()->back()
-                ->with('error', 'Error generating CV: ' . $e->getMessage())
+                ->with('error', 'Unable to process your application. Please try again.')
                 ->withInput();
         }
     }

@@ -1,17 +1,12 @@
 <?php
-$email = request()->query('email');
-$contact_number = request()->query('contact_number');
-$message = request()->query('message');
+// Get query parameters with proper fallbacks
+$name = request()->query('name', auth()->user()->name);
+$email = request()->query('email', auth()->user()->email);
+$contact_number = request()->query('contact_number', $user->phone_number);
+$message = request()->query('message', '');
 $employer_id = request()->query('employer_id');
 $job_posting_id = request()->query('job_posting_id');
-
-// Optionally, you can use default values if the data isn't passed
-$name = $name ?? '';
-$email = $email ?? '';
-$contact_number = $contact_number ?? '';
-$message = $message ?? '';
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -233,15 +228,14 @@ $message = $message ?? '';
             </a> --}}
             <form action="{{ route('generate.cv') }}" method="POST">
                 @csrf
-                <!-- Hidden fields -->
-                <input type="hidden" name="name" value="{{ $name ?? auth()->user()->name }}">
-                <input type="hidden" name="email" value="{{ $email ?? $user->email }}">
-                <input type="hidden" name="contact_number" value="{{ $contact_number ?? $user->phone_number }}">
-                <input type="hidden" name="employer_id" value="{{ $employer_id }}">
-                <input type="hidden" name="job_posting_id" value="{{ $job_posting_id }}">
-                <input type="hidden" name="message" value="{{ $message }}">
+                <!-- Hidden fields with proper value handling -->
+                <input type="hidden" name="name" value="{{ old('name', $name) }}">
+                <input type="hidden" name="email" value="{{ old('email', $email) }}">
+                <input type="hidden" name="contact_number" value="{{ old('contact_number', $contact_number) }}">
+                <input type="hidden" name="employer_id" value="{{ old('employer_id', $employer_id) }}">
+                <input type="hidden" name="job_posting_id" value="{{ old('job_posting_id', $job_posting_id) }}">
+                <input type="hidden" name="message" value="{{ old('message', $message) }}">
 
-                <!-- For debugging -->
                 @if ($errors->any())
                     <div class="alert alert-danger">
                         <ul>

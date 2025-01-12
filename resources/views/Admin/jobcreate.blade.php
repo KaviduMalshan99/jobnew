@@ -99,7 +99,8 @@
         @endif
 
         <h1>Create Job Posting</h1>
-        <form action="{{ route('admin.job_postings.store') }}" method="POST" enctype="multipart/form-data">
+        <form action="{{ route('admin.job_postings.store') }}" method="POST" enctype="multipart/form-data"
+            id="jobPostingForm">
             @csrf
             <div id="contacts-container">
                 <div class="mb-3">
@@ -193,6 +194,37 @@
             <button type="button" id="addContact" class="btn btn-success mb-3">Add Another Job</button>
             <button type="submit" class="btn btn-primary">Create Jobs</button>
         </form>
+        <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="contactContributor"
+                                value="contact_contributor">
+                            <label class="form-check-label" for="contactContributor">
+                                Contact Contributor
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlinePayment"
+                                value="online">
+                            <label class="form-check-label" for="onlinePayment">
+                                Online Payment
+                            </label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="confirmPaymentMethod">Confirm</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -379,6 +411,46 @@
                     addJobButton.disabled = false;
                 }
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('jobPostingForm');
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault(); // Prevent default form submission
+                paymentModal.show(); // Show payment method modal
+            });
+
+            document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
+                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
+
+                if (!selectedPaymentMethod) {
+                    alert('Please select a payment method');
+                    return;
+                }
+
+                // Add payment method to form data
+                const paymentMethodInput = document.createElement('input');
+                paymentMethodInput.type = 'hidden';
+                paymentMethodInput.name = 'payment_method';
+                paymentMethodInput.value = selectedPaymentMethod.value;
+                form.appendChild(paymentMethodInput);
+
+                if (selectedPaymentMethod.value === 'contact_contributor') {
+                    // For contact contributor, submit the form directly
+                    paymentModal.hide();
+                    form.submit();
+                } else if (selectedPaymentMethod.value === 'online') {
+                    // For online payment, you can redirect to payment gateway or handle as needed
+                    paymentModal.hide();
+                    // Example: Redirect to payment page
+                    window.location.href = '/payment/checkout?form_data=' + encodeURIComponent(new FormData(
+                        form));
+                    // Note: You'll need to implement the actual payment gateway integration
+                }
+            });
         });
     </script>
 @endsection

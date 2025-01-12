@@ -1,3 +1,17 @@
+<?php
+$email = request()->query('email');
+$contact_number = request()->query('contact_number');
+$message = request()->query('message');
+$employer_id = request()->query('employer_id');
+$job_posting_id = request()->query('job_posting_id');
+
+// Optionally, you can use default values if the data isn't passed
+$name = $name ?? '';
+$email = $email ?? '';
+$contact_number = $contact_number ?? '';
+$message = $message ?? '';
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -213,11 +227,36 @@
     <div class="header">
         <h1>{{ $user->name }}</h1>
         <div style="text-align: center; margin-bottom: 20px;">
-            <a href="{{ route('generate.cv') }}" class="download-btn"
+            {{-- <a href="{{ route('generate.cv') }}" class="download-btn"
                 style="{{ isset($hideButton) && $hideButton ? 'display: none;' : '' }}">
                 <i class="fas fa-download"></i> Download as PDF
-            </a>
+            </a> --}}
+            <form action="{{ route('generate.cv') }}" method="POST">
+                @csrf
+                <!-- Hidden fields -->
+                <input type="hidden" name="name" value="{{ $name ?? auth()->user()->name }}">
+                <input type="hidden" name="email" value="{{ $email ?? $user->email }}">
+                <input type="hidden" name="contact_number" value="{{ $contact_number ?? $user->phone_number }}">
+                <input type="hidden" name="employer_id" value="{{ $employer_id }}">
+                <input type="hidden" name="job_posting_id" value="{{ $job_posting_id }}">
+                <input type="hidden" name="message" value="{{ $message }}">
 
+                <!-- For debugging -->
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <button type="submit" class="download-btn"
+                    style="{{ isset($hideButton) && $hideButton ? 'display: none;' : '' }}">
+                    Submit
+                </button>
+            </form>
         </div>
         <div id="cv-content">
             <!-- CV content starts here -->

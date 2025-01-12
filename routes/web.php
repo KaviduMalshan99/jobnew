@@ -158,7 +158,7 @@ Route::middleware('auth')->group(function () {
 
     Route::put('password', [PasswordController::class, 'update'])->name('password.update');
 
-    Route::get('/generate-cv', [CVController::class, 'generateCV'])->name('generate.cv');
+    Route::post('/profile/cv', [CVController::class, 'generateCV'])->name('generate.cv');
     Route::get('/profile/cv', [CVController::class, 'index'])->name('generate.index');
 
     Route::post('logout', [AuthenticatedSessionController::class, 'destroy'])

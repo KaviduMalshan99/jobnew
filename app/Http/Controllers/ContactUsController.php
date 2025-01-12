@@ -45,6 +45,8 @@ class ContactUsController extends Controller
             'phone' => 'required|string',
             'address' => 'required|string',
             'logo_img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'logo_img.max' => 'The logo image size must not exceed 2 MB.',
         ]);
 
         $data = $request->only(['email', 'phone', 'address']);
@@ -69,6 +71,8 @@ class ContactUsController extends Controller
             'phone' => 'required|string',
             'address' => 'required|string',
             'logo_img' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+        ], [
+            'logo_img.max' => 'The logo image size must not exceed 2 MB.',
         ]);
 
         $data = $request->only(['email', 'phone', 'address']);

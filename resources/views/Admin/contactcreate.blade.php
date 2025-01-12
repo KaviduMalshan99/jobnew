@@ -127,6 +127,15 @@
             }
         }
     </script>
+    <script>
+        document.getElementById('logo_img').addEventListener('change', function() {
+            const file = this.files[0];
+            if (file && file.size > 2048 * 1024) { // 2 MB limit
+                alert('The logo image size must not exceed 2 MB.');
+                this.value = ''; // Clear the file input
+            }
+        });
+    </script>
     <script src="{{ asset('assets/js/clock.js') }}"></script>
     <script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
     <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>

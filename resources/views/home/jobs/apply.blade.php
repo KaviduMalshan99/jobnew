@@ -220,8 +220,24 @@
             });
 
             $('#create_cv_button').on('click', function() {
-                window.location.href =
-                    "/profile/cv"; // Replace with the actual route to your CV creation page
+                // Get form data to pass to the CV creation page
+                var name = $('#name').val();
+                var email = $('#email').val();
+                var contact_number = $('#contact_number').val();
+                var message = $('#message').val();
+                var job_posting_id = $('input[name="job_posting_id"]').val();
+                var employer_id = $('input[name="employer_id"]').val();
+
+                // Construct the URL with the form data as query parameters
+                var url = "/profile/cv?name=" + encodeURIComponent(name) +
+                    "&email=" + encodeURIComponent(email) +
+                    "&contact_number=" + encodeURIComponent(contact_number) +
+                    "&message=" + encodeURIComponent(message) +
+                    "&job_posting_id=" + job_posting_id +
+                    "&employer_id=" + employer_id;
+
+                // Redirect to the CV creation page
+                window.location.href = url;
             });
         });
     </script>

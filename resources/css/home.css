@@ -297,13 +297,22 @@ body {
 }
 .job-card .job-title {
     font-size: 14px;
-
-    color: #000;
+    font-weight: bold;
+    color: #0897ba;
     text-decoration: none;
 }
 
+
 .job-card .job-title:hover {
     text-decoration: none;
+    
+}
+.job-card:hover{
+    background-color: #9fbdc867;
+    border-radius: 5px;
+}
+.job-card{
+    height: 80px;
 }
 
 /* Main Layout */
@@ -377,6 +386,7 @@ body {
 @media screen and (max-width: 1200px) {
     .category-link {
         flex: 1 0 20%; /* 5 columns */
+        
     }
     .category-link:nth-child(6n) {
         border-right: 1px solid #ddd;
@@ -384,6 +394,10 @@ body {
     .category-link:nth-child(5n) {
         border-right: none;
     }
+    .view-btn{
+        margin-left: 60px;
+    }
+ 
 }
 
 @media screen and (max-width: 992px) {
@@ -413,12 +427,15 @@ body {
 @media screen and (max-width: 576px) {
     .category-link {
         flex: 1 0 50%; /* 2 columns */
+        
     }
     .category-link:nth-child(3n) {
         border-right: 1px solid #ddd;
+        
     }
     .category-link:nth-child(2n) {
         border-right: none;
+        
     }
 }
 
@@ -426,6 +443,7 @@ body {
     .category-link {
         flex: 1 0 100%; /* 1 column */
         border-right: none;
+        
     }
 }
 /* Mobile-Responsive Styles */
@@ -446,7 +464,7 @@ body {
 
     .filters {
         flex-direction: column;
-        width: 100%;
+        width: 90%;
     }
 
     .job-listingsss {
@@ -460,13 +478,14 @@ body {
 
 @media (max-width: 480px) {
     .job-listings {
-        gap: 10px;
+        gap: 20px;
     }
 
     .filters input,
     .filters select {
-        width: 100%; /* Full width on smaller screens */
+        width: 80%; /* Full width on smaller screens */
         margin: 5px 0;
+        margin-left: 20px;
     }
 
     .category-link {
@@ -476,5 +495,6 @@ body {
 
     .job-card {
         padding: 15px;
+        margin-left: 40px;
     }
 }

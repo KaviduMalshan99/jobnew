@@ -219,59 +219,7 @@
     color: #333;
 }
 
-/* Responsive Layout */
-@media (max-width: 768px) {
-    .unique-header {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 10px 15px; /* Adjust padding for smaller screens */
-    }
 
-    .unique-nav-links {
-        flex-direction: column;
-        align-items: flex-start;
-        margin-top: 10px;
-    }
-
-    .unique-nav-links a {
-        margin: 5px 0;
-    }
-
-    .unique-search-bar {
-        width: 100%;
-        margin-top: 10px;
-        justify-content: space-between;
-    }
-
-    .unique-search-bar input {
-        width: 100%; /* Full width for smaller screens */
-        margin-right: 0;
-    }
-
-    .unique-auth-buttons {
-        display: flex;
-        flex-direction: column;
-        margin-top: 10px;
-    }
-
-    .unique-auth-buttons button {
-        margin-top: 5px;
-    }
-
-    .profile-dropdown-content {
-        width: 100%; /* Make profile dropdown full width */
-    }
-
-    .popup-content {
-        max-width: 90%;
-        padding: 15px;
-    }
-
-    .popup-box {
-        justify-content: flex-start;
-        padding-top: 10%;
-    }
-}
 
 /* Search Bar Button Hover Effect */
 .animated-button {
@@ -324,4 +272,185 @@
 .login-btn:hover {
     background-color: #185203;
     color: white;
+}
+/* Responsive Styles for Mobile Devices */
+@media (max-width: 768px) {
+    .unique-header {
+        flex-direction: column;
+        align-items: flex-start; /* Aligns items to the left */
+    }
+
+    .unique-nav-links {
+        flex-direction: column;
+        gap: 10px; /* Adds spacing for stacked links */
+    }
+
+    .post-vacancy {
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+
+    .unique-search-bar {
+        flex-direction: column;
+        width: 100%; /* Ensures full-width on small screens */
+    }
+
+    .unique-search-bar input {
+        margin: 0;
+        width: 100%; /* Stretches across the screen */
+    }
+
+    .unique-auth-buttons {
+        flex-direction: column; /* Stacks buttons vertically */
+        width: 100%;
+    }
+
+    .unique-auth-buttons button {
+        margin: 5px 0; /* Adds spacing between buttons */
+        width: 100%; /* Makes buttons span the full width */
+    }
+
+    .profile-dropdown-content {
+        right: auto; /* Ensures dropdown is properly aligned on mobile */
+        width: 100%; /* Full width for better usability */
+    }
+}
+
+@media (max-width: 480px) {
+    .unique-header .logo img {
+        max-width: 100px; /* Further reduce logo size */
+    }
+
+    .unique-nav-links {
+        gap: 5px;
+    }
+
+    .post-vacancy {
+        font-size: 10px;
+        padding: 5px 8px;
+    }
+
+    .feedback-btn {
+        font-size: 10px;
+    }
+
+    .unique-search-bar button {
+        font-size: 12px;
+        padding: 5px;
+    }
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+    .unique-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .unique-nav-links {
+        display: none;
+        flex-direction: column;
+        gap: 10px;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        right: 0;
+        background-color: #ffffff;
+        padding: 10px 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+
+    .unique-nav-links.show {
+        display: flex;
+    }
+
+    .menu-toggle {
+        display: block;
+        background: none;
+        border: none;
+        font-size: 24px;
+        cursor: pointer;
+    }
+
+    .unique-auth-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .unique-auth-buttons button {
+        margin: 10px 0;
+        width: 100%;
+    }
+
+    .profile-dropdown-content {
+        width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .unique-header .logo img {
+        max-width: 100px;
+    }
+
+    .unique-nav-links {
+        gap: 5px;
+    }
+
+    .unique-auth-buttons button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    .post-vacancy {
+        font-size: 12px;
+        padding: 5px 8px;
+    }
+
+    .feedback-btn {
+        font-size: 10px;
+    }
+
+    .unique-search-bar {
+        display: none; /* Optional: Hide on very small screens */
+    }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .popup-content {
+        max-width: 90%; /* Take most of the screen width */
+        padding: 15px; /* Reduced padding for smaller screens */
+    }
+
+    .popup-content h3 {
+        font-size: 18px; /* Slightly smaller font size */
+    }
+
+    .popup-image {
+        max-width: 70%; /* Further reduction for better fit */
+    }
+
+    .close-btn {
+        font-size: 18px; /* Smaller close button for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .popup-content {
+        max-width: 65%; /* Take almost the full width of the screen */
+        padding: 10px; /* Minimized padding */
+    }
+
+    .popup-content h3 {
+        font-size: 16px; /* Smaller font for very small screens */
+    }
+
+    .popup-image {
+        max-width: 60%; /* Reduce image width further */
+    }
+
+    .close-btn {
+        font-size: 16px; /* Smaller close button */
+    }
 }

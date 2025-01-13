@@ -45,7 +45,7 @@
                 value="{{ request('location') }}">
             <button class="view-btn" type="submit">Search</button>
         </form>
-        <hr>
+        <hr class>
     </section>
 
 

@@ -10,6 +10,7 @@
 </head>
 
 <body>
+    @include('home.header')
     <div class="container">
         <h1 class="title">Top Employers</h1>
         <div class="filter-options">

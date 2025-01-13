@@ -22,7 +22,7 @@
             </ul>
         </div>
         @foreach ($contacts as $contact)
-            <div class="footer-section">
+            <div class="footer-section1">
                 <h3>Contact</h3>
                 <ul>
                     <p>Phone: {{ $contact->phone }}</p>

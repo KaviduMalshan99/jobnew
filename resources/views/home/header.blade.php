@@ -6,7 +6,107 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Us Popup</title>
     @vite(['resources/css/header.css']) <!-- Laravel Vite for including CSS -->
+<style>
+    /* Unique Header Styles */
+.unique-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 20px;
+    background-color: #ffffff;
+    border-bottom: 3px solid #cccbcb;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
 
+/* Logo */
+.unique-header .logo img {
+    max-width: 150px;
+}
+
+/* Menu Toggle Button */
+.menu-toggle {
+    display: none;
+    background: none;
+    border: none;
+    font-size: 24px;
+    cursor: pointer;
+    position: relative;
+    z-index: 1100; /* Ensures the toggle button is above other elements */
+}
+
+.menu-toggle.open::before {
+    content: "✖"; /* Close icon */
+    font-size: 24px;
+    color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+.menu-toggle:not(.open)::before {
+    content: ""; /* Hamburger menu icon */
+    font-size: 24px;
+    color: #333;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.3s ease-in-out;
+}
+
+/* Navigation Links */
+.unique-nav-links {
+    display: flex;
+    gap: 20px;
+}
+
+.unique-nav-links a {
+    text-decoration: none;
+    color: #1267e7;
+    font-size: 16px;
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Show the menu toggle on mobile */
+        margin-left:320px;
+        margin-top:-30px;
+        
+        
+    }
+
+    .unique-nav-links {
+        display: none; /* Hide navigation by default */
+        flex-direction: column;
+        gap: 10px;
+        background-color: #ffffff;
+        position: absolute;
+        top: 60px; /* Adjust based on header height */
+        left: 0;
+        right: 0;
+        padding: 10px 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 999;
+    }
+
+    .unique-nav-links.show {
+        display: flex; /* Show navigation when toggled */
+    }
+    .profile-dropdown{
+        margin-left:280px;
+        margin-top:-35px;
+        border-radius: 5px;
+        z-index: 1;
+        width: 200px;
+        right: 0; /* Align dropdown to the right */
+    }
+}
+
+</style>
 
 </head>
 
@@ -17,8 +117,11 @@
                 <x-application-logo class="unique-logo" />
             </a>
         </div>
+        <button class="menu-toggle" aria-label="Toggle Navigation">
+        ☰
+    </button>
         <nav class="nav-links unique-nav-links">
-            <a href="{{ route('user.postvacancy') }} ">Post Your Vacancy</a>
+            <a href="{{ route('employer.login') }} ">Post Your Vacancy</a>
             <a href="{{ route('feedback.home') }}">Feedback</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>
@@ -59,6 +162,18 @@
 
     </header>
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script>
+    // Select menu toggle button and navigation links
+    const menuToggle = document.querySelector('.menu-toggle');
+    const navLinks = document.querySelector('.unique-nav-links');
+
+    // Add click event listener to the menu toggle button
+    menuToggle.addEventListener('click', () => {
+        // Toggle the "show" class on the navigation links
+        navLinks.classList.toggle('show');
+    });
+</script>
+
     <script>
         const searchButton = document.getElementById('search-button');
         const searchInput = document.getElementById('search-input');

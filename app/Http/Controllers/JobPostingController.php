@@ -40,6 +40,7 @@ class JobPostingController extends Controller
 
     public function topEmployers()
     {
+        $contacts = ContactUs::all();
         // Fetch top 28 employers based on job postings count and filter those with a logo
         $topEmployers = Employer::withCount('jobPostings') // Assuming 'jobPostings' is the relationship
             ->whereNotNull('logo') // Filter employers with a non-null logo
@@ -49,7 +50,7 @@ class JobPostingController extends Controller
             ->get();
 
         // Pass data to the view
-        return view('User.topemployees', compact('topEmployers'));
+        return view('User.topemployees', compact('topEmployers', 'contacts'));
     }
 
     public function home(Request $request)
@@ -105,8 +106,9 @@ class JobPostingController extends Controller
     }
     public function showjob($id)
     {
+        $contacts = ContactUs::all();
         $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
-        return view('home.jobs.show', compact('job'
+        return view('home.jobs.show', compact('job', 'contacts'
         ));
     }
 

@@ -17,7 +17,7 @@
         body {
             font-family: Arial, sans-serif;
             background-color: #f7fafc;
-            padding: 50px 20px;
+
         }
 
         main {
@@ -26,29 +26,29 @@
             padding-top: 20px;
         }
 
-        .job-card {
+        .job-cardn {
             background-color: white;
             border-radius: 20px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
             overflow: hidden;
         }
 
-        .job-card .header {
+        .job-cardn .header {
             position: relative;
         }
 
-        .job-card .header img {
+        .job-cardn .header img {
             width: 100%;
             height: auto;
             object-fit: cover;
             transition: transform 0.3s ease;
         }
 
-        .job-card .header img:hover {
+        .job-cardn .header img:hover {
             transform: scale(1.05);
         }
 
-        .job-card .header .overlay {
+        .job-cardn .header .overlay {
             position: absolute;
             top: 0;
             left: 0;
@@ -57,64 +57,64 @@
             background: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 0.5));
         }
 
-        .job-card .content {
+        .job-cardn .content {
             padding: 30px;
         }
 
-        .job-card .content h1 {
+        .job-cardn .content h1 {
             font-size: 30px;
             font-weight: bold;
             color: #1a202c;
             margin-bottom: 10px;
         }
 
-        .job-card .content p.company-name {
+        .job-cardn .content p.company-name {
             font-size: 18px;
             color: #718096;
         }
 
-        .job-card .details {
+        .job-cardn .details {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 20px;
             margin-bottom: 40px;
         }
 
-        .job-card .details .detail {
+        .job-cardn .details .detail {
             display: flex;
             align-items: center;
             color: #4a5568;
         }
 
-        .job-card .details .detail i {
+        .job-cardn .details .detail i {
             margin-right: 8px;
             color: #3182ce;
         }
 
-        .job-card .description,
-        .job-card .requirements {
+        .job-cardn .description,
+        .job-cardn .requirements {
             margin-bottom: 40px;
         }
 
-        .job-card .description h2,
-        .job-card .requirements h2 {
+        .job-cardn .description h2,
+        .job-cardn .requirements h2 {
             font-size: 22px;
             font-weight: bold;
             color: #1a202c;
             margin-bottom: 15px;
         }
 
-        .job-card .description p,
-        .job-card .requirements p {
+        .job-cardn .description p,
+        .job-cardn .requirements p {
             color: #4a5568;
             line-height: 1.8;
         }
 
-        .job-card .apply-button {
+        .job-cardn .apply-button {
             text-align: center;
         }
 
-        .job-card .apply-button a {
+        .job-cardn .apply-button a {
             display: inline-block;
             padding: 15px 30px;
             background-color: #3182ce;
@@ -125,12 +125,12 @@
             transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .job-card .apply-button a:hover {
+        .job-cardn .apply-button a:hover {
             background-color: #2b6cb0;
             transform: translateY(-4px);
         }
 
-        .job-card .apply-button a i {
+        .job-cardn .apply-button a i {
             margin-right: 10px;
         }
 
@@ -138,8 +138,7 @@
 
         .back-button {
             position: fixed;
-            top: 20px;
-            left: 20px;
+
             background-color: white;
             width: 40px;
             height: 40px;
@@ -217,7 +216,8 @@
             animation: button-bounce 1s infinite alternate;
         }
 
-        <style>.btn-flag {
+
+        .btn-flag {
             background-color: #e53e3e;
             color: white;
             font-size: 1.2rem;
@@ -318,19 +318,66 @@
             margin-bottom: 20px;
 
         }
+
+        /* Flag Button Styles */
+        .flag-btn {
+            background-color: yellow;
+            /* Transparent background */
+            border: none;
+            /* Removes default button border */
+            cursor: pointer;
+            /* Changes cursor to pointer for interactivity */
+            padding: 5px;
+            /* Adds slight padding for clickability */
+            transition: transform 0.2s ease-in-out, color 0.3s ease;
+            /* Smooth hover and click effects */
+            width: 30px;
+        }
+
+        /* Flag Button Hover Effect */
+        .flag-btn:hover {
+            transform: scale(1.1);
+            /* Slight scaling on hover */
+            color: red;
+        }
+
+        /* Icon Styles */
+        .flag-btn i {
+            font-size: 80px;
+            /* Adjusts the icon size */
+            color: rgb(255, 0, 0);
+            /* Default icon color */
+            transition: color 0.3s ease;
+            /* Smooth color change */
+
+        }
+
+        /* Active Flag Icon Color */
+        .flag-btn i.fa-flag {
+            color: #ff4747;
+            /* Red for flagged items */
+        }
+
+        /* Hover Effect for Unflagged Icons */
+        .flag-btn i.fa-regular.fa-flag:hover {
+            color: #007bff;
+            /* Blue on hover for unflagged items */
+        }
     </style>
 
     </style>
 </head>
 
 <body>
-    <button class="back-button" onclick="window.history.back()">
-        <i class="fas fa-arrow-left"></i>
-    </button>
+    @include('home.header')
+
 
     <main>
         <!-- Job Card -->
-        <div class="job-card">
+        <div class="job-cardn">
+            <button class="back-button" onclick="window.history.back()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
             <!-- Header Section -->
             <div class="header">
                 @if (!empty($job->image))
@@ -391,15 +438,7 @@
                     </div>
                 @endif
 
-                <!-- Apply Button -->
 
-                <!-- <div class="backbutton">
-                <button class="btn btn-back" id="back">Back to Home</button>
-                </div> -->
-
-                <div class="backbutton">
-                    <button class="btn btn-back" id="back">Back to Home</button>
-                </div>
 
             </div>
             <div class="btn-group mb-4">

@@ -4,7 +4,7 @@
 </head>
 <body>
 @include('user.jobseekerprofile.mainview.profilelayout')
-<div class="container">
+<div class="education-container">
     <h2 class="section-header">School Education</h2>
 
     {{-- Display existing education entries --}}

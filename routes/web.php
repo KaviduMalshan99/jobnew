@@ -774,9 +774,9 @@ Route::get('/employers/search', [EmployerAuthController::class, 'search']);
 
 Route::get('/package-contacts', [PackageContactController::class, 'index'])->name('package-contacts.index'); // Fetch all
 Route::get('/package-contacts/create', [PackageContactController::class, 'create'])->name('package-contacts.create')->middleware('auth:admin');
-Route::post('/package-contacts', [PackageContactController::class, 'store'])->name('package-contacts.store'); // Create
-Route::put('/package-contacts/{id}', [PackageContactController::class, 'update'])->name('package-contacts.update'); // Update
-Route::delete('/package-contacts/{id}', [PackageContactController::class, 'destroy'])->name('package-contacts.destroy'); // Delete
+Route::post('/package-contacts', [PackageContactController::class, 'store'])->name('package-contacts.store')->middleware('auth:admin'); // Create
+Route::put('/package-contacts/{id}', [PackageContactController::class, 'update'])->name('package-contacts.update')->middleware('auth:admin'); // Update
+Route::delete('/package-contacts/{id}', [PackageContactController::class, 'destroy'])->name('package-contacts.destroy')->middleware('auth:admin'); // Delete
 
 Route::get('admin/packages', [PackageController::class, 'index'])->name('admin.packages.index')->middleware('auth:admin');
 Route::get('admin/packages/create', [PackageController::class, 'create'])->name('admin.packages.create')->middleware('auth:admin');

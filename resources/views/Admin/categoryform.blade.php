@@ -17,7 +17,7 @@
 
 @section('content')
     <div class="container-fluid">
-        <div class="card">
+        <div class="card content-card">
             <div class="card-header">
 
             </div>

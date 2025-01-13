@@ -1,14 +1,16 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
         <div class="logo-wrapper"><a href="{{ route('index') }}">
-                <x-application-logo />
+                <img src="{{ asset('assets/images/logo/logo1.png') }}" class="img-fluid " style="width: 90px;"
+                    alt="">
 
             </a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
         </div>
-        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"><img class="img-fluid"
-                    src="{{ asset('assets/images/logo/logo-icon.png') }}" alt=""></a>
+        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"> <img
+                    src="{{ asset('assets/images/logo/logo1.png') }}" class="img-fluid " style="width: 90px;"
+                    alt=""></a>
         </div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
@@ -93,13 +95,13 @@
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
                             </svg><span>Site Settings</span></a>
                         <ul class="sidebar-submenu">
-                            <li><a href="{{ route('contactus.create') }}">Contact Details </a></li>
+                            <li><a href="{{ route('contactus.create') }}">ContactUs Page Details </a></li>
                             <li><a href="{{ route('admin.about-us.index') }}">About Details</a></li>
                             <li><a href="{{ route('admin.terms.index') }}">Terms Details </a></li>
                             <li><a href="{{ route('faqs.index') }}">FAQ</a></li>
@@ -115,37 +117,56 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-contact') }}"> </use>
                             </svg><span>Employer create</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('admin.feedback.manage') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#star') }}"> </use>
+                            </svg><span>FeedBack</span></a></li>
 
 
 
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('package-contacts.create') }}">
+                            class="sidebar-link sidebar-title link-nav"
+                            href="{{ route('package-contacts.create') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
                             </svg>
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
                             </svg><span>Package Contact</span></a></li>
+
+
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('admin.packages.index') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"> </use>
                             </svg><span>Package Details</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('contacts.index') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#user-visitor') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#user-visitor') }}"> </use>
+                            </svg><span>Codinator Contact</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('admin.feedback.manage') }}">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"> </use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"> </use>
                             </svg><span>FeedBack</span></a></li>
 
 
-
+                </ul>
 
 
                 </ul>

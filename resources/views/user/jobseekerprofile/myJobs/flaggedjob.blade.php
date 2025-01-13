@@ -127,7 +127,7 @@
                                 if ($('tbody tr').length === 0) {
                                     $('.jobsection').html(
                                         '<h2>Flagged Vacancies</h2><p>You have not flagged any vacancies</p>'
-                                        );
+                                    );
                                 }
                             });
                         }

@@ -180,14 +180,16 @@ class JobPostingController extends Controller
     public function store(Request $request)
     {
         try {
-            // First validate the package selection
+            // First validate the package selection and payment method
             $request->validate([
                 'package_id' => 'required|exists:packages,id',
+                'payment_method' => 'required|in:contact_contributor,online',
             ]);
 
             $employerId = auth('employer')->id();
             $packageId = $request->input('package_id');
             $jobPostings = $request->input('job_postings', []);
+            $paymentMethod = $request->input('payment_method');
 
             // Check if job postings exist
             if (!is_array($jobPostings) || empty($jobPostings)) {
@@ -209,22 +211,11 @@ class JobPostingController extends Controller
                     "job_postings.{$index}.requirements" => 'required|string',
                     "job_postings.{$index}.closing_date" => 'required|date',
                     "job_postings.{$index}.status" => 'required|in:pending,reject,approved',
+                    "job_postings.{$index}.payment_method" => 'required|in:contact_contributor,online',
                 ]);
             }
 
-            // Check package limits
-            $package = Package::findOrFail($packageId);
-            $existingJobCount = JobPosting::where('employer_id', $employerId)
-                ->where('package_id', $packageId)
-                ->count();
-
-            if ($existingJobCount + count($jobPostings) > $package->package_size) {
-                return redirect()->back()
-                    ->withErrors(['package_id' => 'Exceeded maximum allowed job postings for this package.'])
-                    ->withInput();
-            }
-
-            // Process each job posting
+            // Process each job posting within a transaction
             DB::beginTransaction();
             try {
                 foreach ($jobPostings as $index => $jobData) {
@@ -247,6 +238,7 @@ class JobPostingController extends Controller
                         'requirements' => $jobData['requirements'],
                         'closing_date' => $jobData['closing_date'],
                         'status' => $jobData['status'],
+                        'payment_method' => $jobData['payment_method'],
                     ];
 
                     // Create the job posting
@@ -262,8 +254,15 @@ class JobPostingController extends Controller
                 }
 
                 DB::commit();
-                return redirect()->route('employer.job_postings.post.create')
-                    ->with('success', 'Job postings created successfully!');
+
+                if ($paymentMethod === 'contact_contributor') {
+                    return redirect()->route('employer.job_postings.post.create')
+                        ->with('success', 'Job postings created successfully!');
+                } else {
+                    // For online payment, redirect to payment page
+                    return redirect()->route('payment.checkout')
+                        ->with('success', 'Please complete your payment to publish the job postings.');
+                }
 
             } catch (\Exception $e) {
                 DB::rollBack();
@@ -280,9 +279,10 @@ class JobPostingController extends Controller
     }
     public function storeForAdmin(Request $request)
     {
-        // Validate package selection and job postings
+        // Validate package selection, job postings, and payment method
         $validatedData = $request->validate([
             'package_id' => 'required|exists:packages,id',
+            'payment_method' => 'required|in:contact_contributor,online',
             'job_postings.*.title' => 'required|string|max:255',
             'job_postings.*.description' => 'required|string',
             'job_postings.*.category_id' => 'required|exists:categories,id',
@@ -293,11 +293,13 @@ class JobPostingController extends Controller
             'job_postings.*.requirements' => 'required|string',
             'job_postings.*.closing_date' => 'required|date',
             'job_postings.*.status' => 'required|in:pending,reject,approved',
+            'job_postings.*.employer_id' => 'required|exists:employers,id',
         ]);
 
         $adminId = auth('admin')->id();
         $packageId = $request->input('package_id');
         $jobPostings = $request->input('job_postings', []);
+        $paymentMethod = $request->input('payment_method');
 
         if (empty($jobPostings)) {
             return redirect()->back()->withErrors(['job_postings' => 'No job postings provided.']);
@@ -315,29 +317,64 @@ class JobPostingController extends Controller
                 ->withInput();
         }
 
-        $storedPostings = [];
-        foreach ($jobPostings as $index => $jobData) {
-            // Generate unique job ID
-            do {
-                $jobId = 'J' . rand(10000, 99999);
-            } while (JobPosting::where('job_id', $jobId)->exists());
+        // Use transaction to ensure data consistency
+        DB::beginTransaction();
+        try {
+            $storedPostings = [];
+            foreach ($jobPostings as $index => $jobData) {
+                // Generate unique job ID
+                do {
+                    $jobId = 'J' . rand(10000, 99999);
+                } while (JobPosting::where('job_id', $jobId)->exists());
 
-            $jobData['job_id'] = $jobId;
-            $jobData['creator_id'] = $adminId;
-            $jobData['package_id'] = $packageId;
+                // Prepare job posting data
+                $jobPostingData = [
+                    'job_id' => $jobId,
+                    'creator_id' => $adminId,
+                    'admin_id' => $adminId,
+                    'package_id' => $packageId,
+                    'employer_id' => $jobData['employer_id'],
+                    'title' => $jobData['title'],
+                    'description' => $jobData['description'],
+                    'category_id' => $jobData['category_id'],
+                    'subcategory_id' => $jobData['subcategory_id'],
+                    'location' => $jobData['location'],
+                    'salary_range' => $jobData['salary_range'] ?? null,
+                    'requirements' => $jobData['requirements'],
+                    'closing_date' => $jobData['closing_date'],
+                    'status' => $jobData['status'],
+                    'payment_method' => $paymentMethod,
+                    'is_active' => true,
+                ];
 
-            // Handle image upload
-            if ($request->hasFile("job_postings.$index.image")) {
-                $jobData['image'] = $request->file("job_postings.$index.image")
-                    ->store('job_images', 'public');
+                // Handle image upload
+                if ($request->hasFile("job_postings.$index.image")) {
+                    $jobPostingData['image'] = $request->file("job_postings.$index.image")
+                        ->store('job_images', 'public');
+                }
+
+                // Create job posting
+                $storedPostings[] = JobPosting::create($jobPostingData);
             }
 
-            $storedPostings[] = JobPosting::create($jobData);
+            DB::commit();
+
+            if ($paymentMethod === 'online') {
+                // Store necessary data in session for payment processing
+                session(['pending_job_postings' => collect($storedPostings)->pluck('id')]);
+                return redirect()->route('admin.payment.checkout');
+            }
+
+            return redirect()->route('job_postings.index')
+                ->with('success', 'Job postings created successfully!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()
+                ->withErrors(['error' => 'An error occurred while creating job postings: ' . $e->getMessage()])
+                ->withInput();
         }
-
-        return redirect()->route('job_postings.index')->with('success', 'Job postings created successfully!');
     }
-
     public function getSubcategories($categoryId)
     {
         $subcategories = Subcategory::where('category_id', $categoryId)->get();

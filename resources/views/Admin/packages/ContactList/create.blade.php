@@ -42,7 +42,7 @@
                                 </div>
                             </div>
                             <button type="button" id="addContact" class="btn btn-success">Add Another Contact</button>
-                            <button type="submit" class="btn btn-primary mt-3">Submit</button>
+                            <button type="submit" class="btn btn-primary ">Submit</button>
                         </form>
                     </div>
                 </div>

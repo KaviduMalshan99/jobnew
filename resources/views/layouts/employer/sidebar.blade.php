@@ -1,10 +1,15 @@
 <div class="sidebar-wrapper" sidebar-layout="stroke-svg">
     <div>
-        <div class="logo-wrapper"><a href="{{ route('home') }}"><x-application-logo /></a>
+        <div class="logo-wrapper"><a href="{{ route('home') }}">
+                <img src="{{ asset('assets/images/logo/logo1.png') }}" class="img-fluid " style="width: 90px;"
+                    alt="">
+            </a>
             <div class="back-btn"><i class="fa fa-angle-left"></i></div>
             <div class="toggle-sidebar"><i class="status_toggle middle sidebar-toggle" data-feather="grid"> </i></div>
         </div>
-        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"><x-application-logo /></a>
+        <div class="logo-icon-wrapper"><a href="{{ route('index') }}"> <img
+                    src="{{ asset('assets/images/logo/logo1.png') }}" class="img-fluid " style="width: 90px;"
+                    alt=""></a>
         </div>
         <nav class="sidebar-main">
             <div class="left-arrow" id="left-arrow"><i data-feather="arrow-left"></i></div>
@@ -24,7 +29,8 @@
                             <h6 class="lan-1">General</h6>
                         </div>
                     </li>
-                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i>
+                    <li class="sidebar-list">
+                        <i class="fa fa-thumb-tack"></i>
                         <label class="badge badge-light-primary">5</label><a class="sidebar-link sidebar-title"
                             href="{{ route('employer.dashboard') }}">
                             <svg class="stroke-icon">
@@ -46,10 +52,10 @@
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
                             <svg class="stroke-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-ecommerce') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
                             </svg>
                             <svg class="fill-icon">
-                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-ecommerce') }}"></use>
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
                             </svg><span>Post Your Job</span></a>
                         <ul class="sidebar-submenu">
                             <li><a href="{{ route('employer.job_postings.post.create') }}">Create Job </a></li>

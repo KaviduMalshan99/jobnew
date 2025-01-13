@@ -31,6 +31,7 @@ class JobPosting extends Model
         'job_id',
         'is_active',
         'creator_id',
+        'payment_method',
     ];
 
     // Relationships

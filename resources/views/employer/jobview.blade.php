@@ -1,287 +1,211 @@
 @extends('layouts.employer.master')
 
 @section('title', 'Jobs')
+@section('style')
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatable-extension.css') }}">
+    <!-- Update Font Awesome to latest version -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+@endsection
 
 @section('css')
     <style>
-        /* Custom Button Styles */
-        .btn {
+        .btn-action {
             display: inline-flex;
             align-items: center;
-            padding: 8px 16px;
-            border-radius: 6px;
-            font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            gap: 8px;
+            justify-content: center;
+            padding: 8px;
+            border: none;
+            background-color: transparent;
             cursor: pointer;
         }
 
-        .btn i {
+        .btn-action i {
             font-size: 16px;
+            /* Adjust size as needed */
+            color: #333;
+            /* Ensure visible color */
         }
 
-        .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        .btn-delete {
+            color: red;
         }
 
-        .btn-primary {
-            background-color: #4f46e5;
-            color: white;
-            border: none;
+        .btn-toggle-active {
+            color: green;
         }
 
-        .btn-primary:hover {
-            background-color: #4338ca;
-        }
-
-        .btn-danger {
-            background-color: #ef4444;
-            color: white;
-            border: none;
-        }
-
-        .btn-danger:hover {
-            background-color: #dc2626;
-        }
-
-        .btn-warning {
-            background-color: #f59e0b;
-            color: white;
-            border: none;
-        }
-
-        .btn-warning:hover {
-            background-color: #d97706;
-        }
-
-        .btn-success {
-            background-color: #10b981;
-            color: white;
-            border: none;
-        }
-
-        .btn-success:hover {
-            background-color: #059669;
-        }
-
-        .btn-sm {
-            padding: 6px 12px;
-            font-size: 13px;
-        }
-
-        .action-buttons {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-        }
-
-        .action-buttons form {
-            margin: 0;
-        }
-
-        /* Responsive styles */
-        @media (max-width: 768px) {
-            .action-buttons {
-                flex-direction: column;
-                gap: 6px;
-            }
-
-            .btn {
-                width: 100%;
-                justify-content: center;
-            }
+        .btn-toggle-inactive {
+            color: gray;
         }
     </style>
 @endsection
 
-@section('style')
-    <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/animate.css') }}">
-@endsection
-
-@section('breadcrumb-title')
-    <h3>Jobs</h3>
-@endsection
-
-@section('breadcrumb-items')
-    <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Jobs</li>
-@endsection
-
 @section('content')
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-header">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="mb-0">Job Postings</h3>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="dt-ext table-responsive">
+                            @if ($jobPostings->count() > 0)
+                                <table class="display" id="keytable">
+                                    <thead>
+                                        <tr>
+                                            <th>Job ID</th>
+                                            <th>Title</th>
+                                            <th>Category</th>
+                                            <th>Subcategory</th>
+                                            <th>Reviewed By</th>
+                                            <th>Status</th>
+                                            <th>Reviewed Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($jobPostings as $job)
+                                            <tr>
+                                                <td>{{ $job->job_id }}</td>
+                                                <td>{{ $job->title }}</td>
+                                                <td>{{ $job->category->name }}</td>
+                                                <td>{{ $job->subcategory->name }}</td>
+                                                <td>{{ $job->admin->name ?? 'N/A' }}</td>
+                                                <td>
+                                                    <span
+                                                        class="status-badge {{ $job->status === 'approved' ? 'status-approved' : ($job->status === 'rejected' ? 'status-rejected' : 'status-pending') }}">
+                                                        {{ ucfirst($job->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    @if ($job->status === 'approved')
+                                                        {{ $job->approved_date ? \Carbon\Carbon::parse($job->approved_date)->format('Y-m-d') : 'N/A' }}
+                                                    @elseif ($job->status === 'rejected')
+                                                        {{ $job->rejected_date ? \Carbon\Carbon::parse($job->rejected_date)->format('Y-m-d') : 'N/A' }}
+                                                    @else
+                                                        N/A
+                                                    @endif
+                                                </td>
+                                                <td>
+                                                    <div class="action-buttons">
+                                                        <!-- View Applications Button -->
+                                                        <a href="{{ route('employer.jobs.applications', ['job' => $job->id]) }}"
+                                                            class="btn-action btn-view" title="View Applications">
+                                                            <i class="fa-solid fa-users"></i>
+                                                        </a>
 
-    <div class="container">
-        <h2>Your Job Postings</h2>
+                                                        <!-- Edit Button -->
+                                                        <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
+                                                            class="btn-action btn-edit" title="Edit Job">
+                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                        </a>
 
-        @if ($jobPostings->count() > 0)
-            <div class="overflow-x-auto shadow-sm rounded-lg">
-                <table class="min-w-full divide-y divide-gray-200 bg-white">
-                    <thead class="bg-gray-50">
-                        <tr>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Job ID
-                            </th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Title
-                            </th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Category</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Subcategory</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Reviewed By</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Status</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Reviewed Date</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Review Reason</th>
-                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                                Action</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-200">
-                        @foreach ($jobPostings as $job)
-                            <tr class="hover:bg-gray-50">
+                                                        <!-- Delete Button -->
+                                                        <form
+                                                            action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('DELETE')
+                                                            <button type="submit" class="" title="Delete Job"
+                                                                onclick="return confirm('Are you sure you want to delete this job posting?');">
+                                                                <i class="fa-solid fa-trash"></i>
+                                                            </button>
+                                                        </form>
 
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->job_id }}</td>
+                                                        <!-- Toggle Active/Inactive Button -->
+                                                        <form action="{{ route('job_postings.toggle_active', $job->id) }}"
+                                                            method="POST" class="d-inline">
+                                                            @csrf
+                                                            @method('PATCH')
+                                                            <button type="submit"
+                                                                class="btn-action {{ $job->is_active ? 'btn-toggle-active' : 'btn-toggle-inactive' }}"
+                                                                title="{{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}">
+                                                                <i class="fa-solid fa-list"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </td>
 
-
-
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->title }}</td>
-
-
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->category->name }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->subcategory->name }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->admin->name ?? 'N/A' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">
-                                    <span
-                                        class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full
-                                    {{ ($job->status === 'approved'
-                                            ? 'bg-green-100 text-green-800'
-                                            : $job->status === 'rejected')
-                                        ? 'bg-red-100 text-red-800'
-                                        : 'bg-yellow-100 text-yellow-800' }}">
-                                        {{ ucfirst($job->status) }}
-                                    </span>
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">
-                                    @if ($job->status === 'approved')
-                                        {{ $job->approved_date ? \Carbon\Carbon::parse($job->approved_date)->format('Y-m-d') : 'N/A' }}
-                                    @elseif ($job->status === 'rejected')
-                                        {{ $job->rejected_date ? \Carbon\Carbon::parse($job->rejected_date)->format('Y-m-d') : 'N/A' }}
-                                    @else
-                                        N/A
-                                    @endif
-                                </td>
-                                <td class="px-4 py-3 whitespace-nowrap">{{ $job->review_reason ?? 'N/A' }}</td>
-                                <td class="px-4 py-3 whitespace-nowrap">
-                                    <div class="action-buttons">
-                                        <a href="{{ route('employer.jobs.applications', ['job' => $job->id]) }}"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="fa fa-users" aria-hidden="true"></i>
-                                            view
-                                        </a>
-
-                                        <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
-                                            class="btn btn-primary btn-sm">
-                                            <i class="fa fa-pencil" aria-hidden="true"></i>
-
-                                        </a>
-
-                                        <form action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
-                                            method="POST" class="d-inline">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="btn btn-danger btn-sm"
-                                                onclick="return confirm('Are you sure you want to delete this job posting?');">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
-
-                                            </button>
-                                        </form>
-
-                                        <form action="{{ route('job_postings.toggle_active', $job->id) }}" method="POST"
-                                            class="d-inline">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit"
-                                                class="btn btn-sm {{ $job->is_active ? 'btn-warning' : 'btn-success' }}">
-                                                <i class="fa {{ $job->is_active ? 'fa-pause' : 'fa-play' }}"
-                                                    aria-hidden="true"></i>
-                                                {{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}
-                                            </button>
-                                        </form>
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                                            </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            @else
+                                <div class="text-center py-4">
+                                    <p class="text-gray-500">You haven't created any job postings yet.</p>
+                                    <a href="{{ route('employer.job_postings.create') }}" class="btn btn-primary mt-3">
+                                        Create Your First Job Posting
+                                    </a>
+                                </div>
+                            @endif
+                        </div>
+                    </div>
+                </div>
             </div>
-
-            <!-- Pagination Links -->
-            {{ $jobPostings->links() }}
-        @else
-            <p>You have not created any job postings yet.</p>
-        @endif
+        </div>
     </div>
-    <script type="text/javascript">
-        var session_layout = '{{ session()->get('layout') }}';
+@endsection
+
+@section('script')
+    <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#keytable').DataTable({
+                responsive: true,
+                order: [
+                    [0, 'desc']
+                ],
+                pageLength: 10,
+                language: {
+                    search: "Search:",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        first: "First",
+                        last: "Last",
+                        next: "Next",
+                        previous: "Previous"
+                    }
+                },
+                columnDefs: [{
+                        orderable: false,
+                        targets: -1
+                    } // Disable sorting on action column
+                ]
+            });
+        });
     </script>
 @endsection
 
 @section('script')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <script src="{{ asset('assets/js/clock.js') }}"></script>
-    <script src="{{ asset('assets/js/chart/apex-chart/moment.min.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/bootstrap-notify.min.js') }}"></script>
-    <script src="{{ asset('assets/js/dashboard/default.js') }}"></script>
-    <script src="{{ asset('assets/js/notify/index.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.bundle.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead/typeahead.custom.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/handlebars.js') }}"></script>
-    <script src="{{ asset('assets/js/typeahead-search/typeahead-custom.js') }}"></script>
-    <script src="{{ asset('assets/js/height-equal.js') }}"></script>
-    <script src="{{ asset('assets/js/animation/wow/wow.min.js') }}"></script>
-    <script>
-        document.getElementById('category_id').addEventListener('change', function() {
-            const categoryId = this.value;
-            const subcategorySelect = document.getElementById('subcategory_id');
-
-            // Clear existing subcategory options
-            subcategorySelect.innerHTML = '<option value="">Select a subcategory</option>';
-
-            if (categoryId) {
-                fetch(`/subcategories/${categoryId}`)
-                    .then(response => response.json())
-                    .then(data => {
-                        data.forEach(subcategory => {
-                            const option = document.createElement('option');
-                            option.value = subcategory.id;
-                            option.textContent = subcategory.name;
-                            subcategorySelect.appendChild(option);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching subcategories:', error));
-            }
-        });
-    </script>
-    <script>
-        document.getElementById('image').addEventListener('change', function(event) {
-            const imagePreview = document.getElementById('imagePreview');
-            const file = event.target.files[0];
-
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    imagePreview.src = e.target.result;
-                    imagePreview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            } else {
-                imagePreview.style.display = 'none';
-            }
-        });
-    </script>
-
+    <script src="{{ asset('assets/js/datatable/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.colVis.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.autoFill.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.select.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/custom.js') }}"></script>
 @endsection

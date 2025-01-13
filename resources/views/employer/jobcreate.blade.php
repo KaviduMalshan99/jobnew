@@ -88,215 +88,196 @@
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @enderror
-
-
-
-        <h1>Create Job Posting</h1>
-        <form action="{{ route('employer.job_postings.job.store') }}" method="POST" enctype="multipart/form-data"
-            id="jobPostingForm">
-            @csrf
-            <div id="contacts-container">
-                <div class="mb-3">
-                    <label for="package_id" class="form-label">Package</label>
-                    <select name="package_id" id="package_id" class="form-control" required>
-                        <option value="">Select a package</option>
-                        @foreach ($packages as $package)
-                            <option value="{{ $package->id }}">
-                                {{ $package->package_size }}ads - Rs. {{ $package->lkr_price }}/{{ $package->usd_price }}USD
-                                ({{ $package->duration_days }} days)
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="contact-item">
-
-
-                    <div class="mb-3">
-                        <label for="title_0" class="form-label">Job Title</label>
-                        <input type="text" name="job_postings[0][title]" id="title_0" class="form-control" required>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5>Create Job Posting</h5>
                     </div>
+                    <div class="card-body">
 
-                    <div class="mb-3">
-                        <label for="description_0" class="form-label">Description</label>
-                        <textarea name="job_postings[0][description]" id="description_0" class="form-control" rows="4" required></textarea>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="category_id_0" class="form-label">Category</label>
-                        <select name="job_postings[0][category_id]" id="category_id_0" class="form-control category-select"
-                            required>
-                            <option value="">Select a category</option>
-                            @foreach ($categories as $category)
-                                <option value="{{ $category->id }}">{{ $category->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="subcategory_id_0" class="form-label">Subcategory</label>
-                        <select name="job_postings[0][subcategory_id]" id="subcategory_id_0" class="form-control" required>
-                            <option value="">Select a subcategory</option>
-                        </select>
-                    </div>
 
-                    <div class="mb-3">
-                        <label for="location_0" class="form-label">Location</label>
-                        <input type="text" name="job_postings[0][location]" id="location_0" class="form-control"
-                            required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="salary_range_0" class="form-label">Salary Range</label>
-                        <input type="number" name="job_postings[0][salary_range]" id="salary_range_0" class="form-control">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="image_0" class="form-label">Image</label>
-                        <input type="file" name="job_postings[0][image]" id="image_0" class="form-control image-input"
-                            accept="image/*">
-                        <div class="image-preview-container mt-3">
-                            <img class="image-preview" src="" alt="Image Preview"
-                                style="max-width: 100%; display: none;">
-                        </div>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="requirements_0" class="form-label">Requirements</label>
-                        <textarea name="job_postings[0][requirements]" id="requirements_0" class="form-control" rows="4" required></textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="closing_date_0" class="form-label">Closing Date</label>
-                        <input type="date" name="job_postings[0][closing_date]" id="closing_date_0"
-                            class="form-control" required>
-                    </div>
-
-                    <input type="hidden" name="job_postings[0][status]" value="pending">
-                </div>
-            </div>
-
-            <button type="button" id="addContact" class="btn btn-success mb-3">Add Another Job</button>
-            <button type="submit" class="btn btn-primary">Create Jobs</button>
-            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
-                aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body">
-                            <div class="payment-methods">
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                        id="onlinePayment" value="online">
-                                    <label class="form-check-label" for="onlinePayment">
-                                        Online Payment
-                                    </label>
+                        <form action="{{ route('employer.job_postings.job.store') }}" method="POST"
+                            enctype="multipart/form-data" id="jobPostingForm">
+                            @csrf
+                            <div id="contacts-container">
+                                <div class="mb-3">
+                                    <label for="package_id" class="form-label">Package</label>
+                                    <select name="package_id" id="package_id" class="form-control" required>
+                                        <option value="">Select a package</option>
+                                        @foreach ($packages as $package)
+                                            <option value="{{ $package->id }}">
+                                                {{ $package->package_size }}ads - Rs.
+                                                {{ $package->lkr_price }}/{{ $package->usd_price }}USD
+                                                ({{ $package->duration_days }} days)
+                                            </option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="radio" name="paymentMethod"
-                                        id="contactAdmin" value="admin">
-                                    <label class="form-check-label" for="contactAdmin">
-                                        Contact Admin
-                                    </label>
+
+                                <div class="contact-item">
+
+
+                                    <div class="mb-3">
+                                        <label for="title_0" class="form-label">Job Title</label>
+                                        <input type="text" name="job_postings[0][title]" id="title_0"
+                                            class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="description_0" class="form-label">Description</label>
+                                        <textarea name="job_postings[0][description]" id="description_0" class="form-control" rows="4" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="category_id_0" class="form-label">Category</label>
+                                        <select name="job_postings[0][category_id]" id="category_id_0"
+                                            class="form-control category-select" required>
+                                            <option value="">Select a category</option>
+                                            @foreach ($categories as $category)
+                                                <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="subcategory_id_0" class="form-label">Subcategory</label>
+                                        <select name="job_postings[0][subcategory_id]" id="subcategory_id_0"
+                                            class="form-control" required>
+                                            <option value="">Select a subcategory</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="location_0" class="form-label">Location</label>
+                                        <input type="text" name="job_postings[0][location]" id="location_0"
+                                            class="form-control" required>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="salary_range_0" class="form-label">Salary Range</label>
+                                        <input type="number" name="job_postings[0][salary_range]" id="salary_range_0"
+                                            class="form-control">
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="image_0" class="form-label">Image</label>
+                                        <input type="file" name="job_postings[0][image]" id="image_0"
+                                            class="form-control image-input" accept="image/*">
+                                        <div class="image-preview-container mt-3">
+                                            <img class="image-preview" src="" alt="Image Preview"
+                                                style="max-width: 100%; display: none;">
+                                        </div>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="requirements_0" class="form-label">Requirements</label>
+                                        <textarea name="job_postings[0][requirements]" id="requirements_0" class="form-control" rows="4" required></textarea>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label for="closing_date_0" class="form-label">Closing Date</label>
+                                        <input type="date" name="job_postings[0][closing_date]" id="closing_date_0"
+                                            class="form-control" required>
+                                    </div>
+
+                                    <input type="hidden" name="job_postings[0][status]" value="pending">
                                 </div>
                             </div>
 
-                            <div id="adminContactInfo" style="display: none;">
-                                <div class="alert alert-info">
-                                    <h6>Your Job ID: <span id="jobIdDisplay"></span></h6>
-                                    <hr>
-                                    <h6>Admin Contact Details:</h6>
-                                    <p>Phone: +94 XX XXX XXXX</p>
-                                    <p>Email: admin@example.com</p>
-                                    <p>Please quote your Job ID when contacting the admin.</p>
+                            <button type="button" id="addContact" class="btn btn-success mb-3">Add Another Job</button>
+                            <button type="submit" class="btn btn-primary">Create Jobs</button>
+                            <div class="modal fade" id="paymentModal" tabindex="-1" aria-labelledby="paymentModalLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="paymentModalLabel">Select Payment Method</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="payment-methods">
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                                        id="onlinePayment" value="online">
+                                                    <label class="form-check-label" for="onlinePayment">
+                                                        Online Payment
+                                                    </label>
+                                                </div>
+                                                <div class="form-check mb-3">
+                                                    <input class="form-check-input" type="radio" name="paymentMethod"
+                                                        id="contactAdmin" value="admin">
+                                                    <label class="form-check-label" for="contactAdmin">
+                                                        Contact Admin
+                                                    </label>
+                                                </div>
+                                            </div>
+
+                                            <div id="adminContactInfo" style="display: none;">
+                                                <div class="alert alert-info">
+                                                    <h6>Your Job ID: <span id="jobIdDisplay"></span></h6>
+                                                    <hr>
+                                                    <h6>Admin Contact Details:</h6>
+                                                    <p>Phone: +94 XX XXX XXXX</p>
+                                                    <p>Email: admin@example.com</p>
+                                                    <p>Please quote your Job ID when contacting the admin.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" class="btn btn-primary"
+                                                id="confirmPayment">Confirm</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </form>
+                        <div class="modal fade" id="paymentMethodModal" tabindex="-1"
+                            aria-labelledby="paymentMethodModalLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="form-check mb-3">
+                                            <input class="form-check-input" type="radio" name="paymentMethod"
+                                                id="contactContributor" value="contact_contributor">
+                                            <label class="form-check-label" for="contactContributor">
+                                                Contact Contributor
+                                            </label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="paymentMethod"
+                                                id="onlinePayment" value="online">
+                                            <label class="form-check-label" for="onlinePayment">
+                                                Online Payment
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary"
+                                            id="confirmPaymentMethod">Confirm</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="button" class="btn btn-primary" id="confirmPayment">Confirm</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </form>
-        <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel"
-            aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="contactContributor"
-                                value="contact_contributor">
-                            <label class="form-check-label" for="contactContributor">
-                                Contact Contributor
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlinePayment"
-                                value="online">
-                            <label class="form-check-label" for="onlinePayment">
-                                Online Payment
-                            </label>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary" id="confirmPaymentMethod">Confirm</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById('jobPostingForm');
-            const paymentModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
 
-            form.addEventListener('submit', function(e) {
-                e.preventDefault(); // Prevent default form submission
-                paymentModal.show(); // Show payment method modal
-            });
-
-            document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
-                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-
-                if (!selectedPaymentMethod) {
-                    alert('Please select a payment method');
-                    return;
-                }
-
-                // Add payment method to form data
-                const paymentMethodInput = document.createElement('input');
-                paymentMethodInput.type = 'hidden';
-                paymentMethodInput.name = 'payment_method';
-                paymentMethodInput.value = selectedPaymentMethod.value;
-                form.appendChild(paymentMethodInput);
-
-                if (selectedPaymentMethod.value === 'contact_contributor') {
-                    // For contact contributor, submit the form directly
-                    paymentModal.hide();
-                    form.submit();
-                } else if (selectedPaymentMethod.value === 'online') {
-                    // For online payment, you can redirect to payment gateway or handle as needed
-                    paymentModal.hide();
-                    // Example: Redirect to payment page
-                    window.location.href = '/payment/checkout?form_data=' + encodeURIComponent(new FormData(
-                        form));
-                    // Note: You'll need to implement the actual payment gateway integration
-                }
-            });
-        });
-    </script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let contactIndex = 1;
@@ -473,6 +454,76 @@
                     addJobButton.disabled = false;
                 }
             }
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const form = document.getElementById('jobPostingForm');
+            const paymentModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+            let selectedPaymentMethod = null;
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                paymentModal.show();
+            });
+
+            document.getElementById('confirmPaymentMethod').addEventListener('click', function() {
+                const selectedPaymentMethodRadio = document.querySelector(
+                    'input[name="paymentMethod"]:checked');
+
+                if (!selectedPaymentMethodRadio) {
+                    alert('Please select a payment method');
+                    return;
+                }
+
+                selectedPaymentMethod = selectedPaymentMethodRadio.value;
+
+                // Add payment method to all job postings in the form
+                const contactItems = document.querySelectorAll('.contact-item');
+                contactItems.forEach((item, index) => {
+                    const paymentMethodInput = document.createElement('input');
+                    paymentMethodInput.type = 'hidden';
+                    paymentMethodInput.name = `job_postings[${index}][payment_method]`;
+                    paymentMethodInput.value = selectedPaymentMethod;
+                    item.appendChild(paymentMethodInput);
+                });
+
+                // Create a hidden input for the overall payment method
+                const mainPaymentMethodInput = document.createElement('input');
+                mainPaymentMethodInput.type = 'hidden';
+                mainPaymentMethodInput.name = 'payment_method';
+                mainPaymentMethodInput.value = selectedPaymentMethod;
+                form.appendChild(mainPaymentMethodInput);
+
+                if (selectedPaymentMethod === 'contact_contributor') {
+                    // For contact contributor, submit the form directly
+                    paymentModal.hide();
+                    form.submit();
+                } else if (selectedPaymentMethod === 'online') {
+                    // For online payment, redirect to payment gateway
+                    paymentModal.hide();
+                    // Store form data in session and redirect
+                    const formData = new FormData(form);
+                    fetch('/store-form-data', {
+                            method: 'POST',
+                            body: formData,
+                            headers: {
+                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
+                                    .content
+                            }
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                window.location.href = '/payment/checkout';
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                            alert('An error occurred. Please try again.');
+                        });
+                }
+            });
         });
     </script>
 @endsection

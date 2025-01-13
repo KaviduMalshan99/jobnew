@@ -18,7 +18,7 @@
             </a>
         </div>
         <nav class="nav-links unique-nav-links">
-            <a href="{{ route('employer.login') }} ">Post Your Vacancy</a>
+            <a href="{{ route('user.postvacancy') }} ">Post Your Vacancy</a>
             <a href="{{ route('feedback.home') }}">Feedback</a>
             <a href="/topemployees">Top Employers</a>
             <a href="#" id="contact-us-btn">Contact Us</a>

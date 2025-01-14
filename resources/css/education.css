@@ -3,12 +3,11 @@
     margin: 20px auto;
     padding: 20px;
     background: #fff;
-    border: 2px  b;
+    border: 2px b;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     margin-left: 450px;
-    margin-top: -870px;
-    
+    margin-top: -850px;
 }
 
 .section-header {
@@ -18,7 +17,6 @@
     background-color: blue;
     padding: 10px;
     border-radius: 5px 5px 0 0;
-    
 }
 
 .form-row {
@@ -98,7 +96,8 @@ textarea.form-control {
     border-collapse: collapse;
 }
 
-.table th, .table td {
+.table th,
+.table td {
     border: 1px solid #ddd;
     padding: 8px;
     text-align: center;
@@ -181,7 +180,8 @@ textarea.form-control {
         display: block;
     }
 
-    .table th, .table td {
+    .table th,
+    .table td {
         padding: 6px;
         font-size: 12px;
     }

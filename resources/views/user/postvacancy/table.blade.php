@@ -1,5 +1,5 @@
 <!---table---->
-<div class="table-container">
+<div class="table-container" style="">
     <table>
         <thead>
             <tr>

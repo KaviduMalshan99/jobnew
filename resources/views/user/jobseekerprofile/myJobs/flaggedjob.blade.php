@@ -59,7 +59,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th></th>
+                            {{-- <th></th> --}}
                             <th>Vacancy</th>
                             <th>Company</th>
                             <th>Closing Date</th>
@@ -69,7 +69,7 @@
                     <tbody>
                         @foreach ($flaggedJobs as $job)
                             <tr>
-                                <td>
+                                {{-- <td>
                                     @if ($job->jobPosting)
                                         <form class="unflag-form" method="POST"
                                             action="{{ route('jobs.flag', $job->jobPosting->id) }}">
@@ -81,7 +81,7 @@
                                     @else
                                         N/A
                                     @endif
-                                </td>
+                                </td> --}}
                                 <td>{{ $job->jobPosting->title ?? 'N/A' }}</td>
                                 <td>{{ $job->jobPosting->employer->company_name ?? 'N/A' }}</td>
                                 <td>{{ $job->jobPosting->closing_date ?? 'N/A' }}</td>

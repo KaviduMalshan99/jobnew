@@ -4,10 +4,6 @@
 @section('style')
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatable-extension.css') }}">
-    <!-- Update Font Awesome to latest version -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
-        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer" />
 
 @endsection
 
@@ -98,24 +94,25 @@
                                                         <!-- View Applications Button -->
                                                         <a href="{{ route('employer.jobs.applications', ['job' => $job->id]) }}"
                                                             class="btn-action btn-view" title="View Applications">
-                                                            <i class="fa-solid fa-users"></i>
+                                                            <i class="icon-list"></i>
                                                         </a>
 
                                                         <!-- Edit Button -->
                                                         <a href="{{ route('employer.job_postings.post.edit', $job->id) }}"
                                                             class="btn-action btn-edit" title="Edit Job">
-                                                            <i class="fa-solid fa-pen-to-square"></i>
+                                                            <i class="icon-pencil-alt"></i>
                                                         </a>
 
                                                         <!-- Delete Button -->
-                                                        <form
+                                                        {{-- <form
                                                             action="{{ route('employer.job_postings.post.destroy', $job->id) }}"
                                                             method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit" class="" title="Delete Job"
+                                                            <button type="submit" class=" btn-action btn-delete"
+                                                                title="Delete Job"
                                                                 onclick="return confirm('Are you sure you want to delete this job posting?');">
-                                                                <i class="fa-solid fa-trash"></i>
+                                                                <i class="icon-trash"></i>
                                                             </button>
                                                         </form>
 
@@ -127,9 +124,9 @@
                                                             <button type="submit"
                                                                 class="btn-action {{ $job->is_active ? 'btn-toggle-active' : 'btn-toggle-inactive' }}"
                                                                 title="{{ $job->is_active ? 'Mark as Inactive' : 'Mark as Active' }}">
-                                                                <i class="fa-solid fa-list"></i>
+                                                                <i class="icon-receipt"></i>
                                                             </button>
-                                                        </form>
+                                                        </form> --}}
                                                     </div>
                                                 </td>
 

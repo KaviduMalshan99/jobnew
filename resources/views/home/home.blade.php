@@ -32,7 +32,9 @@
             </div>
         </div>
     </section>
-
+    <div class="ads-banner">
+        <img src="{{ asset('assets/images/ads.jpg') }}" alt="">
+    </div>
     <!-- Filters Section -->
     <section class="filters">
         <p class="jobtitle">

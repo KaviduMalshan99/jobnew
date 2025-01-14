@@ -41,11 +41,11 @@
                 id="myapplication">My Applications</a>
             <a href="{{ route('user.flagged_jobs') }}" class="btn btn-common" id="flagged">Flagged Jobs</a>
             <a href="{{ route('generate.index') }}" class="btn btn-common" id="preferred">Create Cv</a>
-            <a href="/mainprofileview/recentjob" class="btn btn-common" id="recent">Recent Jobs</a>
+            {{-- <a href="/mainprofileview/recentjob" class="btn btn-common" id="recent">Recent Jobs</a> --}}
         </div>
     </div>
 
-    <div class=profileview-container>
+    {{-- <div class=profileview-container>
         <div class ="profileview-header">
             My Preferences
         </div>
@@ -56,7 +56,7 @@
                 Alerts</a>
 
         </div>
-    </div>
+    </div> --}}
 
 
 

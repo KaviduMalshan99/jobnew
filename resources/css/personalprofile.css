@@ -1,5 +1,4 @@
-        /* General Styling */
-
+/* General Styling */
 
 /* Container Styling */
 .personalcontainer {
@@ -10,9 +9,8 @@
     border-radius: 8px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     margin-left: 380px;
-    margin-top: -870px;
+    margin-top: -850px;
     margin-right: 10px;
-    
 }
 
 /* Section Header */
@@ -93,7 +91,6 @@ form .info {
         grid-column: span 1;
     }
 }
-
 
 /* Responsive Design */
 @media (max-width: 768px) {

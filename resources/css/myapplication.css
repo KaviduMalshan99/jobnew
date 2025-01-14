@@ -6,8 +6,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     font-family: Bahnschrift;
     margin-left: 400px;
-    margin-top: -860px;
-   
+    margin-top: -800px;
 }
 
 .jobsection {
@@ -59,7 +58,6 @@ table td a {
 table td a:hover {
     text-decoration: underline;
 }
-
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {

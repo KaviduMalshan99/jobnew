@@ -34,7 +34,7 @@
     </div>
 
     <!-- Component Content Section -->
-    <div id="componentContainer">
+    <div id="componentContainer" style="padding: 0px 0px 0px 20px">
 
         @include('user.postvacancy.topads')<br />
 

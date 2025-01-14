@@ -15,12 +15,7 @@
         <div class="jobsection">
             <h2>Recent Vacancies</h2>
             <div class="jobfilter">
-                <label for="jobvacancy-filter">Recent Vacancies for:</label>
-                <select id="jobvacancy-filter">
-                    <option>All</option>
-                    <!-- Add other options if needed -->
-                </select>
-                <p>Showing only recent 10 vacancies... <a href="#">View All</a></p>
+
             </div>
 
             @if ($applications->isEmpty())

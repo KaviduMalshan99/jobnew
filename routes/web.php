@@ -793,4 +793,9 @@ Route::post('/contacts', [ContactListController::class, 'store'])->name('contact
 Route::put('/contacts/{id}', [ContactListController::class, 'update'])->name('contacts.update')->middleware('auth:admin');
 Route::delete('/contacts/{id}', [ContactListController::class, 'destroy'])->name('contacts.destroy')->middleware('auth:admin');
 Route::post('contacts/store-multiple', [ContactListController::class, 'storeMultiple'])->name('contacts.store-multiple')->middleware('auth:admin');
+
+Route::get('/reports/job-ads', [JobPostingController::class, 'generateJobAdsReport'])->name('reports.job-ads')->middleware('auth:admin');
+
+// Route for generating the customer report
+Route::get('/reports/customers', [JobPostingController::class, 'generateCustomerReport'])->name('reports.customers')->middleware('auth:admin');
 // routes/web.php

@@ -8,6 +8,7 @@ use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Package;
 use App\Models\Subcategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -51,6 +52,69 @@ class JobPostingController extends Controller
 
         // Pass data to the view
         return view('User.topemployees', compact('topEmployers', 'contacts'));
+    }
+
+    public function generateJobAdsReport()
+    {
+        $dailyCount = DB::table('job_postings')
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as count'))
+            ->groupBy('date')
+            ->get();
+
+        $weeklyCount = DB::table('job_postings')
+            ->select(DB::raw('YEARWEEK(created_at, 1) as week'), DB::raw('COUNT(*) as count'))
+            ->groupBy('week')
+            ->get();
+
+        $monthlyCount = DB::table('job_postings')
+            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('COUNT(*) as count'))
+            ->groupBy('month')
+            ->get();
+
+        $paymentDetails = DB::table('job_postings')
+            ->select('payment_method', DB::raw('COUNT(*) as count'))
+            ->groupBy('payment_method')
+            ->get();
+
+        $postedBy = DB::table('job_postings')
+            ->selectRaw("
+                CASE
+                    WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
+                    WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
+                    ELSE 'Unknown'
+                END as posted_by,
+                COUNT(*) as count
+            ")
+            ->groupByRaw("
+                CASE
+                    WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
+                    WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
+                    ELSE 'Unknown'
+                END
+            ")
+            ->get();
+        $repeatedEmployers = DB::table('job_postings')
+            ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->select('job_postings.employer_id', 'employers.company_name', DB::raw('COUNT(job_postings.id) as post_count'))
+            ->groupBy('job_postings.employer_id', 'employers.company_name')
+            ->having('post_count', '>', 1)
+            ->get();
+
+        $today = Carbon::today();
+
+        // Get the start of the current week (Monday)
+        $startOfWeek = Carbon::now()->startOfWeek();
+
+        // Calculate the total posts for today
+        $dailyTotal = DB::table('job_postings')
+            ->whereDate('created_at', $today)
+            ->count();
+
+        // Calculate the total posts for this week
+        $weeklyTotal = DB::table('job_postings')
+            ->whereBetween('created_at', [$startOfWeek, Carbon::now()])
+            ->count();
+        return view('Admin.report.jobads', compact('dailyCount', 'weeklyCount', 'monthlyCount', 'paymentDetails', 'postedBy', 'repeatedEmployers', 'dailyTotal', 'weeklyTotal'));
     }
 
     public function home(Request $request)

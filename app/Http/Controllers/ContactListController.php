@@ -13,6 +13,12 @@ class ContactListController extends Controller
         return view('Admin.packages.ContactList.index', compact('contacts'));
     }
 
+    public function indexshow()
+    {
+        $contacts = Contact::all();
+        return view('Admin.packages.ContactList.index', compact('contacts'));
+    }
+
     public function storeMultiple(Request $request)
     {
         $contacts = $request->input('contacts');

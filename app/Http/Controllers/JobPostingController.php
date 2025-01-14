@@ -56,21 +56,57 @@ class JobPostingController extends Controller
 
     public function generateJobAdsReport()
     {
+        // Daily jobs with details
         $dailyCount = DB::table('job_postings')
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as count'))
+            ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->select(
+                DB::raw('DATE(job_postings.created_at) as date'),
+                DB::raw('COUNT(*) as count'),
+                DB::raw('GROUP_CONCAT(CONCAT(job_postings.title, " - ", employers.company_name) SEPARATOR "||") as jobs')
+            )
             ->groupBy('date')
-            ->get();
+            ->orderBy('date', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->jobs = collect(explode('||', $item->jobs))->take(5); // Show only latest 5 jobs
+                return $item;
+            });
 
+        // Weekly jobs with details
         $weeklyCount = DB::table('job_postings')
-            ->select(DB::raw('YEARWEEK(created_at, 1) as week'), DB::raw('COUNT(*) as count'))
+            ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->select(
+                DB::raw('YEARWEEK(job_postings.created_at, 1) as week'),
+                DB::raw('MIN(DATE(job_postings.created_at)) as week_start'),
+                DB::raw('MAX(DATE(job_postings.created_at)) as week_end'),
+                DB::raw('COUNT(*) as count'),
+                DB::raw('GROUP_CONCAT(CONCAT(job_postings.title, " - ", employers.company_name) SEPARATOR "||") as jobs')
+            )
             ->groupBy('week')
-            ->get();
+            ->orderBy('week', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->jobs = collect(explode('||', $item->jobs))->take(5);
+                return $item;
+            });
 
+        // Monthly jobs with details
         $monthlyCount = DB::table('job_postings')
-            ->select(DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'), DB::raw('COUNT(*) as count'))
+            ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->select(
+                DB::raw('DATE_FORMAT(job_postings.created_at, "%Y-%m") as month'),
+                DB::raw('COUNT(*) as count'),
+                DB::raw('GROUP_CONCAT(CONCAT(job_postings.title, " - ", employers.company_name) SEPARATOR "||") as jobs')
+            )
             ->groupBy('month')
-            ->get();
+            ->orderBy('month', 'desc')
+            ->get()
+            ->map(function ($item) {
+                $item->jobs = collect(explode('||', $item->jobs))->take(5);
+                return $item;
+            });
 
+        // Rest of the code remains the same
         $paymentDetails = DB::table('job_postings')
             ->select('payment_method', DB::raw('COUNT(*) as count'))
             ->groupBy('payment_method')
@@ -78,21 +114,22 @@ class JobPostingController extends Controller
 
         $postedBy = DB::table('job_postings')
             ->selectRaw("
-                CASE
-                    WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
-                    WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
-                    ELSE 'Unknown'
-                END as posted_by,
-                COUNT(*) as count
-            ")
+            CASE
+                WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
+                WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
+                ELSE 'Unknown'
+            END as posted_by,
+            COUNT(*) as count
+        ")
             ->groupByRaw("
-                CASE
-                    WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
-                    WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
-                    ELSE 'Unknown'
-                END
-            ")
+            CASE
+                WHEN creator_id IS NOT NULL THEN CONCAT('Admin: ', (SELECT name FROM admins WHERE admins.id = job_postings.creator_id))
+                WHEN employer_id IS NOT NULL THEN CONCAT('Employer: ', (SELECT company_name FROM employers WHERE employers.id = job_postings.employer_id))
+                ELSE 'Unknown'
+            END
+        ")
             ->get();
+
         $repeatedEmployers = DB::table('job_postings')
             ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
             ->select('job_postings.employer_id', 'employers.company_name', DB::raw('COUNT(job_postings.id) as post_count'))
@@ -101,20 +138,26 @@ class JobPostingController extends Controller
             ->get();
 
         $today = Carbon::today();
-
-        // Get the start of the current week (Monday)
         $startOfWeek = Carbon::now()->startOfWeek();
 
-        // Calculate the total posts for today
         $dailyTotal = DB::table('job_postings')
             ->whereDate('created_at', $today)
             ->count();
 
-        // Calculate the total posts for this week
         $weeklyTotal = DB::table('job_postings')
             ->whereBetween('created_at', [$startOfWeek, Carbon::now()])
             ->count();
-        return view('Admin.report.jobads', compact('dailyCount', 'weeklyCount', 'monthlyCount', 'paymentDetails', 'postedBy', 'repeatedEmployers', 'dailyTotal', 'weeklyTotal'));
+
+        return view('Admin.report.jobads', compact(
+            'dailyCount',
+            'weeklyCount',
+            'monthlyCount',
+            'paymentDetails',
+            'postedBy',
+            'repeatedEmployers',
+            'dailyTotal',
+            'weeklyTotal'
+        ));
     }
 
     public function home(Request $request)

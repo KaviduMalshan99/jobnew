@@ -1,5 +1,5 @@
 @extends('layouts.admin.master')
-@section('title', 'Job Ads Report')
+@section('title', 'Employer Registration Report')
 
 @section('css')
 @endsection
@@ -10,11 +10,11 @@
 @endsection
 
 @section('breadcrumb-title')
-    <h3>Job Ads Report</h3>
+    <h3>Employer Registration Report</h3>
 @endsection
 
 @section('breadcrumb-items')
-    <li class="breadcrumb-item active">Job Ads</li>
+    <li class="breadcrumb-item active">Employer Registrations</li>
 @endsection
 
 @section('content')
@@ -26,7 +26,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Today's Ads</div>
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">Today's Registrations
+                                </div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     {{ $dailyTotal }}
                                 </div>
@@ -44,7 +45,8 @@
                     <div class="card-body">
                         <div class="row no-gutters align-items-center">
                             <div class="col mr-2">
-                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">This Week</div>
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">This Week's
+                                    Registrations</div>
                                 <div class="h5 mb-0 font-weight-bold text-gray-800">
                                     {{ $weeklyTotal }}
                                 </div>
@@ -61,7 +63,7 @@
             <div class="col-12">
                 <div class="card shadow mb-4">
                     <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Detailed Reports</h6>
+                        <h6 class="m-0 font-weight-bold text-primary">Registration Details</h6>
                     </div>
                     <div class="card-body">
                         <!-- Nav tabs -->
@@ -87,18 +89,18 @@
                                             <tr>
                                                 <th>Date</th>
                                                 <th>Count</th>
-                                                <th>Recent Jobs</th>
+                                                <th>Registered Companies</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($dailyCount as $daily)
                                                 <tr>
-                                                    <td>{{ $daily->date }}</td>
-                                                    <td>{{ $daily->count }}</td>
+                                                    <td>{{ $daily['date'] }}</td>
+                                                    <td>{{ $daily['count'] }}</td>
                                                     <td>
                                                         <ul class="list-unstyled mb-0">
-                                                            @foreach ($daily->jobs as $job)
-                                                                <li class="mb-1">{{ $job }}</li>
+                                                            @foreach ($daily['employers'] as $employer)
+                                                                <li class="mb-1">{{ $employer['company_name'] }}</li>
                                                             @endforeach
                                                         </ul>
                                                     </td>
@@ -118,19 +120,19 @@
                                                 <th>Week</th>
                                                 <th>Date Range</th>
                                                 <th>Count</th>
-                                                <th>Recent Jobs</th>
+                                                <th>Registered Companies</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($weeklyCount as $weekly)
                                                 <tr>
-                                                    <td>Week {{ $weekly->week }}</td>
-                                                    <td>{{ $weekly->week_start }} to {{ $weekly->week_end }}</td>
-                                                    <td>{{ $weekly->count }}</td>
+                                                    <td>Week {{ $weekly['week'] }}</td>
+                                                    <td>{{ $weekly['week_start'] }} to {{ $weekly['week_end'] }}</td>
+                                                    <td>{{ $weekly['count'] }}</td>
                                                     <td>
                                                         <ul class="list-unstyled mb-0">
-                                                            @foreach ($weekly->jobs as $job)
-                                                                <li class="mb-1">{{ $job }}</li>
+                                                            @foreach ($weekly['employers'] as $employer)
+                                                                <li class="mb-1">{{ $employer['company_name'] }}</li>
                                                             @endforeach
                                                         </ul>
                                                     </td>
@@ -149,18 +151,18 @@
                                             <tr>
                                                 <th>Month</th>
                                                 <th>Count</th>
-                                                <th>Recent Jobs</th>
+                                                <th>Registered Companies</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($monthlyCount as $monthly)
                                                 <tr>
-                                                    <td>{{ $monthly->month }}</td>
-                                                    <td>{{ $monthly->count }}</td>
+                                                    <td>{{ $monthly['month'] }}</td>
+                                                    <td>{{ $monthly['count'] }}</td>
                                                     <td>
                                                         <ul class="list-unstyled mb-0">
-                                                            @foreach ($monthly->jobs as $job)
-                                                                <li class="mb-1">{{ $job }}</li>
+                                                            @foreach ($monthly['employers'] as $employer)
+                                                                <li class="mb-1">{{ $employer['company_name'] }}</li>
                                                             @endforeach
                                                         </ul>
                                                     </td>
@@ -170,94 +172,6 @@
                                     </table>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Additional Statistics -->
-            <div class="col-md-6">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Payment Methods</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="display" id="payment-table">
-                                <thead>
-                                    <tr>
-                                        <th>Method</th>
-                                        <th>Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($paymentDetails as $payment)
-                                        <tr>
-                                            <td>{{ $payment->payment_method }}</td>
-                                            <td>{{ $payment->count }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-6">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Posted By</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="display" id="posted-by-table">
-                                <thead>
-                                    <tr>
-                                        <th>User</th>
-                                        <th>Posts</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($postedBy as $post)
-                                        <tr>
-                                            <td>{{ $post->posted_by }}</td>
-                                            <td>{{ $post->count }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Repeated Employers -->
-            <div class="col-12">
-                <div class="card shadow mb-4">
-                    <div class="card-header py-3">
-                        <h6 class="m-0 font-weight-bold text-primary">Repeated Employers</h6>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="display" id="employers-table">
-                                <thead>
-                                    <tr>
-                                        <th>Employer ID</th>
-                                        <th>Company</th>
-                                        <th>Posts Count</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($repeatedEmployers as $employer)
-                                        <tr>
-                                            <td>{{ $employer->employer_id }}</td>
-                                            <td>{{ $employer->company_name }}</td>
-                                            <td>{{ $employer->post_count }}</td>
-                                        </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
@@ -273,42 +187,6 @@
     <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
 
-    {{-- <script>
-        $(document).ready(function() {
-            // Initialize DataTables
-            const tables = {};
-            const dtConfig = {
-                dom: 'Bfrtip',
-                buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
-                pageLength: 10,
-                ordering: true,
-                responsive: true
-            };
-
-            // Initialize all tables
-            ['daily-table', 'weekly-table', 'monthly-table', 'payment-table', 'posted-by-table', 'employers-table']
-            .forEach(tableId => {
-                tables[tableId] = $(`#${tableId}`).DataTable(dtConfig);
-            });
-
-            // Handle tab switching
-            $('#reportTabs a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
-                const targetId = $(e.target).attr('href');
-                const tableId = `${targetId.substring(1)}-table`;
-
-                if (tables[tableId]) {
-                    tables[tableId].columns.adjust().draw();
-                }
-            });
-
-            // Handle collapse toggle
-            $('#reportsCollapse').on('shown.bs.collapse', function() {
-                Object.values(tables).forEach(table => {
-                    table.columns.adjust().draw();
-                });
-            });
-        });
-    </script> --}}
     <script>
         $(document).ready(function() {
             // DataTable configuration
@@ -324,10 +202,7 @@
             const tables = {
                 daily: $('#daily-table').DataTable(dtConfig),
                 weekly: $('#weekly-table').DataTable(dtConfig),
-                monthly: $('#monthly-table').DataTable(dtConfig),
-                payment: $('#payment-table').DataTable(dtConfig),
-                postedBy: $('#posted-by-table').DataTable(dtConfig),
-                employers: $('#employers-table').DataTable(dtConfig)
+                monthly: $('#monthly-table').DataTable(dtConfig)
             };
 
             // Handle tab changes

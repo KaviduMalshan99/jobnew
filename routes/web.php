@@ -798,4 +798,5 @@ Route::get('/reports/job-ads', [JobPostingController::class, 'generateJobAdsRepo
 
 // Route for generating the customer report
 Route::get('/reports/customers', [JobPostingController::class, 'generateCustomerReport'])->name('reports.customers')->middleware('auth:admin');
+Route::get('/admin/employer-stats', [EmployerAuthController::class, 'employerStats'])->name('admin.employer.stats')->middleware('auth:admin');
 // routes/web.php

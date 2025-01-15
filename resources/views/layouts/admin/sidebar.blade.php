@@ -132,6 +132,15 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"> </use>
                             </svg><span>Package Details</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav"
+                            href="{{ route('admin.bank-accounts.index') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#profit') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#profit') }}"> </use>
+                            </svg><span>Bank Accounts</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('contacts.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#user-visitor') }}"></use>
@@ -139,6 +148,23 @@
                             <svg class="fill-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#user-visitor') }}"> </use>
                             </svg><span>Codinator Contact</span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#rate') }}"></use>
+                            </svg><span>Reports</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('reports.job-ads') }}">Jobs </a></li>
+                            <li><a href="{{ route('admin.employer.stats') }}">Employer</a></li>
+                            <li><a href="{{ route('reports.customers') }}">Jobseeker </a></li>
+
+
+
+                        </ul>
+                    </li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
                             href="#">
                             <svg class="stroke-icon">

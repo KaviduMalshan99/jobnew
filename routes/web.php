@@ -14,6 +14,7 @@ use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
+use App\Http\Controllers\BankAccountController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactListController;
 use App\Http\Controllers\ContactUsController;
@@ -693,14 +694,10 @@ Route::get('/postjob/bannerposting', function () {
 
 // payment methods
 
-Route::get('/postjob/ipg', function () {
-    return view('user.postvacancy.paymentmethod.ipg');
-})->name('user.postvacancy.paymentmethod.ipg');
-
-Route::get('/postjob/onlinefundtransfer', function () {
-    return view('user.postvacancy.paymentmethod.onlinefundtransfer');
-})->name('user.postvacancy.paymentmethod.onlinefundtransfer');
-
+Route::get('/user/postvacancy/paymentmethod/onlinefundtransfer', [BankAccountController::class, 'index'])
+    ->name('user.postvacancy.paymentmethod.onlinefundtransfer');
+Route::get('/postjob/ipg', [ContactListController::class, 'home'])
+    ->name('user.postvacancy.paymentmethod.ipg');
 Route::get('/postjob/overthecounter', function () {
     return view('user.postvacancy.paymentmethod.overthecounter');
 })->name('user.postvacancy.paymentmethod.overthecounter');
@@ -799,4 +796,17 @@ Route::get('/reports/job-ads', [JobPostingController::class, 'generateJobAdsRepo
 // Route for generating the customer report
 Route::get('/reports/customers', [JobPostingController::class, 'generateCustomerReport'])->name('reports.customers')->middleware('auth:admin');
 Route::get('/admin/employer-stats', [EmployerAuthController::class, 'employerStats'])->name('admin.employer.stats')->middleware('auth:admin');
+
+Route::prefix('admin')->group(function () {
+    Route::get('/bank-accounts', [BankAccountController::class, 'indexadmin'])->name('admin.bank-accounts.index')->middleware('auth:admin');
+    Route::get('/bank-accounts/create', [BankAccountController::class, 'create'])->name('admin.bank-accounts.create')->middleware('auth:admin');
+    Route::post('/bank-accounts', [BankAccountController::class, 'store'])->name('admin.bank-accounts.store')->middleware('auth:admin');
+    Route::get('/bank-accounts/{bankAccount}/edit', [BankAccountController::class, 'edit'])->name('admin.bank-accounts.edit')->middleware('auth:admin');
+    Route::put('/bank-accounts/{bankAccount}', [BankAccountController::class, 'update'])->name('admin.bank-accounts.update')->middleware('auth:admin');
+    Route::delete('/bank-accounts/{bankAccount}', [BankAccountController::class, 'destroy'])->name('admin.bank-accounts.destroy')->middleware('auth:admin');
+});
+
+// Regular bank account routes
+Route::get('/bank-accounts', [BankAccountController::class, 'index'])->name('bank-accounts.index');
+
 // routes/web.php

@@ -27,6 +27,12 @@
                         <h5>Edit Contact</h5>
                     </div>
                     <div class="card-body">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         <form action="{{ route('contacts.update', $contact->id) }}" method="POST">
                             @csrf
                             @method('PUT')

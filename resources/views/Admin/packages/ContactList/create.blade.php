@@ -27,6 +27,12 @@
                         <h5>Create Contacts</h5>
                     </div>
                     <div class="card-body">
+                        @if (session('success'))
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
+                        @endif
+
                         <form action="{{ route('contacts.store-multiple') }}" method="POST" id="contactsForm">
                             @csrf
                             <div id="contacts-container">

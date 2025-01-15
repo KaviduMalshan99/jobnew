@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Employer;
+use App\Models\JobPosting;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -173,10 +175,33 @@ class EmployerAuthController extends Controller
         return redirect('/employer-register')->with('success', 'Employer registered successfully. You can now log in.');
     }
     // Dashboard
+
     public function dashboard()
     {
-        return view('employer.dashboard'); // Ensure you have a view at resources/views/employer/dashboard.blade.php
+        $currentDate = now();
+
+        // Fetch statistics for the current employer
+
+        // Get the current employer's ID (assuming you have logged-in employer session data)
+        $employerId = auth()->user()->id;
+
+        // Fetch job and application statistics for the current employer
+        $totalJobsPosted = JobPosting::where('employer_id', $employerId)->count();
+        $totalApplications = Application::whereHas('job', function ($query) use ($employerId) {
+            $query->where('employer_id', $employerId);
+        })->count();
+
+        // Get recent applications for the employer (within the last 7 days)
+        $recentApplications = Application::where('employer_id', $employerId)
+            ->whereDate('created_at', '>=', $currentDate->copy()->subDays(7))
+            ->latest()
+            ->take(5)
+            ->get();
+
+        // Pass these statistics to the view
+        return view('employer.dashboard', compact('totalJobsPosted', 'totalApplications', 'recentApplications'));
     }
+
     // Show Employer Profile Form
     public function showProfileForm()
     {

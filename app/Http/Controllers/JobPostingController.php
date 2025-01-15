@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Application;
 use App\Models\Category;
 use App\Models\ContactUs;
 use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Package;
 use App\Models\Subcategory;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -263,6 +265,185 @@ class JobPostingController extends Controller
             ->get();
 
         return response()->json($jobs);
+    }
+
+    public function generateCustomerReport()
+    {
+        // Get current date and relevant date ranges
+        $today = now()->format('Y-m-d');
+        $startOfWeek = now()->startOfWeek()->format('Y-m-d');
+        $endOfWeek = now()->endOfWeek()->format('Y-m-d');
+        $startOfMonth = now()->startOfMonth()->format('Y-m-d');
+        $endOfMonth = now()->endOfMonth()->format('Y-m-d');
+
+        // Get base queries
+        $users = User::query();
+        $applications = Application::with('user', 'job');
+
+        // Daily Statistics
+        $dailyApplications = $applications->whereDate('created_at', $today)->count();
+        $dailyUsers = $users->whereDate('created_at', $today)->count();
+
+        // Daily Applications Data
+        $dailyApplicationsData = Application::with(['user', 'job'])
+            ->select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as count'))
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->limit(30)
+            ->get()
+            ->map(function ($day) {
+                $applications = Application::with(['user', 'job'])
+                    ->whereDate('created_at', $day->date)
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($app) {
+                        return [
+                            'user_name' => $app->user->name,
+                            'job_title' => $app->job->title,
+                        ];
+                    });
+
+                return [
+                    'date' => $day->date,
+                    'count' => $day->count,
+                    'applications' => $applications,
+                ];
+            });
+
+        // Weekly Applications Data
+        $weeklyApplicationsData = Application::select(
+            DB::raw('YEARWEEK(created_at) as yearweek'),
+            DB::raw('MIN(created_at) as start_date'),
+            DB::raw('MAX(created_at) as end_date'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('yearweek')
+            ->orderBy('yearweek', 'desc')
+            ->limit(12)
+            ->get()
+            ->map(function ($week) {
+                $summary = Application::with(['user', 'job'])
+                    ->whereBetween('created_at', [$week->start_date, $week->end_date])
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($app) {
+                        return "{$app->user->name} applied for {$app->job->title}";
+                    });
+
+                return [
+                    'week' => Carbon::parse($week->start_date)->format('W'),
+                    'start_date' => Carbon::parse($week->start_date)->format('Y-m-d'),
+                    'end_date' => Carbon::parse($week->end_date)->format('Y-m-d'),
+                    'count' => $week->count,
+                    'summary' => $summary,
+                ];
+            });
+
+        // Monthly Applications Data
+        $monthlyApplicationsData = Application::select(
+            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->limit(12)
+            ->get()
+            ->map(function ($month) {
+                $summary = Application::with(['user', 'job'])
+                    ->whereRaw('DATE_FORMAT(created_at, "%Y-%m") = ?', [$month->month])
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($app) {
+                        return "{$app->user->name} - {$app->job->title}";
+                    });
+
+                return [
+                    'month' => Carbon::parse($month->month . '-01')->format('F Y'),
+                    'count' => $month->count,
+                    'summary' => $summary,
+                ];
+            });
+
+        // Daily Users Data (New Registrations)
+        $dailyUsersData = User::select(DB::raw('DATE(created_at) as date'), DB::raw('COUNT(*) as count'))
+            ->groupBy('date')
+            ->orderBy('date', 'desc')
+            ->limit(30)
+            ->get()
+            ->map(function ($day) {
+                $users = User::whereDate('created_at', $day->date)
+                    ->select('name', 'email', 'created_at')
+                    ->limit(5)
+                    ->get();
+
+                return [
+                    'date' => $day->date,
+                    'count' => $day->count,
+                    'users' => $users,
+                ];
+            });
+
+        // Weekly Users Data
+        $weeklyUsersData = User::select(
+            DB::raw('YEARWEEK(created_at) as yearweek'),
+            DB::raw('MIN(created_at) as start_date'),
+            DB::raw('MAX(created_at) as end_date'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('yearweek')
+            ->orderBy('yearweek', 'desc')
+            ->limit(12)
+            ->get()
+            ->map(function ($week) {
+                $users = User::whereBetween('created_at', [$week->start_date, $week->end_date])
+                    ->select('name', 'email', 'created_at')
+                    ->limit(5)
+                    ->get();
+
+                return [
+                    'week' => Carbon::parse($week->start_date)->format('W'),
+                    'start_date' => Carbon::parse($week->start_date)->format('Y-m-d'),
+                    'end_date' => Carbon::parse($week->end_date)->format('Y-m-d'),
+                    'count' => $week->count,
+                    'users' => $users,
+                ];
+            });
+
+        // Monthly Users Data
+        $monthlyUsersData = User::select(
+            DB::raw('DATE_FORMAT(created_at, "%Y-%m") as month'),
+            DB::raw('COUNT(*) as count')
+        )
+            ->groupBy('month')
+            ->orderBy('month', 'desc')
+            ->limit(12)
+            ->get()
+            ->map(function ($month) {
+                $summary = User::whereRaw('DATE_FORMAT(created_at, "%Y-%m") = ?', [$month->month])
+                    ->select('name', 'email', 'created_at')
+                    ->limit(5)
+                    ->get()
+                    ->map(function ($user) {
+                        return "{$user->name} ({$user->email})";
+                    });
+
+                return [
+                    'month' => Carbon::parse($month->month . '-01')->format('F Y'),
+                    'count' => $month->count,
+                    'summary' => $summary,
+                ];
+            });
+
+        return view('admin.report.application', compact(
+            'dailyApplications',
+            'dailyUsers',
+            'dailyApplicationsData',
+            'weeklyApplicationsData',
+            'monthlyApplicationsData',
+            'dailyUsersData',
+            'weeklyUsersData',
+            'monthlyUsersData'
+        ));
     }
 
     public function create()

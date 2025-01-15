@@ -18,6 +18,11 @@ class ContactListController extends Controller
         $contacts = Contact::all();
         return view('Admin.packages.ContactList.index', compact('contacts'));
     }
+    public function home()
+    {
+        $contactsLists = Contact::all();
+        return view('User.postvacancy.paymentmethod.ipg', compact('contactsLists'));
+    }
 
     public function storeMultiple(Request $request)
     {

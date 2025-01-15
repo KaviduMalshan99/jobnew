@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BankAccount;
 use App\Models\Contact;
 use App\Models\ContactUs;
 use App\Models\Package;
@@ -31,7 +32,8 @@ class PackageContactController extends Controller
         $contacts = ContactUs::all();
         $contactsLists = Contact::all();
         $packages = Package::all();
-        return view('User.postvacancy.postvacancy', compact('posts', 'contacts', 'contactsLists', 'packages'));
+        $banks = BankAccount::all();
+        return view('User.postvacancy.postvacancy', compact('posts', 'contacts', 'contactsLists', 'packages', 'banks'));
     }
     public function create()
     {

@@ -81,6 +81,7 @@
                             <th>Title</th>
                             <th>Category</th>
                             <th>Employer</th>
+                            <th>views</th>
                             <th>Status</th>
                             <th>Action</th>
                         </tr>
@@ -92,6 +93,7 @@
                                 <td>{{ $job->title }}</td>
                                 <td>{{ $job->category->name }}</td>
                                 <td>{{ $job->employer->company_name }}</td>
+                                <td>{{ $job->view_count }}</td>
                                 <td>{{ $job->status }}</td>
                                 <td>
                                     <form action="{{ route('job_postings.updateStatus', $job->id) }}" method="POST">

@@ -347,6 +347,8 @@ Route::prefix('employer')->name('employer.')->group(function () {
 });
 Route::get('/subcategories/{category}', [JobPostingController::class, 'getSubcategories'])->name('subcategories.get');
 Route::get('/topemployees', [JobPostingController::class, 'topEmployers'])->name('top.employers');
+Route::get('/topemployees/{employer}/jobs', [JobPostingController::class, 'showtopemployerJobs'])->name('top.employers.jobs');
+
 Route::middleware('auth:employer')->group(function () {
     Route::get('/employer/profile', [EmployerAuthController::class, 'showProfileForm'])->name('employer.profile');
     Route::put('/employer/profile', [EmployerAuthController::class, 'updateProfile'])->name('employer.updateProfile');
@@ -791,11 +793,11 @@ Route::put('/contacts/{id}', [ContactListController::class, 'update'])->name('co
 Route::delete('/contacts/{id}', [ContactListController::class, 'destroy'])->name('contacts.destroy')->middleware('auth:admin');
 Route::post('contacts/store-multiple', [ContactListController::class, 'storeMultiple'])->name('contacts.store-multiple')->middleware('auth:admin');
 
-Route::get('/reports/job-ads', [JobPostingController::class, 'generateJobAdsReport'])->name('reports.job-ads')->middleware('auth:admin');
+Route::get('/reports/job-ads', [JobPostingController::class, 'generateJobAdsReport'])->name('reports.job-ads')->middleware(['superadmin']);
 
 // Route for generating the customer report
-Route::get('/reports/customers', [JobPostingController::class, 'generateCustomerReport'])->name('reports.customers')->middleware('auth:admin');
-Route::get('/admin/employer-stats', [EmployerAuthController::class, 'employerStats'])->name('admin.employer.stats')->middleware('auth:admin');
+Route::get('/reports/customers', [JobPostingController::class, 'generateCustomerReport'])->name('reports.customers')->middleware(['superadmin']);
+Route::get('/admin/employer-stats', [EmployerAuthController::class, 'employerStats'])->name('admin.employer.stats')->middleware(['superadmin']);
 
 Route::prefix('admin')->group(function () {
     Route::get('/bank-accounts', [BankAccountController::class, 'indexadmin'])->name('admin.bank-accounts.index')->middleware('auth:admin');

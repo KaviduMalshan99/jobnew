@@ -155,6 +155,11 @@
                                         <input type="text" name="job_postings[0][location]" id="location_0"
                                             class="form-control" required>
                                     </div>
+                                    <div class="mb-3">
+                                        <label for="country_0" class="form-label">Country</label>
+                                        <input type="text" name="job_postings[0][country]" id="country_0"
+                                            class="form-control" required>
+                                    </div>
 
                                     <div class="mb-3">
                                         <label for="salary_range_0" class="form-label">Salary Range</label>
@@ -322,6 +327,10 @@
                 </select>
             </div>
 
+            <div class="mb-3">
+                <label for="location_${contactIndex}" class="form-label">Location</label>
+                <input type="text" name="job_postings[${contactIndex}][location]" id="location_${contactIndex}" class="form-control" required>
+            </div>
             <div class="mb-3">
                 <label for="location_${contactIndex}" class="form-label">Location</label>
                 <input type="text" name="job_postings[${contactIndex}][location]" id="location_${contactIndex}" class="form-control" required>

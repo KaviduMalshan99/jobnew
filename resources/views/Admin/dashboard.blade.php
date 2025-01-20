@@ -151,6 +151,31 @@
                     </div>
                 </div>
             </div>
+            <div class="col-sm-6 col-xl-3">
+                <div class="dashboard-card h-100">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center justify-content-between mb-3">
+                            <div class="stat-icon bg-warning bg-opacity-10">
+                                <i class="fas fa-users text-warning fa-lg"></i>
+                            </div>
+                            <div class="dropdown">
+                                <button class="btn btn-link p-0" data-bs-toggle="dropdown">
+                                    <i class="fas fa-ellipsis-v text-muted"></i>
+                                </button>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#">Views</a></li>
+                                    <li><a class="dropdown-item" href="#">Export List</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <h3 class="animated-number mb-1">
+                            {{ number_format($statistics['total_views'] ?? 0) }}
+                        </h3>
+                        <p class="stat-label mb-0">Total Views</p>
+                    </div>
+                </div>
+            </div>
+
 
             <!-- Earnings Card -->
             <div class="col-sm-6 col-xl-3">

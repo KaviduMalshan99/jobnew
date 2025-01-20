@@ -393,6 +393,7 @@
                     <h1>{{ $job->title }}</h1>
                     <p class="company-name">{{ $job->employer->company_name }}</p>
                 </div>
+                <p>Views: {{ $job->view_count }}</p>
 
                 <!-- Key Details -->
                 <div class="details">
@@ -400,6 +401,12 @@
                         <div class="detail">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>{{ $job->location }}</span>
+                        </div>
+                    @endif
+                    @if (!empty($job->country))
+                        <div class="detail">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>{{ $job->country }}</span>
                         </div>
                     @endif
                     @if (!empty($job->created_at))

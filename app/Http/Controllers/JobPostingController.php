@@ -55,6 +55,20 @@ class JobPostingController extends Controller
         // Pass data to the view
         return view('User.topemployees', compact('topEmployers', 'contacts'));
     }
+    public function showtopemployerJobs($employerId)
+    {
+        // Fetch the employer
+        $employer = Employer::findOrFail($employerId);
+        $contacts = ContactUs::all();
+
+        // Fetch jobs posted by this employer
+        $jobs = JobPosting::where('employer_id', $employer->id)
+            ->where('status', 'approved') // Optional: only show approved jobs
+            ->get();
+
+        // Return a view with the employer and their jobs
+        return view('User.topemployerjob', compact('employer', 'jobs', 'contacts'));
+    }
 
     public function generateJobAdsReport()
     {
@@ -166,6 +180,8 @@ class JobPostingController extends Controller
     {
         $search = $request->input('search');
         $location = $request->input('location');
+        $country = $request->input('country');
+        $categoryId = $request->input('category_id'); // Get the selected category
 
         $jobs = JobPosting::with(['category', 'subcategory'])
             ->where('status', 'approved') // Only approved jobs
@@ -183,12 +199,19 @@ class JobPostingController extends Controller
             ->when($location, function ($query, $location) {
                 $query->where('location', 'like', "%{$location}%");
             })
+            ->when($country, function ($query, $country) {
+                $query->where('country', $country); // Filter by country
+            })
+            ->when($categoryId, function ($query, $categoryId) {
+                $query->where('category_id', $categoryId); // Filter by category
+            })
             ->get();
 
         $categories = Category::with('subcategories')->get();
         $contacts = ContactUs::all();
+        $countries = JobPosting::select('country')->distinct()->get(); // Get distinct countries
 
-        return view('home.home', compact('categories', 'jobs', 'contacts'));
+        return view('home.home', compact('categories', 'jobs', 'contacts', 'countries'));
     }
 
     public function toggleActiveStatus($id)
@@ -216,9 +239,12 @@ class JobPostingController extends Controller
     public function showjob($id)
     {
         $contacts = ContactUs::all();
+
+        // JobPosting record එක retrieve කර view_count එක increment කිරීම
         $job = JobPosting::with(['category', 'employer'])->findOrFail($id);
-        return view('home.jobs.show', compact('job', 'contacts'
-        ));
+        $job->increment('view_count');
+
+        return view('home.jobs.show', compact('job', 'contacts'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -496,6 +522,7 @@ class JobPostingController extends Controller
                     "job_postings.{$index}.category_id" => 'required|exists:categories,id',
                     "job_postings.{$index}.subcategory_id" => 'required|exists:subcategories,id',
                     "job_postings.{$index}.location" => 'required|string|max:255',
+                    "job_postings.{$index}.country" => 'required|string|max:255',
                     "job_postings.{$index}.salary_range" => 'nullable|numeric',
                     "job_postings.{$index}.image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
                     "job_postings.{$index}.requirements" => 'required|string',
@@ -524,6 +551,7 @@ class JobPostingController extends Controller
                         'category_id' => $jobData['category_id'],
                         'subcategory_id' => $jobData['subcategory_id'],
                         'location' => $jobData['location'],
+                        'country' => $jobData['country'],
                         'salary_range' => $jobData['salary_range'] ?? null,
                         'requirements' => $jobData['requirements'],
                         'closing_date' => $jobData['closing_date'],
@@ -578,6 +606,7 @@ class JobPostingController extends Controller
             'job_postings.*.category_id' => 'required|exists:categories,id',
             'job_postings.*.subcategory_id' => 'required|exists:subcategories,id',
             'job_postings.*.location' => 'required|string|max:255',
+            'job_postings.*.country' => 'required|string|max:255',
             'job_postings.*.salary_range' => 'nullable|numeric',
             'job_postings.*.image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:4048',
             'job_postings.*.requirements' => 'required|string',
@@ -629,6 +658,7 @@ class JobPostingController extends Controller
                     'category_id' => $jobData['category_id'],
                     'subcategory_id' => $jobData['subcategory_id'],
                     'location' => $jobData['location'],
+                    'country' => $jobData['country'],
                     'salary_range' => $jobData['salary_range'] ?? null,
                     'requirements' => $jobData['requirements'],
                     'closing_date' => $jobData['closing_date'],
@@ -697,6 +727,7 @@ class JobPostingController extends Controller
                 'category_id' => 'required|exists:categories,id',
                 'subcategory_id' => 'required|exists:subcategories,id',
                 'location' => 'required|string|max:255',
+                'country' => 'required|string|max:255',
                 'salary_range' => 'nullable|numeric',
                 'image' => 'nullable|image|max:2048',
                 'requirements' => 'required',

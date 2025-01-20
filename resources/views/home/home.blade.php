@@ -10,6 +10,16 @@
 
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/header.css'])
 
+    <style>
+        .dropdown {
+            padding: 8px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+    </style>
 </head>
 
 <body>
@@ -20,16 +30,20 @@
         <div class="categories-header">
             <a href="/login" class="jobseeker-btn">JOBSEEKER LOGIN</a>
             <a href="{{ route('feedback.home') }}" class=" feedback-btn2">Feedback</a>
-        </div>
+            <a href="{{ route('employer.login') }}" class=" employer-btn">EMPLOYER LOGIN</a>
 
+        </div>
         <div class="scroll-wrapper">
-            <div class="categories-list">
-                @foreach ($categories as $category)
-                    <a href="javascript:void(0);" data-category-id="{{ $category->id }}" class="category-link">
-                        {{ $category->name }}
-                    </a>
-                @endforeach
-            </div>
+            <button class="scroll-btn left-scroll" id="scrollLeft">
+                << </button>
+                    <div class="categories-list" id="categoriesList">
+                        @foreach ($categories as $category)
+                            <a href="javascript:void(0);" data-category-id="{{ $category->id }}" class="category-link">
+                                {{ $category->name }}
+                            </a>
+                        @endforeach
+                    </div>
+                    <button class="scroll-btn right-scroll" id="scrollRight">>></button>
         </div>
     </section>
     <div class="ads-banner">
@@ -38,16 +52,30 @@
     <!-- Filters Section -->
     <section class="filters">
         <p class="jobtitle">
-            Available Jobs : {{ $jobs->count() }} new hot jobs
+            Available Jobs: {{ $jobs->count() }} new hot jobs
         </p>
         <form method="GET" action="{{ route('home') }}">
             <input class="text-input" type="text" name="search"
                 placeholder="Enter Vacancy Name/Company/Job Reference" value="{{ request('search') }}">
             <input class="text-input" type="text" name="location" placeholder="Enter your Location"
                 value="{{ request('location') }}">
-            <button class="view-btn" type="submit">Search</button>
+
+            <select name="country" class="dropdown">
+                <option value="">Select Country</option>
+                @foreach ($countries as $country)
+                    <option value="{{ $country->country }}"
+                        {{ request('country') == $country->country ? 'selected' : '' }}>
+                        {{ $country->country }}
+                    </option>
+                @endforeach
+            </select>
+
+
+            <button class="view-btn" type="submit">
+                <i class="fa fa-search"></i> <!-- This is the search icon -->
+            </button>
         </form>
-        <hr class>
+        <hr>
     </section>
 
 
@@ -84,14 +112,13 @@
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const categoryLinks = document.querySelectorAll('.category-link');
+            const categoryIdInput = document.getElementById('selected-category-id');
 
             categoryLinks.forEach(link => {
                 link.addEventListener('click', function() {
-                    // Remove the 'visited' class from all links
-                    categoryLinks.forEach(l => l.classList.remove('visited'));
-
-                    // Add the 'visited' class to the clicked link
-                    this.classList.add('visited');
+                    const categoryId = this.getAttribute('data-category-id');
+                    categoryIdInput.value = categoryId;
+                    document.querySelector('form').submit();
                 });
             });
         });
@@ -115,6 +142,21 @@
                     }
                     alert(response.message);
                 }
+            });
+        });
+    </script>
+    <script>
+        document.getElementById('scrollLeft').addEventListener('click', function() {
+            document.getElementById('categoriesList').scrollBy({
+                left: -100,
+                behavior: 'smooth'
+            });
+        });
+
+        document.getElementById('scrollRight').addEventListener('click', function() {
+            document.getElementById('categoriesList').scrollBy({
+                left: 100,
+                behavior: 'smooth'
             });
         });
     </script>

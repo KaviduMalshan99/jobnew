@@ -23,8 +23,10 @@
 
             @foreach ($topEmployers as $employer)
                 <div class="employer-card">
-                    <img src="{{ $employer->logo ? asset('storage/' . $employer->logo) : asset('images/default-logo.png') }}"
-                        alt="{{ $employer['alt'] }}">
+                    <a href="{{ route('top.employers.jobs', $employer->id) }}">
+                        <img src="{{ $employer->logo ? asset('storage/' . $employer->logo) : asset('images/default-logo.png') }}"
+                            alt="{{ $employer['alt'] }}">
+                    </a>
                 </div>
             @endforeach
 

@@ -24,9 +24,23 @@ body {
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
-
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
     text-decoration: none;
+    margin-left: 1000px;
+}
+.employer-btn {
+    padding: 10px 15px;
+    background: linear-gradient(to bottom, #28adce, #18799c);
+    text-align: center;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+    text-decoration: none;
+    margin-left: 5px;
 }
 .rectangle {
     position: absolute; /* Position the rectangle under the button */
@@ -98,20 +112,10 @@ body {
     width: 200px; /* Adjust width automatically if needed */
 }
 
-.view-btn {
-    width: 240px; /* Set a smaller fixed width for the button */
-    padding: 8px 15px;
+.view-btn i {
+    font-size: 20px; /* Adjust the size of the icon */
+    color: #000000; /* Icon color */
     border: none;
-    background-color: #18799c;
-    color: white;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-    text-align: center;
-}
-
-.view-btn:hover {
-    background-color: #0056b3;
 }
 
 .job-listings {
@@ -313,6 +317,33 @@ body {
     height: 80px;
 }
 
+@media screen and (max-width: 768px) {
+    /* Change job grid to 2 columns on smaller screens */
+    .job-grid {
+        grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+    }
+
+    /* Adjust job card size for smaller screens */
+    .job-card {
+        height: auto; /* Allow height to adjust based on content */
+        width: 100px;
+        border-bottom: 1px dotted #ccc; /* Same color */
+        width: 60%; /* Reduce width for mobile screens */
+    }
+}
+
+@media screen and (max-width: 480px) {
+    /* Further adjustments for very small screens */
+    .job-grid {
+        grid-template-columns: 1fr; /* 1 column for very small screens */
+    }
+
+    .job-card {
+        height: auto; /* Auto height for better readability */
+        margin-bottom: 10px; /* Space between job cards */
+        width: 100px;
+    }
+}
 /* Main Layout */
 .main-content {
     display: flex;
@@ -378,6 +409,61 @@ body {
 /* Changed to target every 6th item */
 .category-link:nth-child(6n) {
     border-right: none;
+}
+
+.scroll-wrapper {
+    display: flex;
+    flex-direction: row; /* Arrange items horizontally */
+    align-items: center;
+    justify-content: center; /* Center the content horizontally */
+    gap: 10px; /* Space between buttons and the list */
+    position: relative; /* Ensure proper alignment */
+}
+
+.categories-list {
+    display: flex;
+    flex-direction: column; /* Keep list items vertical */
+    overflow-y: auto; /* Allow vertical scrolling */
+    max-height: 200px; /* Adjust as needed */
+    padding: 20px;
+    width: 1500px; /* Adjust width as needed */
+    scroll-behavior: smooth; /* Smooth scrolling */
+    gap: 15px; /* Add space between list items */
+}
+
+.category-link:hover {
+    background-color: #d9d9d9;
+    cursor: pointer;
+}
+
+.scroll-btn {
+    width: 30px; /* Button size */
+    height: 30px; /* Button size */
+    font-size: 20px;
+    color: rgb(0, 0, 0);
+    border: none;
+    border-radius: 50%; /* Circular shape */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, opacity 0.3s; /* Smooth transition for hover effect */
+}
+
+.scroll-btn:hover {
+    background-color: #18799c; /* Transparent background on hover */
+    opacity: 0.7; /* Slight opacity change for hover effect */
+}
+
+.scroll-btn i {
+    font-size: 24px; /* Arrow icon size */
+}
+
+#scrollLeft {
+    margin-left: 5px;
+}
+#scrollRight {
+    margin-right: 5px;
 }
 
 /* Responsive Design */
@@ -487,21 +573,53 @@ body {
 
     .job-card {
         padding: 15px;
-        margin-left: 40px;
+        margin-left: -10px;
     }
 }
 .ads-banner {
-    width: 100%;
+    width: 100%; /* Use 100% width for responsiveness */
+    max-width: 1800px; /* Add a maximum width to maintain structure */
     height: 200px;
-
     border-radius: 10px;
     margin-top: 10px;
-
+    margin-left: auto; /* Center-align horizontally */
+    margin-right: auto;
     display: flex;
     justify-content: center;
 }
 .ads-banner img {
-    width: 80%;
-    height: 200px;
+    width: 100%; /* Image scales to fit container */
+    max-width: 80%; /* Restrict to a percentage of the parent width */
+    height: auto; /* Maintain aspect ratio */
     border-radius: 10px;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 768px) {
+    .ads-banner {
+        height: auto; /* Adjust height for smaller screens */
+        margin-left: 0; /* Remove negative margin for mobile */
+        padding: 0 10px; /* Add padding for spacing */
+    }
+    .ads-banner img {
+        max-width: 100%; /* Use full width on smaller screens */
+        height: auto; /* Maintain aspect ratio */
+    }
+}
+
+/* Responsive Grid for Job Listings */
+@media (max-width: 1024px) {
+    .job-listing {
+        flex: 1 1 calc(50% - 20px); /* 2 columns */
+    }
+}
+
+@media (max-width: 768px) {
+    .job-listing {
+        flex: 1 1 100%; /* Full width on smaller screens */
+    }
+
+    .feedback-btn2 {
+        margin-left: 0; /* Center the button */
+    }
 }

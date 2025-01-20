@@ -18,6 +18,7 @@ class JobPosting extends Model
         'package_id',
         'subcategory_id',
         'location',
+        'country',
         'salary_range',
         'image',
         'requirements',

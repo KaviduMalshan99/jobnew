@@ -105,16 +105,13 @@ class AdminAuthController extends Controller
             // Get current date for calculations
             $currentDate = now();
 
-            // Check if packages table exists first
-            if (!Schema::hasTable('packages')) {
-                throw new \Exception("Packages table does not exist");
+            // Check if required tables and columns exist
+            if (!Schema::hasTable('job_postings')) {
+                throw new \Exception("Job postings table does not exist");
             }
 
-            // Check if all required columns exist
-            if (!Schema::hasColumn('job_postings', 'status') ||
-                !Schema::hasColumn('job_postings', 'is_active') ||
-                !Schema::hasColumn('job_postings', 'closing_date')) {
-                throw new \Exception("Required columns missing in job_postings table");
+            if (!Schema::hasColumn('job_postings', 'view_count')) {
+                throw new \Exception("view_count column missing in job_postings table");
             }
 
             // Initialize variables with default values
@@ -124,6 +121,7 @@ class AdminAuthController extends Controller
             $totalCompanies = 0;
             $totalEarnings = 0;
             $recentApplications = 0;
+            $totalViews = 0;
 
             // Get total applications count if table exists
             if (Schema::hasTable('applications')) {
@@ -136,6 +134,9 @@ class AdminAuthController extends Controller
                     ->where('is_active', true)
                     ->whereDate('closing_date', '>=', $currentDate)
                     ->count();
+
+                // Calculate total views
+                $totalViews = JobPosting::sum('view_count');
             }
 
             // Get total active jobseekers
@@ -148,7 +149,7 @@ class AdminAuthController extends Controller
                 $totalCompanies = Employer::where('is_active', true)->count();
             }
 
-            // Get total earnings using proper error handling
+            // Get total earnings
             try {
                 $totalEarnings = DB::table('job_postings')
                     ->join('packages', 'job_postings.package_id', '=', 'packages.id')
@@ -184,12 +185,13 @@ class AdminAuthController extends Controller
                 'total_earnings' => $totalEarnings,
                 'recent_applications' => $recentApplications,
                 'application_growth' => round($applicationGrowth, 2),
+                'total_views' => $totalViews, // Include total views
             ];
 
         } catch (\Exception $e) {
             \Log::error('Error in getDashboardStatistics: ' . $e->getMessage());
 
-            // Return all values as 0 instead of error message to avoid blade template issues
+            // Return default values to avoid blade template issues
             return [
                 'total_applications' => 0,
                 'total_jobs_posted' => 0,
@@ -198,6 +200,7 @@ class AdminAuthController extends Controller
                 'total_earnings' => 0,
                 'recent_applications' => 0,
                 'application_growth' => 0,
+                'total_views' => 0,
             ];
         }
     }

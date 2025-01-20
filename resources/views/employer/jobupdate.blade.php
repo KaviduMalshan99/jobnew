@@ -99,6 +99,14 @@
                     <div class="text-danger">{{ $message }}</div>
                 @enderror
             </div>
+            <div class="mb-3">
+                <label for="country" class="form-label">country</label>
+                <input type="text" name="country" id="country" class="form-control"
+                    value="{{ old('country', $jobPosting->country) }}" required>
+                @error('country')
+                    <div class="text-danger">{{ $message }}</div>
+                @enderror
+            </div>
 
             <div class="mb-3">
                 <label for="salary_range" class="form-label">Salary Range</label>

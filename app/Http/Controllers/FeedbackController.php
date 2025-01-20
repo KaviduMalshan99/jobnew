@@ -42,6 +42,26 @@ class FeedbackController extends Controller
 
         return redirect()->route('feedback.create')->with('success', 'Feedback submitted successfully.');
     }
+    public function employercreate()
+    {
+        $contacts = ContactUs::all();
+        return view('employer.feedback', compact('contacts'));
+    }
+    public function employerstore(Request $request)
+    {
+        $validated = $request->validate([
+            'message' => 'required|string|max:500',
+            'rating' => 'required|integer|min:1|max:5', // Added rating validation
+        ]);
+
+        Feedback::create([
+            'message' => $validated['message'],
+            'rating' => $validated['rating'], // Store the rating
+            'user_id' => auth()->id(),
+        ]);
+
+        return redirect()->route('employer.feedback.create')->with('success', 'Feedback submitted successfully.');
+    }
 
     public function update(Request $request, Feedback $feedback)
     {

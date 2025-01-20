@@ -15,6 +15,7 @@ class Feedback extends Model
         'user_id',
         'status',
         'admin_id',
+        'employer_id',
     ];
 
     public function user()
@@ -25,5 +26,9 @@ class Feedback extends Model
     public function admin()
     {
         return $this->belongsTo(Admin::class);
+    }
+    public function employer()
+    {
+        return $this->belongsTo(Employer::class);
     }
 }

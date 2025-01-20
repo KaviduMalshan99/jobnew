@@ -732,6 +732,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/feedback', [FeedbackController::class, 'create'])->name('feedback.create');
     Route::post('/feedback', [FeedbackController::class, 'store'])->name('feedback.store');
 });
+Route::middleware(['employer'])->group(function () {
+    Route::get('/employer/feedback', [FeedbackController::class, 'employercreate'])->name('employer.feedback.create');
+    Route::post('/employer/feedback', [FeedbackController::class, 'employerstore'])->name('employer.feedback.store');
+});
 Route::middleware('admin')->group(function () {
     Route::get('/admin/feedback', [FeedbackController::class, 'manageFeedback'])->name('admin.feedback.manage');
     Route::post('/admin/feedback/{feedback}/update', [FeedbackController::class, 'update'])->name('admin.feedback.update');

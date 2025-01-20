@@ -38,4 +38,8 @@ class Employer extends Authenticatable
     {
         return $this->hasMany(Application::class, 'employer_id');
     }
+    public function feedback()
+    {
+        return $this->hasMany(Feedback::class, 'employer_id');
+    }
 }

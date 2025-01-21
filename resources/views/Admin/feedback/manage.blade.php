@@ -60,7 +60,15 @@
                                                     @endfor
                                                 </div>
                                             </td>
-                                            <td>{{ $item->user->name ?? 'Unknown' }}</td>
+                                            <td>
+                                                @if ($item->user)
+                                                    {{ $item->user->name }}
+                                                @elseif ($item->employer)
+                                                    {{ $item->employer->company_name }}
+                                                @else
+                                                    Unknown
+                                                @endif
+                                            </td>
                                             <td>{{ ucfirst($item->status) }}</td>
                                             <td>
                                                 <form method="POST" action="{{ route('admin.feedback.update', $item) }}"

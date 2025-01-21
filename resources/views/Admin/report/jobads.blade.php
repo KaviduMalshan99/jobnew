@@ -88,6 +88,7 @@
                                                 <th>Date</th>
                                                 <th>Count</th>
                                                 <th>Recent Jobs</th>
+                                                <th>Earnings (LKR)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -102,6 +103,7 @@
                                                             @endforeach
                                                         </ul>
                                                     </td>
+                                                    <td>{{ number_format($daily->earnings, 2) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -119,12 +121,13 @@
                                                 <th>Date Range</th>
                                                 <th>Count</th>
                                                 <th>Recent Jobs</th>
+                                                <th>Earnings (LKR)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
                                             @foreach ($weeklyCount as $weekly)
                                                 <tr>
-                                                    <td>Week {{ $weekly->week }}</td>
+                                                    <td>Week <br>{{ $weekly->week }}</td>
                                                     <td>{{ $weekly->week_start }} to {{ $weekly->week_end }}</td>
                                                     <td>{{ $weekly->count }}</td>
                                                     <td>
@@ -134,6 +137,7 @@
                                                             @endforeach
                                                         </ul>
                                                     </td>
+                                                    <td>{{ number_format($weekly->earnings, 2) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>
@@ -150,6 +154,7 @@
                                                 <th>Month</th>
                                                 <th>Count</th>
                                                 <th>Recent Jobs</th>
+                                                <th>Earnings (LKR)</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -164,6 +169,7 @@
                                                             @endforeach
                                                         </ul>
                                                     </td>
+                                                    <td>{{ number_format($monthly->earnings, 2) }}</td>
                                                 </tr>
                                             @endforeach
                                         </tbody>

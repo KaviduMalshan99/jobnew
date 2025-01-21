@@ -133,6 +133,15 @@
                             </svg><span>Package Details</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav"
+                            href="{{ route('package-contacts.create') }}">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"> </use>
+                            </svg><span>Banner Packages </span></a></li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
+                            class="sidebar-link sidebar-title link-nav"
                             href="{{ route('admin.bank-accounts.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#profit') }}"></use>

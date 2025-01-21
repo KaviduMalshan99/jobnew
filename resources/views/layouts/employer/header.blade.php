@@ -86,9 +86,17 @@
                 <li class="profile-nav onhover-dropdown pe-0 py-0">
                     <div class="media profile-media"><img class="b-r-10"
                             src="{{ asset('assets/images/dashboard/profile.jpg') }}" alt="">
-                        <div class="media-body"><span>{{ Auth::user()->company_name }}</span>
-                            <p class="mb-0 font-roboto">Employer <i class="middle fa fa-angle-down"></i></p>
-                        </div>
+                        @if (Auth::check())
+                            <div class="media-body">
+                                <span>{{ Auth::user()->company_name }}</span>
+                                <p class="mb-0 font-roboto">Employer <i class="middle fa fa-angle-down"></i></p>
+                            </div>
+                        @else
+                            <div class="media-body">
+                                <span>Guest</span>
+                                <p class="mb-0 font-roboto">Please log in</p>
+                            </div>
+                        @endif
                     </div>
                     <ul class="profile-dropdown onhover-show-div">
                         <li><a href="{{ route('employer.profile') }}"><i data-feather="user"></i><span>Account

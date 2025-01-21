@@ -12,7 +12,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 
     @vite(['resources/css/home.css', 'resources/js/app.js', 'resources/css/footer.css', 'resources/css/header.css'])
-
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -87,8 +87,13 @@
         }
 
         .job-cardn .details .detail i {
-            margin-right: 8px;
+
+            margin-left: 5px;
             color: #3182ce;
+        }
+
+        .detail i {
+            margin-left: 5px !important;
         }
 
         .job-cardn .description,
@@ -184,6 +189,16 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             margin-bottom: 20px;
             margin-left: 40px;
+        }
+
+        .stat-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
         /* Hover Effect */
@@ -393,36 +408,38 @@
                     <h1>{{ $job->title }}</h1>
                     <p class="company-name">{{ $job->employer->company_name }}</p>
                 </div>
-                <p>Views: {{ $job->view_count }}</p>
+                <p> <i class="fas fa-eye"></i>
+                    <span>{{ $job->view_count }} views</span>
+                </p>
 
                 <!-- Key Details -->
                 <div class="details">
                     @if (!empty($job->location))
-                        <div class="detail">
+                        <div class="">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>{{ $job->location }}</span>
                         </div>
                     @endif
                     @if (!empty($job->country))
-                        <div class="detail">
+                        <div class="">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>{{ $job->country }}</span>
                         </div>
                     @endif
                     @if (!empty($job->created_at))
-                        <div class="detail">
+                        <div class="">
                             <i class="fas fa-calendar"></i>
                             <span>Posted: {{ $job->created_at->format('M d, Y') }}</span>
                         </div>
                     @endif
                     @if (!empty($job->salary_range))
-                        <div class="detail">
+                        <div class="">
                             <i class="fas fa-money-bill-wave"></i>
                             <span>Salary: {{ number_format($job->salary_range, 2) }}</span>
                         </div>
                     @endif
                     @if (!empty($job->closing_date))
-                        <div class="detail">
+                        <div class="">
                             <i class="fas fa-hourglass-end"></i>
                             <span>Closes: {{ $job->closing_date }}</span>
                         </div>

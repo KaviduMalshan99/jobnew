@@ -15,6 +15,8 @@ use App\Http\Controllers\Auth\PasswordResetLinkController;
 use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\BankAccountController;
+use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BannerPackageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactListController;
 use App\Http\Controllers\ContactUsController;
@@ -815,4 +817,37 @@ Route::prefix('admin')->group(function () {
 // Regular bank account routes
 Route::get('/bank-accounts', [BankAccountController::class, 'index'])->name('bank-accounts.index');
 
+Route::prefix('admin')->middleware(['admin'])->group(function () {
+
+    Route::get('/banner-packages', [BannerPackageController::class, 'index'])->name('banner_packages.index');
+    Route::get('/banner-packages/create', [BannerPackageController::class, 'create'])->name('banner_packages.create');
+    Route::post('/banner-packages', [BannerPackageController::class, 'store'])->name('banner_packages.store');
+    Route::get('/banner-packages/{bannerPackage}/edit', [BannerPackageController::class, 'edit'])->name('banner_packages.edit');
+    Route::put('/banner-packages/{bannerPackage}', [BannerPackageController::class, 'update'])->name('banner_packages.update');
+    Route::delete('/banner-packages/{bannerPackage}', [BannerPackageController::class, 'destroy'])->name('banner_packages.destroy');
+
+});
+
+Route::prefix('admin')->middleware(['admin'])->group(function () {
+    // Display a listing of the banners
+    Route::get('/banners', [BannerController::class, 'index'])->name('banners.index');
+
+    // Show the form for creating a new banner
+    Route::get('/banners/create', [BannerController::class, 'create'])->name('banners.create');
+
+    // Store a newly created banner in storage
+    Route::post('/banners', [BannerController::class, 'store'])->name('banners.store');
+
+    // Show the form for editing the specified banner
+    Route::get('/banners/{banner}/edit', [BannerController::class, 'edit'])->name('banners.edit');
+
+    // Update the specified banner in storage
+    Route::put('/banners/{banner}', [BannerController::class, 'update'])->name('banners.update');
+
+    // Update the status of a banner
+    Route::patch('/banners/{banner}/status', [BannerController::class, 'updateStatus'])->name('banners.updateStatus');
+
+    // Remove the specified banner from storage
+    Route::delete('/banners/{banner}', [BannerController::class, 'destroy'])->name('banners.destroy');
+});
 // routes/web.php

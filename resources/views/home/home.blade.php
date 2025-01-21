@@ -29,7 +29,7 @@
     <section class="categories-container">
         <div class="categories-header">
             <a href="/login" class="jobseeker-btn">JOBSEEKER LOGIN</a>
-            <a href="{{ route('feedback.home') }}" class=" feedback-btn2">Feedback</a>
+            {{-- <a href="{{ route('feedback.home') }}" class=" feedback-btn2">Feedback</a> --}}
             <a href="{{ route('employer.login') }}" class=" employer-btn">EMPLOYER LOGIN</a>
 
         </div>

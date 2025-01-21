@@ -56,8 +56,9 @@ class FeedbackController extends Controller
 
         Feedback::create([
             'message' => $validated['message'],
-            'rating' => $validated['rating'], // Store the rating
-            'user_id' => auth()->id(),
+            'rating' => $validated['rating'],
+            'employer_id' => auth('employer')->id(),
+
         ]);
 
         return redirect()->route('employer.feedback.create')->with('success', 'Feedback submitted successfully.');

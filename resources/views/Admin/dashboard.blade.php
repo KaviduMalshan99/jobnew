@@ -4,45 +4,97 @@
 
 @section('css')
     <style>
-        .dashboard-card {
+        .card {
             border-radius: 1rem;
             transition: all 0.3s ease;
             border: none;
             box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            background: white;
         }
 
-        .dashboard-card:hover {
+        .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
         .stat-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: 12px;
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        /* Applications Icon */
+        .stat-icon.applications-icon {
+            background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 100%);
+            box-shadow: 0 8px 16px -4px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Jobs Icon */
+        .stat-icon.jobs-icon {
+            background: linear-gradient(135deg, #10B981 0%, #34D399 100%);
+            box-shadow: 0 8px 16px -4px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Jobseekers Icon */
+        .stat-icon.jobseekers-icon {
+            background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 100%);
+            box-shadow: 0 8px 16px -4px rgba(245, 158, 11, 0.3);
+        }
+
+        /* Views Icon */
+        .stat-icon.views-icon {
+            background: linear-gradient(135deg, #6366F1 0%, #818CF8 100%);
+            box-shadow: 0 8px 16px -4px rgba(99, 102, 241, 0.3);
+        }
+
+        /* Earnings Icon */
+        .stat-icon.earnings-icon {
+            background: linear-gradient(135deg, #0EA5E9 0%, #38BDF8 100%);
+            box-shadow: 0 8px 16px -4px rgba(14, 165, 233, 0.3);
+        }
+
+        .stat-icon i {
+            color: white !important;
+            font-size: 1.5rem;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
+        }
+
+        .stat-icon:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.1);
         }
 
         .welcome-section {
             background: linear-gradient(135deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%);
             border-radius: 1rem;
             color: white;
+            padding: 2rem;
+            margin-bottom: 2rem;
         }
 
         .animated-number {
             font-size: 2rem;
             font-weight: 700;
+            color: #1F2937;
         }
 
         .stat-label {
             color: #6B7280;
             font-size: 0.875rem;
             font-weight: 500;
+            margin-top: 0.5rem;
+        }
+
+        .card-body {
+            padding: 1.5rem;
         }
     </style>
 @endsection
+
 @section('breadcrumb-title')
     <h3>Welcome Back, {{ auth('admin')->name }}</h3>
 @endsection
@@ -54,9 +106,9 @@
 @section('content')
     <div class="container-fluid p-4">
         <!-- Welcome Section -->
-        <div class="row mb-4">
+        <div class="row">
             <div class="col-12">
-                <div class="welcome-section p-4">
+                <div class="welcome-section">
                     <div class="row align-items-center">
                         <div class="col-md-8">
                             <h2 class="mb-3 fw-bold">Welcome to JoBads.lk</h2>
@@ -76,11 +128,11 @@
         <div class="row g-4">
             <!-- Applications Card -->
             <div class="col-sm-6 col-xl-3">
-                <div class="dashboard-card h-100">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="stat-icon bg-primary bg-opacity-10">
-                                <i class="fas fa-file-alt text-primary fa-lg"></i>
+                            <div class="stat-icon applications-icon">
+                                <i class="fas fa-file-alt fa-lg"></i>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown">
@@ -102,11 +154,11 @@
 
             <!-- Jobs Posted Card -->
             <div class="col-sm-6 col-xl-3">
-                <div class="dashboard-card h-100">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="stat-icon bg-success bg-opacity-10">
-                                <i class="fas fa-briefcase text-success fa-lg"></i>
+                            <div class="stat-icon jobs-icon">
+                                <i class="fas fa-briefcase fa-lg"></i>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown">
@@ -128,11 +180,11 @@
 
             <!-- Jobseekers Card -->
             <div class="col-sm-6 col-xl-3">
-                <div class="dashboard-card h-100">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="stat-icon bg-warning bg-opacity-10">
-                                <i class="fas fa-users text-warning fa-lg"></i>
+                            <div class="stat-icon jobseekers-icon">
+                                <i class="fas fa-users fa-lg"></i>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown">
@@ -151,12 +203,14 @@
                     </div>
                 </div>
             </div>
+
+            <!-- Views Card -->
             <div class="col-sm-6 col-xl-3">
-                <div class="dashboard-card h-100">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="stat-icon bg-warning bg-opacity-10">
-                                <i class="fas fa-users text-warning fa-lg"></i>
+                            <div class="stat-icon views-icon">
+                                <i class="fas fa-eye fa-lg"></i>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown">
@@ -176,14 +230,13 @@
                 </div>
             </div>
 
-
             <!-- Earnings Card -->
             <div class="col-sm-6 col-xl-3">
-                <div class="dashboard-card h-100">
+                <div class="card h-100">
                     <div class="card-body">
                         <div class="d-flex align-items-center justify-content-between mb-3">
-                            <div class="stat-icon bg-info bg-opacity-10">
-                                <i class="fas fa-dollar-sign text-info fa-lg"></i>
+                            <div class="stat-icon earnings-icon">
+                                <i class="fas fa-dollar-sign fa-lg"></i>
                             </div>
                             <div class="dropdown">
                                 <button class="btn btn-link p-0" data-bs-toggle="dropdown">
@@ -207,7 +260,7 @@
         <!-- Recent Applications Section -->
         <div class="row mt-4">
             <div class="col-12">
-                <div class="dashboard-card">
+                <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-center mb-4">
                             <div>
@@ -224,8 +277,6 @@
                             </div>
                             <a href="{{ route('admin.dashboard') }}" class="btn btn-primary btn-sm">View All</a>
                         </div>
-
-
                     </div>
                 </div>
             </div>
@@ -236,9 +287,7 @@
 @section('script')
     <script src="{{ asset('assets/js/dashboard/modern.js') }}"></script>
     <script>
-        // Add any custom JavaScript for animations or interactions
         document.addEventListener('DOMContentLoaded', function() {
-            // Animate numbers
             const animateValue = (element, start, end, duration) => {
                 let current = start;
                 const range = end - start;
@@ -254,7 +303,6 @@
                 }, stepTime);
             };
 
-            // Apply animation to all number elements
             document.querySelectorAll('.animated-number').forEach(element => {
                 const finalValue = parseInt(element.textContent.replace(/,/g, ''));
                 animateValue(element, 0, finalValue, 1000);

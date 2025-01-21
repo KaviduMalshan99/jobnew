@@ -50,10 +50,10 @@
                     <img src="{{ asset('assets/images/dashboard/profile.jpg') }}" alt="User Avatar">
                     <!-- Display user avatar (if available) -->
                     <p class="user-info">
-                        <span class="name">{{ $feedbackItem->user->name }}</span><br> <!-- Display user name -->
-                        <span class="position">{{ $feedbackItem->user->position }}</span><br>
-                        <!-- Display user position -->
-                        <span class="company">{{ $feedbackItem->user->company }}</span> <!-- Display user company -->
+                        <span class="name">
+                            {{ $feedbackItem->user->name ?? ($feedbackItem->employer->company_name ?? 'N/A') }}
+                        </span><br><br> <!-- Display user name -->
+                        <!-- Display user company -->
                     </p>
                 </div>
             </div>

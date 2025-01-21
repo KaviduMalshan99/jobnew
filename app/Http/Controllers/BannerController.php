@@ -154,57 +154,57 @@ class BannerController extends Controller
     // Controller function
     public function updateStatus(Request $request, Banner $banner)
     {
-        try {
-            // Log incoming request data
-            \Log::info('Update Status Request:', [
-                'banner_id' => $banner->id,
-                'current_status' => $banner->status,
-                'request_data' => $request->all(),
-            ]);
+        // Log initial state
+        \Log::info("Before update:", [
+            'banner_id' => $banner->id,
+            'old_status' => $banner->getOriginal('status'),
+            'attributes' => $banner->getAttributes(),
+        ]);
 
-            $validated = $request->validate([
-                'status' => 'required|in:pending,published,rejected',
-                'rejection_reason' => 'required_if:status,rejected|nullable|string|max:500',
-            ]);
+        // Validate the request
+        $request->validate([
+            'status' => 'required|in:pending,published,rejected',
+            'rejection_reason' => 'required_if:status,rejected|nullable|string|max:1000',
+        ]);
 
-            DB::beginTransaction();
+        // Update the banner
+        $banner->status = $request->status;
+        $banner->admin_id = auth('admin')->id(); // Store the current admin's ID
 
-            // Log before update
-            \Log::info('Before Update:', [
-                'banner_status' => $banner->status,
-                'validated_data' => $validated,
-            ]);
-
-            $banner->status = $validated['status'];
-            $banner->rejection_reason = $validated['status'] === 'rejected' ? $validated['rejection_reason'] : null;
-
-            if ($validated['status'] === 'published') {
-                $banner->published_at = now();
-            }
-
-            $banner->save();
-
-            // Log after update
-            \Log::info('After Update:', [
-                'banner_status' => $banner->status,
-                'save_result' => $banner->wasChanged(),
-            ]);
-
-            DB::commit();
-
-            return redirect()->back()->with('success', 'Banner status updated successfully.');
-        } catch (\Exception $e) {
-            DB::rollBack();
-            // Log the error
-            \Log::error('Banner Update Error:', [
-                'message' => $e->getMessage(),
-                'trace' => $e->getTraceAsString(),
-            ]);
-
-            return redirect()->back()
-                ->withErrors(['error' => 'An error occurred while updating the banner status.'])
-                ->withInput();
+        // Handle rejection reason
+        if ($request->status === 'rejected') {
+            $banner->rejection_reason = $request->rejection_reason;
+        } else {
+            $banner->rejection_reason = null; // Clear rejection reason if status is not rejected
         }
+
+        // Track changes
+        $isDirty = $banner->isDirty();
+        $changes = $banner->getDirty();
+
+        // Save changes
+        $saved = $banner->save();
+
+        // Log the update result
+        \Log::info("After update:", [
+            'banner_id' => $banner->id,
+            'new_status' => $banner->status,
+            'admin_id' => $banner->admin_id,
+            'rejection_reason' => $banner->rejection_reason,
+            'was_dirty' => $isDirty,
+            'changes' => $changes,
+            'save_result' => $saved,
+        ]);
+
+        // Return with appropriate message
+        $message = match ($request->status) {
+            'published' => 'Banner has been published successfully.',
+            'rejected' => 'Banner has been rejected with reason.',
+            'pending' => 'Banner has been set to pending.',
+            default => 'Status updated successfully.'
+        };
+
+        return redirect()->back()->with('success', $message);
     }
     /**
      * Remove the specified banner from storage.

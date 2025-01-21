@@ -1,158 +1,286 @@
 @extends('layouts.employer.master')
-
-@section('title', 'Create Banner')
+@section('title', 'Manage Banners')
 
 @section('css')
     <style>
-        .payment-methods .form-check {
-            padding: 15px;
-            border: 1px solid #dee2e6;
-            border-radius: 5px;
-            margin-bottom: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
+        .banner-modal-image {
+            width: 100%;
+            max-height: 400px;
+            object-fit: contain;
+            border-radius: 8px;
         }
 
-        .payment-methods .form-check:hover {
-            background-color: #f8f9fa;
-            border-color: #0d6efd;
+        .banner-details-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
         }
 
-        .payment-methods .form-check-input:checked+.form-check-label {
-            font-weight: bold;
+        .banner-details-list li {
+            padding: 8px 0;
+            border-bottom: 1px solid #E5E7EB;
+            display: flex;
+            justify-content: space-between;
         }
 
-        .image-preview {
-            max-width: 300px;
-            margin-top: 10px;
+        .banner-details-list li:last-child {
+            border-bottom: none;
+        }
+
+        .banner-details-label {
+            color: #6B7280;
+            font-weight: 500;
+        }
+
+        .banner-details-value {
+            color: #374151;
+            font-weight: 400;
+        }
+
+        .btn-view {
+            background-color: #F3F4F6;
+            color: #374151;
+            border: none;
+            border-radius: 6px;
+            padding: 0.375rem 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .btn-view:hover {
+            background-color: #E5E7EB;
+            color: #1F2937;
+        }
+
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .status-pending {
+            background-color: #FEF3C7;
+            color: #92400E;
+        }
+
+        .status-published {
+            background-color: #D1FAE5;
+            color: #065F46;
+        }
+
+        .status-rejected {
+            background-color: #FEE2E2;
+            color: #991B1B;
         }
     </style>
 @endsection
 
-@section('breadcrumb-title')
-    <h3>Banners</h3>
-@endsection
-
-@section('breadcrumb-items')
-    <li class="breadcrumb-item">Dashboard</li>
-    <li class="breadcrumb-item active">Create Banner</li>
-@endsection
-
 @section('content')
-    <div class="container">
-        @if (session('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('success') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    <div class="container-fluid">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title mb-0">Banner Management</h4>
             </div>
-        @endif
+            <div class="card-body">
+                @if (session('success'))
+                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                        {{ session('success') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
 
-        @if ($errors->any())
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                <ul class="mb-0">
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
+                <ul class="nav nav-tabs" id="bannersTabs" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active" id="pending-tab" data-bs-toggle="tab" href="#pending" role="tab">
+                            Pending ({{ $pendingBanners->total() }})
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="published-tab" data-bs-toggle="tab" href="#published" role="tab">
+                            Published ({{ $publishedBanners->total() }})
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" id="rejected-tab" data-bs-toggle="tab" href="#rejected" role="tab">
+                            Rejected ({{ $rejectedBanners->total() }})
+                        </a>
+                    </li>
                 </ul>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
 
-        <div class="row">
-            <div class="col-md-12">
-                <div class="card">
-                    <div class="card-header">
-                        <h5>Create Banner</h5>
-                    </div>
-                    <div class="card-body">
-                        <form id="bannerForm" action="{{ route('banners.store') }}" method="POST"
-                            enctype="multipart/form-data">
-                            @csrf
+                <div class="tab-content mt-4" id="bannersTabContent">
+                    @foreach (['pending' => $pendingBanners, 'published' => $publishedBanners, 'rejected' => $rejectedBanners] as $status => $banners)
+                        <div class="tab-pane fade {{ $status === 'pending' ? 'show active' : '' }}" id="{{ $status }}"
+                            role="tabpanel">
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Title</th>
+                                            <th>Details</th>
+                                            <th>Stats</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach ($banners as $banner)
+                                            <tr>
+                                                <td>#{{ $banner->id }}</td>
+                                                <td>{{ $banner->title }}</td>
+                                                <td>
+                                                    <div class="d-flex flex-column gap-1">
+                                                        <small
+                                                            class="text-muted">{{ $banner->category ? $banner->category->name : 'N/A' }}</small>
+                                                        <small class="text-muted">{{ ucfirst($banner->placement) }}</small>
+                                                        <button type="button" class="btn btn-view mt-1"
+                                                            data-bs-toggle="modal"
+                                                            data-bs-target="#bannerModal-{{ $banner->id }}">
+                                                            View Details
+                                                        </button>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <div class="d-flex flex-column gap-1">
+                                                        <small class="text-muted">Views:
+                                                            {{ number_format($banner->view_count) }}</small>
+                                                        <small class="text-muted">CTR:
+                                                            {{ number_format($banner->ctr, 2) }}%</small>
+                                                    </div>
+                                                </td>
+                                                <td>
+                                                    <span class="status-badge status-{{ $banner->status }}">
+                                                        {{ ucfirst($banner->status) }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <form action="{{ route('admin.banners.update-status', $banner->id) }}"
+                                                        method="POST" class="d-flex gap-2">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        @if ($errors->any())
+                                                            <div class="alert alert-danger">
+                                                                <ul>
+                                                                    @foreach ($errors->all() as $error)
+                                                                        <li>{{ $error }}</li>
+                                                                    @endforeach
+                                                                </ul>
+                                                            </div>
+                                                        @endif
 
-                            <div class="mb-3">
-                                <label for="package_id" class="form-label">Package</label>
-                                <select name="package_id" id="package_id" class="form-control" required>
-                                    <option value="">Select a package</option>
-                                    @foreach ($packages as $package)
-                                        <option value="{{ $package->id }}">
-                                            {{ $package->name }} - Rs. {{ $package->price }} ({{ $package->duration_days }}
-                                            days)
-                                        </option>
-                                    @endforeach
-                                </select>
+                                                        <select name="status"
+                                                            class="form-select form-select-sm status-select"
+                                                            data-banner-id="{{ $banner->id }}">
+                                                            <option value="pending"
+                                                                {{ $banner->status === 'pending' ? 'selected' : '' }}>
+                                                                Pending</option>
+                                                            <option value="published"
+                                                                {{ $banner->status === 'published' ? 'selected' : '' }}>
+                                                                Publish</option>
+                                                            <option value="rejected"
+                                                                {{ $banner->status === 'rejected' ? 'selected' : '' }}>
+                                                                Reject</option>
+                                                        </select>
+                                                        <div id="rejection-reason-{{ $banner->id }}"
+                                                            style="display: none;">
+                                                            <input type="text" name="rejection_reason"
+                                                                class="form-control form-control-sm"
+                                                                placeholder="Rejection reason"
+                                                                value="{{ $banner->rejection_reason }}">
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm">Update</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+
+                                            <!-- Modal for banner details -->
+                                            <div class="modal fade" id="bannerModal-{{ $banner->id }}" tabindex="-1"
+                                                aria-hidden="true">
+                                                <div class="modal-dialog modal-lg modal-dialog-centered">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title">Banner Details - {{ $banner->title }}
+                                                            </h5>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <div class="row">
+                                                                <div class="col-12 mb-4">
+                                                                    <img src="{{ Storage::url($banner->image) }}"
+                                                                        class="banner-modal-image"
+                                                                        alt="{{ $banner->title }}">
+                                                                </div>
+                                                                <div class="col-12">
+                                                                    <ul class="banner-details-list">
+                                                                        <li>
+                                                                            <span class="banner-details-label">Title</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ $banner->title }}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span
+                                                                                class="banner-details-label">Category</span>
+                                                                            <span class="banner-details-value">
+                                                                                {{ $banner->category ? $banner->category->name : 'N/A' }}
+                                                                            </span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span
+                                                                                class="banner-details-label">Placement</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ ucfirst($banner->placement) }}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span
+                                                                                class="banner-details-label">Package</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ $banner->package->name }}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span class="banner-details-label">Total
+                                                                                Views</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ number_format($banner->view_count) }}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span class="banner-details-label">Click-through
+                                                                                Rate</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ number_format($banner->ctr, 2) }}%</span>
+                                                                        </li>
+                                                                        @if ($banner->rejection_reason)
+                                                                            <li>
+                                                                                <span
+                                                                                    class="banner-details-label">Rejection
+                                                                                    Reason</span>
+                                                                                <span
+                                                                                    class="banner-details-value text-danger">{{ $banner->rejection_reason }}</span>
+                                                                            </li>
+                                                                        @endif
+                                                                    </ul>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary"
+                                                                data-bs-dismiss="modal">Close</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </tbody>
+                                </table>
                             </div>
-
-                            <div class="mb-3">
-                                <label for="title" class="form-label">Banner Title</label>
-                                <input type="text" class="form-control" id="title" name="title" required>
+                            <div class="d-flex justify-content-end p-3">
+                                {{ $banners->links() }}
                             </div>
-
-                            <div class="mb-3">
-                                <label for="image" class="form-label">Banner Image</label>
-                                <input type="file" class="form-control" id="image" name="image" accept="image/*"
-                                    required>
-                                <div class="image-preview-container mt-2">
-                                    <img id="imagePreview" src="" alt="Preview"
-                                        style="display: none; max-width: 100%;">
-                                </div>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="category_id" class="form-label">Category (Optional)</label>
-                                <select name="category_id" id="category_id" class="form-control">
-                                    <option value="">Select a category</option>
-                                    @foreach ($categories as $category)
-                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                            <div class="mb-3">
-                                <label for="placement" class="form-label">Banner Placement</label>
-                                <select name="placement" id="placement" class="form-control" required>
-                                    <option value="banner">Main Banner</option>
-                                    <option value="category_page">Category Page</option>
-                                </select>
-                            </div>
-
-                            <button type="submit" class="btn btn-primary">Create Banner</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Payment Method Modal -->
-    <div class="modal fade" id="paymentMethodModal" tabindex="-1" aria-labelledby="paymentMethodModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="paymentMethodModalLabel">Select Payment Method</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="payment-methods">
-                        <div class="form-check mb-3">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="contactAdmin"
-                                value="contact_admin">
-                            <label class="form-check-label" for="contactAdmin">
-                                Contact Admin
-                            </label>
                         </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="paymentMethod" id="onlinePayment"
-                                value="online">
-                            <label class="form-check-label" for="onlinePayment">
-                                Online Payment
-                            </label>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary" id="confirmPayment">Confirm</button>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -161,75 +289,39 @@
 
 @section('script')
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const form = document.getElementById('bannerForm');
-            const paymentModal = new bootstrap.Modal(document.getElementById('paymentMethodModal'));
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle status select changes
+            const statusSelects = document.querySelectorAll('.status-select');
 
-            // Image preview handler
-            document.getElementById('image').addEventListener('change', function(event) {
-                const preview = document.getElementById('imagePreview');
-                const file = event.target.files[0];
+            statusSelects.forEach(select => {
+                select.addEventListener('change', function() {
+                    const bannerId = this.getAttribute('data-banner-id');
+                    const rejectionDiv = document.getElementById(`rejection-reason-${bannerId}`);
 
-                if (file) {
-                    const reader = new FileReader();
-                    reader.onload = function(e) {
-                        preview.src = e.target.result;
-                        preview.style.display = 'block';
-                    };
-                    reader.readAsDataURL(file);
-                } else {
-                    preview.style.display = 'none';
+                    if (this.value === 'rejected') {
+                        rejectionDiv.style.display = 'block';
+                    } else {
+                        rejectionDiv.style.display = 'none';
+                    }
+                });
+            });
+
+            // Initialize rejection reason visibility
+            statusSelects.forEach(select => {
+                if (select.value === 'rejected') {
+                    const bannerId = select.getAttribute('data-banner-id');
+                    const rejectionDiv = document.getElementById(`rejection-reason-${bannerId}`);
+                    rejectionDiv.style.display = 'block';
                 }
             });
 
-            // Form submission handler
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                paymentModal.show();
-            });
-
-            // Payment confirmation handler
-            document.getElementById('confirmPayment').addEventListener('click', function() {
-                const selectedPaymentMethod = document.querySelector('input[name="paymentMethod"]:checked');
-
-                if (!selectedPaymentMethod) {
-                    alert('Please select a payment method');
-                    return;
-                }
-
-                // Add payment method to form
-                const paymentMethodInput = document.createElement('input');
-                paymentMethodInput.type = 'hidden';
-                paymentMethodInput.name = 'payment_method';
-                paymentMethodInput.value = selectedPaymentMethod.value;
-                form.appendChild(paymentMethodInput);
-
-                if (selectedPaymentMethod.value === 'contact_admin') {
-                    // Submit form directly for admin contact
-                    paymentModal.hide();
-                    form.submit();
-                } else {
-                    // For online payment, redirect to payment gateway
-                    const formData = new FormData(form);
-                    fetch('/store-banner-data', {
-                            method: 'POST',
-                            body: formData,
-                            headers: {
-                                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')
-                                    .content
-                            }
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            if (data.success) {
-                                window.location.href = '/payment/checkout';
-                            }
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                            alert('An error occurred. Please try again.');
-                        });
-                }
+            // Auto-hide alerts after 5 seconds
+            const alerts = document.querySelectorAll('.alert');
+            alerts.forEach(alert => {
+                setTimeout(() => {
+                    alert.classList.remove('show');
+                    setTimeout(() => alert.remove(), 150);
+                }, 5000);
             });
         });
     </script>

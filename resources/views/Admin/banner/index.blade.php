@@ -98,9 +98,8 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <!-- Change this line -->
                         <a class="nav-link" id="published-tab" data-bs-toggle="tab" href="#published" role="tab">
-                            Published ({{ $publishedBanners->total() }}) <!-- Changed from $approvedBanners -->
+                            Published ({{ $publishedBanners->total() }})
                         </a>
                     </li>
                     <li class="nav-item">
@@ -157,46 +156,43 @@
                                                     </span>
                                                 </td>
                                                 <td>
-                                                    @if ($status === 'pending')
-                                                        <form
-                                                            action="{{ route('admin.banners.update-status', $banner->id) }}"
-                                                            method="POST" class="d-flex gap-2">
-                                                            @csrf
-                                                            @method('PUT')
-                                                            <!-- Add this debugging line -->
-                                                            @if ($errors->any())
-                                                                <div class="alert alert-danger">
-                                                                    <ul>
-                                                                        @foreach ($errors->all() as $error)
-                                                                            <li>{{ $error }}</li>
-                                                                        @endforeach
-                                                                    </ul>
-                                                                </div>
-                                                            @endif
-
-                                                            <select name="status"
-                                                                class="form-select form-select-sm status-select"
-                                                                data-banner-id="{{ $banner->id }}">
-                                                                <option value="pending"
-                                                                    {{ $banner->status === 'pending' ? 'selected' : '' }}>
-                                                                    Pending</option>
-                                                                <option value="published"
-                                                                    {{ $banner->status === 'published' ? 'selected' : '' }}>
-                                                                    Publish</option>
-                                                                <option value="rejected"
-                                                                    {{ $banner->status === 'rejected' ? 'selected' : '' }}>
-                                                                    Reject</option>
-                                                            </select>
-                                                            <div id="rejection-reason-{{ $banner->id }}"
-                                                                style="display: none;">
-                                                                <input type="text" name="rejection_reason"
-                                                                    class="form-control form-control-sm"
-                                                                    placeholder="Rejection reason">
+                                                    <form action="{{ route('admin.banners.update-status', $banner->id) }}"
+                                                        method="POST" class="d-flex gap-2">
+                                                        @csrf
+                                                        @method('PUT')
+                                                        @if ($errors->any())
+                                                            <div class="alert alert-danger">
+                                                                <ul>
+                                                                    @foreach ($errors->all() as $error)
+                                                                        <li>{{ $error }}</li>
+                                                                    @endforeach
+                                                                </ul>
                                                             </div>
-                                                            <button type="submit"
-                                                                class="btn btn-primary btn-sm">Update</button>
-                                                        </form>
-                                                    @endif
+                                                        @endif
+
+                                                        <select name="status"
+                                                            class="form-select form-select-sm status-select"
+                                                            data-banner-id="{{ $banner->id }}">
+                                                            <option value="pending"
+                                                                {{ $banner->status === 'pending' ? 'selected' : '' }}>
+                                                                Pending</option>
+                                                            <option value="published"
+                                                                {{ $banner->status === 'published' ? 'selected' : '' }}>
+                                                                Publish</option>
+                                                            <option value="rejected"
+                                                                {{ $banner->status === 'rejected' ? 'selected' : '' }}>
+                                                                Reject</option>
+                                                        </select>
+                                                        <div id="rejection-reason-{{ $banner->id }}"
+                                                            style="display: none;">
+                                                            <input type="text" name="rejection_reason"
+                                                                class="form-control form-control-sm"
+                                                                placeholder="Rejection reason"
+                                                                value="{{ $banner->rejection_reason }}">
+                                                        </div>
+                                                        <button type="submit"
+                                                            class="btn btn-primary btn-sm">Update</button>
+                                                    </form>
                                                 </td>
                                             </tr>
 
@@ -244,22 +240,19 @@
                                                                             <span
                                                                                 class="banner-details-value">{{ $banner->package->name }}</span>
                                                                         </li>
-                                                                        @if ($status === 'published')
-                                                                            <li>
-                                                                                <span class="banner-details-label">Total
-                                                                                    Views</span>
-                                                                                <span
-                                                                                    class="banner-details-value">{{ number_format($banner->view_count) }}</span>
-                                                                            </li>
-                                                                            <li>
-                                                                                <span
-                                                                                    class="banner-details-label">Click-through
-                                                                                    Rate</span>
-                                                                                <span
-                                                                                    class="banner-details-value">{{ number_format($banner->ctr, 2) }}%</span>
-                                                                            </li>
-                                                                        @endif
-                                                                        @if ($status === 'rejected')
+                                                                        <li>
+                                                                            <span class="banner-details-label">Total
+                                                                                Views</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ number_format($banner->view_count) }}</span>
+                                                                        </li>
+                                                                        <li>
+                                                                            <span class="banner-details-label">Click-through
+                                                                                Rate</span>
+                                                                            <span
+                                                                                class="banner-details-value">{{ number_format($banner->ctr, 2) }}%</span>
+                                                                        </li>
+                                                                        @if ($banner->rejection_reason)
                                                                             <li>
                                                                                 <span
                                                                                     class="banner-details-label">Rejection

@@ -18,63 +18,53 @@
     <li class="breadcrumb-item active">Create</li>
 @endsection
 
+
 @section('content')
     <div class="container-fluid">
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
+                    <div class="card-header">
+                        <h5>Create New Banner Package</h5>
+                    </div>
                     <div class="card-body">
-                        <form method="POST" action="{{ route('banner_packages.store') }}">
+                        <form action="{{ route('banner_packages.store') }}" method="POST">
                             @csrf
                             <div class="row">
                                 <div class="col-md-6 mb-3">
-                                    <label for="price_lkr_7days" class="form-label">7 Days Price (LKR)</label>
-                                    <input type="number"
-                                        class="form-control @error('price_lkr_7days') is-invalid @enderror"
-                                        id="price_lkr_7days" name="price_lkr_7days" value="{{ old('price_lkr_7days') }}"
-                                        step="0.01" required>
-                                    @error('price_lkr_7days')
+                                    <label class="form-label">Duration</label>
+                                    <select name="duration" class="form-control @error('duration') is-invalid @enderror"
+                                        required>
+                                        <option value="7days">7 Days</option>
+                                        <option value="21days">21 Days</option>
+                                    </select>
+                                    @error('duration')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="price_usd_7days" class="form-label">7 Days Price (USD)</label>
-                                    <input type="number"
-                                        class="form-control @error('price_usd_7days') is-invalid @enderror"
-                                        id="price_usd_7days" name="price_usd_7days" value="{{ old('price_usd_7days') }}"
-                                        step="0.01" required>
-                                    @error('price_usd_7days')
+                                    <label class="form-label">Price (LKR)</label>
+                                    <input type="number" step="0.01" name="price_lkr"
+                                        class="form-control @error('price_lkr') is-invalid @enderror" required>
+                                    @error('price_lkr')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
 
                                 <div class="col-md-6 mb-3">
-                                    <label for="price_lkr_21days" class="form-label">21 Days Price (LKR)</label>
-                                    <input type="number"
-                                        class="form-control @error('price_lkr_21days') is-invalid @enderror"
-                                        id="price_lkr_21days" name="price_lkr_21days" value="{{ old('price_lkr_21days') }}"
-                                        step="0.01" required>
-                                    @error('price_lkr_21days')
-                                        <div class="invalid-feedback">{{ $message }}</div>
-                                    @enderror
-                                </div>
-
-                                <div class="col-md-6 mb-3">
-                                    <label for="price_usd_21days" class="form-label">21 Days Price (USD)</label>
-                                    <input type="number"
-                                        class="form-control @error('price_usd_21days') is-invalid @enderror"
-                                        id="price_usd_21days" name="price_usd_21days" value="{{ old('price_usd_21days') }}"
-                                        step="0.01" required>
-                                    @error('price_usd_21days')
+                                    <label class="form-label">Price (USD)</label>
+                                    <input type="number" step="0.01" name="price_usd"
+                                        class="form-control @error('price_usd') is-invalid @enderror" required>
+                                    @error('price_usd')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="row">
+                            <div class="row mt-3">
                                 <div class="col-12">
-                                    <button type="submit" class="btn btn-primary">Create Banner Package</button>
+                                    <button type="submit" class="btn btn-primary">Create Package</button>
                                     <a href="{{ route('banner_packages.index') }}" class="btn btn-secondary">Cancel</a>
                                 </div>
                             </div>

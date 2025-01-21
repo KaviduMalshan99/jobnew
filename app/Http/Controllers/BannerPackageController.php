@@ -33,7 +33,6 @@ class BannerPackageController extends Controller
 
         return redirect()->route('banner_packages.index')->with('success', 'Banner Package created successfully.');
     }
-
     // Display the specified banner package
     public function show(BannerPackage $bannerPackage)
     {

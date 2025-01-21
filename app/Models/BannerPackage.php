@@ -10,9 +10,8 @@ class BannerPackage extends Model
     use HasFactory;
 
     protected $fillable = [
-        'price_lkr_7days',
-        'price_usd_7days',
-        'price_lkr_21days',
-        'price_usd_21days',
+        'duration',
+        'price_lkr',
+        'price_usd',
     ];
 }

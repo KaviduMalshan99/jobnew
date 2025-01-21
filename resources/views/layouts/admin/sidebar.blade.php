@@ -92,6 +92,21 @@
 
                         </ul>
                     </li>
+                    <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title"
+                            href="#">
+                            <svg class="stroke-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#stroke-calendar') }}"></use>
+                            </svg>
+                            <svg class="fill-icon">
+                                <use href="{{ asset('assets/svg/icon-sprite.svg#fill-calender') }}"></use>
+                            </svg><span>Banner</span></a>
+                        <ul class="sidebar-submenu">
+                            <li><a href="{{ route('banners.index') }}">View Banner </a></li>
+                            <li><a href="{{ route('banners.create') }}">Post Banner</a></li>
+
+
+                        </ul>
+                    </li>
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
                             class="sidebar-link sidebar-title link-nav" href="{{ route('register.adminemployer') }}">
@@ -114,7 +129,8 @@
 
 
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav" href="{{ route('package-contacts.create') }}">
+                            class="sidebar-link sidebar-title link-nav"
+                            href="{{ route('package-contacts.create') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#pencil') }}"></use>
                             </svg>
@@ -132,8 +148,7 @@
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"> </use>
                             </svg><span>Package Details</span></a></li>
                     <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a
-                            class="sidebar-link sidebar-title link-nav"
-                            href="{{ route('package-contacts.create') }}">
+                            class="sidebar-link sidebar-title link-nav" href="{{ route('banner_packages.index') }}">
                             <svg class="stroke-icon">
                                 <use href="{{ asset('assets/svg/icon-sprite.svg#fill-task') }}"></use>
                             </svg>

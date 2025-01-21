@@ -1,9 +1,33 @@
-@extends('layouts.employer.master')
+@extends('layouts.admin.master')
 
 @section('title', 'Create Banner')
 
 @section('css')
     <style>
+        .image-preview-container {
+            margin-top: 15px;
+            border: 2px dashed #ddd;
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            background: #f8f9fa;
+        }
+
+        .image-preview-container img {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 4px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .preview-text {
+            color: #6c757d;
+            font-size: 0.9rem;
+            margin-top: 10px;
+            display: block;
+        }
+
+
         .payment-methods .form-check {
             padding: 15px;
             border: 1px solid #dee2e6;
@@ -97,8 +121,16 @@
                             </div>
 
                             <div class="mb-3">
-                                <label for="category_id" class="form-label">Category (Optional)</label>
-                                <select name="category_id" id="category_id" class="form-control">
+                                <label for="placement" class="form-label">Banner Placement</label>
+                                <select name="placement" id="placement" class="form-control" required>
+                                    <option value="banner">Main Banner</option>
+                                    <option value="category_page">Category Page</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3" id="categorySection" style="display: none;">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select name="category_id" id="category_id" class="form-control" required>
                                     <option value="">Select a category</option>
                                     @foreach ($categories as $category)
                                         <option value="{{ $category->id }}">{{ $category->name }}</option>
@@ -106,13 +138,6 @@
                                 </select>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="placement" class="form-label">Banner Placement</label>
-                                <select name="placement" id="placement" class="form-control" required>
-                                    <option value="banner">Main Banner</option>
-                                    <option value="category_page">Category Page</option>
-                                </select>
-                            </div>
 
                             <button type="submit" class="btn btn-primary">Create Banner</button>
                         </form>
@@ -230,6 +255,31 @@
                         });
                 }
             });
+        });
+    </script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const placementSelect = document.getElementById('placement');
+            const categorySection = document.getElementById('categorySection');
+            const categorySelect = document.getElementById('category_id');
+
+            // Function to toggle category field
+            function toggleCategoryField() {
+                if (placementSelect.value === 'category_page') {
+                    categorySection.style.display = 'block';
+                    categorySelect.required = true;
+                } else {
+                    categorySection.style.display = 'none';
+                    categorySelect.required = false;
+                    categorySelect.value = ''; // Reset category selection
+                }
+            }
+
+            // Initial check
+            toggleCategoryField();
+
+            // Add event listener for placement changes
+            placementSelect.addEventListener('change', toggleCategoryField);
         });
     </script>
 @endsection

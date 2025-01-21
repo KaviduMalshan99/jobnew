@@ -9,8 +9,17 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatables.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('assets/css/vendors/datatable-extension.css') }}">
     <style>
+        .icon-fixed-size {
+            width: 16px;
+            height: 16px;
+            font-size: 16px;
+            line-height: 16px;
+            display: inline-block;
+            text-align: center;
+        }
+
         .custom-btn {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 8px 12px;
@@ -18,8 +27,10 @@
             border-radius: 4px;
             text-transform: uppercase;
             font-weight: bold;
-            width: 100px;
-            height: 40px;
+            min-width: 100px;
+            height: 36px;
+            margin: 0 4px;
+            transition: all 0.3s ease;
         }
 
         .custom-btn i {
@@ -33,10 +44,34 @@
             border: 1px solid #ffc107;
         }
 
+        .custom-btn-warning:hover {
+            background-color: #e0a800;
+            border-color: #d39e00;
+        }
+
         .custom-btn-danger {
             background-color: #dc3545;
             color: #fff;
             border: 1px solid #dc3545;
+        }
+
+        .custom-btn-danger:hover {
+            background-color: #c82333;
+            border-color: #bd2130;
+        }
+
+        .dt-ext table {
+            width: 100% !important;
+        }
+
+        .price-column {
+            text-align: right;
+            font-family: monospace;
+        }
+
+        .actions-column {
+            text-align: center;
+            min-width: 200px;
         }
     </style>
 @endsection
@@ -55,56 +90,47 @@
         @if (session('success'))
             <div class="alert alert-success">{{ session('success') }}</div>
         @endif
+
         <div class="row">
             <div class="col-sm-12">
                 <div class="card">
-                    <div class="card-header pb-0 card-no-border">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <h5>Banner Packages</h5>
+                        <a href="{{ route('banner_packages.create') }}" class="btn btn-primary custom-btn">
+                            <i class="fa fa-plus icon-fixed-size"></i> Create New
+                        </a>
                     </div>
                     <div class="card-body">
-                        <div class="row gx-3">
-                            <div class="col-md-10 mb-4">
-                                <h3>Banner Packages List</h3>
-                            </div>
-                            <div class="col-md-2 mb-4">
-                                <div>
-                                    <a href="{{ route('banner_packages.create') }}"
-                                        class="btn btn-primary btn-sm rounded">Create new</a>
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="dt-ext table-responsive">
-                            <table class="display" id="keytable">
+                            <table class="display" id="banner-packages-table">
                                 <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>7 Days Price (LKR)</th>
-                                        <th>7 Days Price (USD)</th>
-                                        <th>21 Days Price (LKR)</th>
-                                        <th>21 Days Price (USD)</th>
-                                        <th>Actions</th>
+                                        <th>Duration</th>
+                                        <th>Price (LKR)</th>
+                                        <th>Price (USD)</th>
+                                        <th class="actions-column">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     @foreach ($packages as $package)
                                         <tr>
                                             <td>{{ $loop->iteration }}</td>
-                                            <td>{{ $package->price_lkr_7days }}</td>
-                                            <td>{{ $package->price_usd_7days }}</td>
-                                            <td>{{ $package->price_lkr_21days }}</td>
-                                            <td>{{ $package->price_usd_21days }}</td>
-                                            <td>
-                                                <a href="{{ route('banner_packages.edit', $package->id) }}"
+                                            <td>{{ $package->duration }}</td>
+                                            <td class="price-column">{{ number_format($package->price_lkr, 2) }}</td>
+                                            <td class="price-column">{{ number_format($package->price_usd, 2) }}</td>
+                                            <td class="actions-column">
+                                                <a href="{{ route('banner_packages.edit', $package) }}"
                                                     class="btn custom-btn custom-btn-warning">
-                                                    <i class="icon-pencil-alt"></i> Edit
+                                                    <i class="icon-pencil-alt icon-fixed-size"></i> Edit
                                                 </a>
-                                                <form action="{{ route('banner_packages.destroy', $package->id) }}"
-                                                    method="POST" style="display: inline-block;">
+                                                <form action="{{ route('banner_packages.destroy', $package) }}"
+                                                    method="POST" class="d-inline">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn custom-btn custom-btn-danger"
-                                                        onclick="return confirm('Are you sure you want to delete this banner package?')">
-                                                        <i class="icon-trash"></i> Delete
+                                                        onclick="return confirm('Are you sure you want to delete this package?')">
+                                                        <i class="icon-trash icon-fixed-size"></i> Delete
                                                     </button>
                                                 </form>
                                             </td>
@@ -133,11 +159,26 @@
     <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.html5.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/buttons.print.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.responsive.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/responsive.bootstrap4.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.keyTable.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.colReorder.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.fixedHeader.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.rowReorder.min.js') }}"></script>
     <script src="{{ asset('assets/js/datatable/datatable-extension/dataTables.scroller.min.js') }}"></script>
-    <script src="{{ asset('assets/js/datatable/datatable-extension/custom.js') }}"></script>
+    <script>
+        $(document).ready(function() {
+            $('#banner-packages-table').DataTable({
+                responsive: true,
+                pageLength: 10,
+                order: [
+                    [0, 'asc']
+                ],
+                columnDefs: [{
+                    targets: [-1],
+                    orderable: false
+                }]
+            });
+        });
+    </script>
 @endsection

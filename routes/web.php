@@ -847,6 +847,9 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
     // Update the status of a banner
     Route::patch('/banners/{banner}/status', [BannerController::class, 'updateStatus'])->name('banners.updateStatus');
 
+    Route::put('/admin/banners/{banner}/update-status', [BannerController::class, 'updateStatus'])
+        ->name('admin.banners.update-status');
+
     // Remove the specified banner from storage
     Route::delete('/banners/{banner}', [BannerController::class, 'destroy'])->name('banners.destroy');
 });

@@ -20,6 +20,7 @@ class Banner extends Model
         'package_id',
         'payment_method',
         'placement',
+        'status',
     ];
 
     /**

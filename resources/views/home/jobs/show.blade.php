@@ -399,6 +399,7 @@
                     <img src="{{ asset('storage/' . $job->image) }}" alt="Company banner">
                     <div class="overlay"></div>
                 @endif
+
             </div>
 
             <!-- Content Section -->
@@ -407,10 +408,11 @@
                 <div class="job-title">
                     <h1>{{ $job->title }}</h1>
                     <p class="company-name">{{ $job->employer->company_name }}</p>
+                    <p class="view-count"> <i class="fas fa-eye"></i>
+                        <span>{{ $job->view_count }} views</span>
+                    </p>
                 </div>
-                <p> <i class="fas fa-eye"></i>
-                    <span>{{ $job->view_count }} views</span>
-                </p>
+
 
                 <!-- Key Details -->
                 <div class="details">

@@ -33,6 +33,7 @@ class JobPosting extends Model
         'is_active',
         'creator_id',
         'payment_method',
+        'country_id',
     ];
 
     // Relationships
@@ -62,6 +63,10 @@ class JobPosting extends Model
     public function flaggedByUsers()
     {
         return $this->belongsToMany(User::class, 'flagged_jobs', 'job_posting_id', 'user_id');
+    }
+    public function country()
+    {
+        return $this->belongsTo(Country::class);
     }
 
 }

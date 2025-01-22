@@ -20,6 +20,7 @@ use App\Http\Controllers\BannerPackageController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ContactListController;
 use App\Http\Controllers\ContactUsController;
+use App\Http\Controllers\CountryController;
 use App\Http\Controllers\CVController;
 use App\Http\Controllers\EducationController;
 use App\Http\Controllers\EmployerAuthController;
@@ -852,5 +853,16 @@ Route::prefix('admin')->middleware(['admin'])->group(function () {
 
     // Remove the specified banner from storage
     Route::delete('/banners/{banner}', [BannerController::class, 'destroy'])->name('banners.destroy');
+});
+
+Route::middleware(['admin'])->group(function () {
+    Route::get('/countries', [CountryController::class, 'index'])->name('countries.index');
+    Route::get('/countries/create', [CountryController::class, 'create'])->name('countries.create');
+    Route::post('/countries', [CountryController::class, 'store'])->name('countries.store');
+    Route::get('/countries/{country}/edit', [CountryController::class, 'edit'])->name('countries.edit');
+    Route::put('/countries/{country}', [CountryController::class, 'update'])->name('countries.update');
+    Route::delete('/countries/{country}', [CountryController::class, 'destroy'])->name('countries.destroy');
+    Route::get('/admin/job-report/date-range', [JobPostingController::class, 'generateJobAdsReportByDateRange'])
+        ->name('admin.job.report.daterange');
 });
 // routes/web.php

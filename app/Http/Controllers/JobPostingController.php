@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Application;
 use App\Models\Category;
 use App\Models\ContactUs;
+use App\Models\Country;
 use App\Models\Employer;
 use App\Models\JobPosting;
 use App\Models\Package;
@@ -116,7 +117,7 @@ class JobPostingController extends Controller
             ->orderBy('week', 'desc')
             ->get()
             ->map(function ($item) {
-                $item->jobs = collect(explode('||', $item->jobs))->take(5);
+                $item->jobs = collect(explode('||', $item->jobs));
                 return $item;
             });
 
@@ -135,7 +136,7 @@ class JobPostingController extends Controller
             ->orderBy('month', 'desc')
             ->get()
             ->map(function ($item) {
-                $item->jobs = collect(explode('||', $item->jobs))->take(5);
+                $item->jobs = collect(explode('||', $item->jobs));
                 return $item;
             });
 
@@ -226,13 +227,13 @@ class JobPostingController extends Controller
     {
         $search = $request->input('search');
         $location = $request->input('location');
-        $country = $request->input('country');
-        $categoryId = $request->input('category_id'); // Get the selected category
+        $countryId = $request->input('country_id');
+        $categoryId = $request->input('category_id');
 
-        $jobs = JobPosting::with(['category', 'subcategory'])
-            ->where('status', 'approved') // Only approved jobs
+        $jobs = JobPosting::with(['category', 'subcategory', 'country'])
+            ->where('status', 'approved')
             ->where('is_active', true)
-            ->whereDate('closing_date', '>=', now()) // Exclude expired jobs
+            ->whereDate('closing_date', '>=', now())
             ->when($search, function ($query, $search) {
                 $query->where(function ($query) use ($search) {
                     $query->where('title', 'like', "%{$search}%")
@@ -245,21 +246,20 @@ class JobPostingController extends Controller
             ->when($location, function ($query, $location) {
                 $query->where('location', 'like', "%{$location}%");
             })
-            ->when($country, function ($query, $country) {
-                $query->where('country', $country); // Filter by country
+            ->when($countryId, function ($query, $countryId) {
+                $query->where('country_id', $countryId);
             })
             ->when($categoryId, function ($query, $categoryId) {
-                $query->where('category_id', $categoryId); // Filter by category
+                $query->where('category_id', $categoryId);
             })
             ->get();
 
         $categories = Category::with('subcategories')->get();
         $contacts = ContactUs::all();
-        $countries = JobPosting::select('country')->distinct()->get(); // Get distinct countries
+        $countries = Country::all();
 
         return view('home.home', compact('categories', 'jobs', 'contacts', 'countries'));
     }
-
     public function toggleActiveStatus($id)
     {
         // Find the job posting by ID and ensure it belongs to the authenticated employer
@@ -520,12 +520,13 @@ class JobPostingController extends Controller
 
     public function create()
     {
-        $categories = Category::all(); // Fetch all categories
-        $subcategories = Subcategory::all(); // Fetch all subcategories
-        $employerId = auth('employer')->user()->id; // Fetch all employers
+        $categories = Category::all();
+        $subcategories = Subcategory::all();
+        $employerId = auth('employer')->user()->id;
         $packages = Package::all();
+        $countries = Country::all(); // Add this line
 
-        return view('employer.jobcreate', compact('categories', 'subcategories', 'employerId', 'packages'));
+        return view('employer.jobcreate', compact('categories', 'subcategories', 'employerId', 'packages', 'countries'));
     }
     public function employerJobs()
     {
@@ -561,14 +562,14 @@ class JobPostingController extends Controller
             }
 
             // Validate all job postings first
-            foreach ($jobPostings as $index => $posting) {
+            foreach ($request->job_postings as $index => $posting) {
                 $request->validate([
                     "job_postings.{$index}.title" => 'required|string|max:255',
                     "job_postings.{$index}.description" => 'required|string',
                     "job_postings.{$index}.category_id" => 'required|exists:categories,id',
                     "job_postings.{$index}.subcategory_id" => 'required|exists:subcategories,id',
                     "job_postings.{$index}.location" => 'required|string|max:255',
-                    "job_postings.{$index}.country" => 'required|string|max:255',
+                    "job_postings.{$index}.country_id" => 'required|exists:countries,id',
                     "job_postings.{$index}.salary_range" => 'nullable|numeric',
                     "job_postings.{$index}.image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:4048',
                     "job_postings.{$index}.requirements" => 'required|string',
@@ -597,7 +598,7 @@ class JobPostingController extends Controller
                         'category_id' => $jobData['category_id'],
                         'subcategory_id' => $jobData['subcategory_id'],
                         'location' => $jobData['location'],
-                        'country' => $jobData['country'],
+                        'country_id' => $jobData['country_id'],
                         'salary_range' => $jobData['salary_range'] ?? null,
                         'requirements' => $jobData['requirements'],
                         'closing_date' => $jobData['closing_date'],
@@ -652,7 +653,7 @@ class JobPostingController extends Controller
             'job_postings.*.category_id' => 'required|exists:categories,id',
             'job_postings.*.subcategory_id' => 'required|exists:subcategories,id',
             'job_postings.*.location' => 'required|string|max:255',
-            'job_postings.*.country' => 'required|string|max:255',
+            'job_postings.*.country_id' => 'required|exists:countries,id',
             'job_postings.*.salary_range' => 'nullable|numeric',
             'job_postings.*.image' => 'nullable|file|mimes:jpeg,png,jpg,gif|max:4048',
             'job_postings.*.requirements' => 'required|string',
@@ -704,7 +705,7 @@ class JobPostingController extends Controller
                     'category_id' => $jobData['category_id'],
                     'subcategory_id' => $jobData['subcategory_id'],
                     'location' => $jobData['location'],
-                    'country' => $jobData['country'],
+                    'country_id' => $jobData['country_id'],
                     'salary_range' => $jobData['salary_range'] ?? null,
                     'requirements' => $jobData['requirements'],
                     'closing_date' => $jobData['closing_date'],
@@ -759,8 +760,9 @@ class JobPostingController extends Controller
         $subcategories = Subcategory::all(); // Fetch all subcategories
         $employers = Employer::all(); // Fetch all employers
         $packages = Package::all(); // Fetch all packages
+        $countries = Country::all();
 
-        return view('Admin.jobcreate', compact('categories', 'subcategories', 'employers', 'packages'));
+        return view('Admin.jobcreate', compact('categories', 'subcategories', 'employers', 'packages', 'countries'));
     }
 
     public function update(Request $request, JobPosting $jobPosting)
@@ -773,12 +775,12 @@ class JobPostingController extends Controller
                 'category_id' => 'required|exists:categories,id',
                 'subcategory_id' => 'required|exists:subcategories,id',
                 'location' => 'required|string|max:255',
-                'country' => 'required|string|max:255',
+                'country_id' => 'required|exists:countries,id',
                 'salary_range' => 'nullable|numeric',
                 'image' => 'nullable|image|max:2048',
                 'requirements' => 'required',
                 'closing_date' => 'required|date',
-                'status' => 'nullable|in:pending,reject,approved', // Make status nullable
+                'status' => 'nullable|in:pending,reject,approved',
             ]);
 
             // Handle image upload if a new image is provided
@@ -796,6 +798,66 @@ class JobPostingController extends Controller
             return back()->withInput()
                 ->with('error', 'An error occurred while updating the job posting: ' . $e->getMessage());
         }
+    }
+    public function generateJobAdsReportByDateRange(Request $request)
+    {
+        $startDate = $request->start_date;
+        $endDate = $request->end_date;
+
+        // Get jobs within date range
+        $jobsInRange = DB::table('job_postings')
+            ->join('employers', 'job_postings.employer_id', '=', 'employers.id')
+            ->leftJoin('packages', 'job_postings.package_id', '=', 'packages.id')
+            ->leftJoin('admins', 'job_postings.admin_id', '=', 'admins.id')
+            ->whereBetween('job_postings.created_at', [$startDate, $endDate])
+            ->where('job_postings.status', 'approved')
+            ->select(
+                'job_postings.*',
+                'employers.company_name',
+                'packages.lkr_price',
+                'admins.name as admin_name'
+            )
+            ->get();
+
+        // Calculate statistics
+        $totalJobs = $jobsInRange->count();
+        $totalEarnings = $jobsInRange->sum('lkr_price');
+
+        // Payment method distribution
+        $paymentDetails = $jobsInRange->groupBy('payment_method')
+            ->map(function ($group) {
+                return $group->count();
+            });
+
+        // Posted by distribution
+        $postedBy = $jobsInRange->groupBy(function ($job) {
+            return $job->creator_id ? 'Admin: ' . $job->admin_name : 'Employer: ' . $job->company_name;
+        })->map(function ($group) {
+            return $group->count();
+        });
+
+        // Repeated employers
+        $repeatedEmployers = $jobsInRange->groupBy('employer_id')
+            ->map(function ($group) {
+                return [
+                    'company_name' => $group->first()->company_name,
+                    'post_count' => $group->count(),
+                ];
+            })
+            ->filter(function ($employer) {
+                return $employer['post_count'] > 1;
+            });
+
+        return view('Admin.report.jobads-daterange', compact(
+            'jobsInRange',
+            'totalJobs',
+            'totalEarnings',
+            'paymentDetails',
+            'postedBy',
+            'repeatedEmployers',
+            'startDate',
+            'endDate'
+        ));
     }
 
     public function destroy(JobPosting $jobPosting)

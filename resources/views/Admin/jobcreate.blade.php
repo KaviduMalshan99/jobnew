@@ -169,9 +169,14 @@
                             </div>
                             <div class="mb-3">
                                 <label for="country_0" class="form-label">Country</label>
-                                <input type="text" name="job_postings[0][country]" id="country_0" class="form-control"
-                                    required>
+                                <select name="job_postings[0][country_id]" id="country_0" class="form-control" required>
+                                    <option value="">Select a country</option>
+                                    @foreach ($countries as $country)
+                                        <option value="{{ $country->id }}">{{ $country->name }}</option>
+                                    @endforeach
+                                </select>
                             </div>
+
 
                             <div class="mb-3">
                                 <label for="salary_range_0" class="form-label">Salary Range</label>
@@ -299,10 +304,17 @@
                 <label for="location_${contactIndex}" class="form-label">Location</label>
                 <input type="text" name="job_postings[${contactIndex}][location]" id="location_${contactIndex}" class="form-control" required>
             </div>
+
+
             <div class="mb-3">
-                <label for="country_${contactIndex}" class="form-label">Country</label>
-                <input type="text" name="job_postings[${contactIndex}][country]" id="country_${contactIndex}" class="form-control" required>
-            </div>
+    <label for="country_0" class="form-label">Country</label>
+    <select name="job_postings[${contactIndex}][country_id]" id="country_${contactIndex}" class="form-control" required>
+        <option value="">Select a country</option>
+        @foreach ($countries as $country)
+            <option value="{{ $country->id }}">{{ $country->name }}</option>
+        @endforeach
+    </select>
+</div>
 
             <div class="mb-3">
                 <label for="salary_range_${contactIndex}" class="form-label">Salary Range</label>

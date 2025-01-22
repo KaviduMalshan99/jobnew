@@ -128,15 +128,15 @@
             <input class="text-input" type="text" name="location" placeholder="Enter your Location"
                 value="{{ request('location') }}">
 
-            <select name="country" class="dropdown">
-                <option value="">Select Country</option>
+            <select name="country_id" required>
+                <option value="" disabled selected>Select Country</option>
                 @foreach ($countries as $country)
-                    <option value="{{ $country->country }}"
-                        {{ request('country') == $country->country ? 'selected' : '' }}>
-                        {{ $country->country }}
+                    <option value="{{ $country->id }}" {{ old('country_id') == $country->id ? 'selected' : '' }}>
+                        {{ $country->name }}
                     </option>
                 @endforeach
             </select>
+
 
 
             <button class="view-btn" type="submit">

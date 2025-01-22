@@ -56,6 +56,38 @@
                     </div>
                 </div>
             </div>
+            <div class="col-12 mb-4">
+                <div class="card shadow">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Date Range Report</h6>
+                    </div>
+                    <div class="card-body">
+                        <form action="{{ route('admin.job.report.daterange') }}" method="GET" class="mb-4">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>Start Date</label>
+                                        <input type="date" name="start_date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>End Date</label>
+                                        <input type="date" name="end_date" class="form-control" required>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label>&nbsp;</label>
+                                        <button type="submit" class="btn btn-primary btn-block mt-4">Generate
+                                            Report</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
 
             <!-- Detailed Reports -->
             <div class="col-12">

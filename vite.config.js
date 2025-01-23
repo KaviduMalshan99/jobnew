@@ -11,7 +11,7 @@ export default defineConfig({
                 'resources/css/header.css',
                 'resources/css/bannerposting.css',
                 'resources/css/education.css',
-                'resources/css/employeepofile.css',
+                'resources/css/employeeprofile.css',
                 'resources/css/expirienceprofile.css',
                 'resources/css/footer.css',
                 'resources/css/jobalerts.css',
@@ -26,7 +26,8 @@ export default defineConfig({
                 'resources/css/reviews.css',
                 'resources/css/feedback.css',
                 'resources/css/aboutus.css',
-                'resources/css/home.css'
+                'resources/css/home.css',
+                'public/assets/scss/app.scss'
             ],
             refresh: true,
         }),
